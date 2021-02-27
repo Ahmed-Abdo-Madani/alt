@@ -6,9 +6,9 @@
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
     "splash": {
-      "image": "./app/assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./app/assets/tayarlogo.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#028BFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
