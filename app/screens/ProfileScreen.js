@@ -17,8 +17,9 @@ const HomeScreen = () => {
           <AppText style={styles.text}>👳‍♂️</AppText>
         </View>
       </View>
-      <ScrollView>
-        <ListItem iconName="board" title="orders" />
+      <ScrollView style={styles.tabsContainer}>
+        <ListItem iconName="clipboard-text-outline" title="orders" />
+        <ListItem iconName="hammer-wrench" title="Settings" />
       </ScrollView>
     </Screen>
   );
@@ -29,6 +30,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  tabsContainer: {
+    paddingTop: 35,
   },
   header: {
     alignItems: "center",
