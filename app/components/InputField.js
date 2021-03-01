@@ -4,7 +4,6 @@ import { StyleSheet, TextInput, View } from "react-native";
 import colors from "../config/colors";
 
 const InputField = ({ placeholder, ...otherProps }) => {
-  const [value, setValue] = useState("");
   const [focused, setfocus] = useState(false);
   return (
     <View
@@ -17,10 +16,8 @@ const InputField = ({ placeholder, ...otherProps }) => {
         style={styles.input}
         onFocus={() => setfocus(true)}
         onBlur={() => setfocus(false)}
-        value={value}
         {...otherProps}
         placeholder={placeholder}
-        onChangeText={(text) => setValue(text)}
       />
     </View>
   );

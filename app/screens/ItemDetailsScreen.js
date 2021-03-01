@@ -9,12 +9,18 @@ import {
   ScrollView,
 } from "react-native";
 import { Formik } from "formik";
+import * as Yup from "yup";
 
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import GoBackButton from "../components/GoBackButton";
 import AppButton from "../components/AppButton";
 import InputField from "../components/InputField";
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required().label("Name"),
+  title: Yup.string().required().label("Title"),
+});
 
 const ItemDetailsScreen = ({ closeModal, item }) => {
   const [imageHeight, setImageHeight] = useState(300);
@@ -44,7 +50,6 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
         source={item.image}
       />
       <ScrollView
-        sna
         showsVerticalScrollIndicator={false}
         style={styles.textContainer}
       >
@@ -63,25 +68,41 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
           <Formik
             initialValues={{ name: "", title: "" }}
             onSubmit={(values) => console.log(values)}
+            validationSchema={validationSchema}
           >
-            {({ handleChange, handleSubmit }) => (
+            {({ handleChange, handleSubmit, errors }) => (
               <>
-                <InputField placeholder="name ..." />
-                <InputField placeholder="job title ..." />
+                <InputField
+                  autoCorrect={false}
+                  onChangeText={handleChange("name")}
+                  placeholder="name ..."
+                />
+                <AppText style={{ color: "red" }}> {errors.name} </AppText>
+                <InputField
+                  autoCorrect={false}
+                  onChangeText={handleChange("title")}
+                  placeholder="job title ..."
+                />
+                <AppText style={{ color: "red" }}> {errors.title} </AppText>
+                <View style={styles.buttonContainer}>
+                  <AppButton
+                    style={styles.cartButton}
+                    shadow={false}
+                    onPress={handleSubmit}
+                    textColor={colors.blueLight}
+                    title="Add to Cart"
+                  />
+                  <AppButton
+                    onPress={handleSubmit}
+                    style={styles.buyButton}
+                    title="Buy Now"
+                  />
+                </View>
               </>
             )}
           </Formik>
         </View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <AppButton
-          style={styles.cartButton}
-          shadow={false}
-          textColor={colors.blueLight}
-          title="Add to Cart"
-        />
-        <AppButton style={styles.buyButton} title="Buy Now" />
-      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -142,9 +163,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 10,
     flexDirection: "row",
-    position: "absolute",
+
     width: "100%",
-    bottom: 0,
   },
   cartButton: {
     width: "60%",
