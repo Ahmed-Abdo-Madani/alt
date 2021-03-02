@@ -70,20 +70,36 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
             onSubmit={(values) => console.log(values)}
             validationSchema={validationSchema}
           >
-            {({ handleChange, handleSubmit, errors }) => (
+            {({
+              handleChange,
+              handleSubmit,
+              errors,
+              touched,
+              setFieldTouched,
+            }) => (
               <>
                 <InputField
                   autoCorrect={false}
                   onChangeText={handleChange("name")}
                   placeholder="name ..."
+                  onBlur={() => {
+                    setFieldTouched("name");
+                  }}
+                  error={errors.name}
+                  touched={touched.name}
                 />
-                <AppText style={{ color: "red" }}> {errors.name} </AppText>
+
                 <InputField
                   autoCorrect={false}
                   onChangeText={handleChange("title")}
                   placeholder="job title ..."
+                  onBlur={() => {
+                    setFieldTouched("title");
+                  }}
+                  error={errors.title}
+                  touched={touched.title}
                 />
-                <AppText style={{ color: "red" }}> {errors.title} </AppText>
+
                 <View style={styles.buttonContainer}>
                   <AppButton
                     style={styles.cartButton}

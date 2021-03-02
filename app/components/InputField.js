@@ -1,24 +1,31 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, Text, View } from "react-native";
 
 import colors from "../config/colors";
 
-const InputField = ({ placeholder, ...otherProps }) => {
+const InputField = ({ placeholder, error, touched, ...otherProps }) => {
   const [focused, setfocus] = useState(false);
   return (
     <View
       style={[
         styles.container,
-        { borderBottomColor: focused ? colors.blueLight : colors.creamy },
+        {
+          borderBottomColor:
+            touched && error
+              ? colors.red
+              : focused
+              ? colors.blueLight
+              : colors.creamy,
+        },
       ]}
     >
       <TextInput
         style={styles.input}
         onFocus={() => setfocus(true)}
-        onBlur={() => setfocus(false)}
         {...otherProps}
         placeholder={placeholder}
       />
+      {!touched || (error && <Text style={styles.error}>{error}</Text>)}
     </View>
   );
 };
@@ -35,5 +42,10 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 18,
     fontWeight: "500",
+  },
+  error: {
+    paddingTop: 3,
+    fontSize: 16,
+    color: "red",
   },
 });
