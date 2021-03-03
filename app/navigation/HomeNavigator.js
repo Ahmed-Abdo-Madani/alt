@@ -4,7 +4,7 @@ const Tabs = createBottomTabNavigator();
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import HomeScreen from "../screens/HomeScreen";
-import CartScreen from "../screens/CartScreen";
+import AboutUsScreen from "../screens/AboutUsScreen";
 import FeedScreen from "../screens/FeedScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import colors from "../config/colors";
@@ -51,11 +51,15 @@ export default function AppNavigator() {
       <Tabs.Screen
         options={{
           tabBarIcon: ({ size, color }) => (
-            <MaterialCommunityIcons name="cart" color={color} size={size} />
+            <MaterialCommunityIcons
+              name="information"
+              color={color}
+              size={size}
+            />
           ),
         }}
-        name="cart"
-        component={CartScreen}
+        name="about us"
+        component={AboutUsScreen}
       />
     </Tabs.Navigator>
   );

@@ -5,7 +5,6 @@ import Screen from "../components/Screen";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
-import AppButton from "../components/AppButton";
 
 const lists = [];
 

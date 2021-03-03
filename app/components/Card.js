@@ -84,8 +84,6 @@ const styles = StyleSheet.create({
   image: {
     height: 200,
     width: "100%",
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
   },
   textContainer: {
     flexDirection: "row",
@@ -100,8 +98,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.1,
     shadowColor: "black",
-    borderRadius: 15,
-    overflow: "hidden",
   },
   feedImage: {
     height: 300,

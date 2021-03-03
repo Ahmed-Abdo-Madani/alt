@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import constants from "expo-constants";
 
-const AppIcon = ({
+const GoBackButton = ({
   style,
   onPress,
   size = 35,
@@ -45,4 +45,4 @@ const AppIcon = ({
   );
 };
 
-export default AppIcon;
+export default GoBackButton;

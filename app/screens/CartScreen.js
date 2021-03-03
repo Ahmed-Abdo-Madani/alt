@@ -5,6 +5,7 @@ import Screen from "../components/Screen";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
+import GoBackButton from "../components/GoBackButton";
 import AppButton from "../components/AppButton";
 
 const lists = [
@@ -53,15 +54,12 @@ const HomeScreen = () => {
                 To a World of gifts.🎁
               </AppText>
             </View>
-            <AppButton style={styles.button} title="pay now" />
+            <GoBackButton style={styles.button} />
           </View>
         }
         ListFooterComponent={
           <View style={styles.header}>
-            <AppText style={styles.text}>Thank u 😊</AppText>
-            <AppText style={[styles.text, { fontSize: 27 }]}>
-              We hope u come back 🙌
-            </AppText>
+            <AppButton style={styles.button} title="pay now" />
           </View>
         }
         ListHeaderComponentStyle={styles.header}
@@ -91,10 +89,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    width: "auto",
-    height: 50,
-    marginTop: 10,
-    paddingHorizontal: 15,
+    position: "relative",
   },
   text: {
     color: colors.darkGray,

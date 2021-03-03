@@ -63,12 +63,11 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 11,
-  },
+  container: {},
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    paddingHorizontal: 11,
     paddingVertical: 5,
     marginVertical: 10,
     width: "100%",

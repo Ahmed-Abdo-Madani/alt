@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, FlatList, Image, ScrollView, View } from "react-native";
+import { StyleSheet, FlatList, View } from "react-native";
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
+import AppIcon from "../components/AppIcon";
 
 const lists = [
   {
@@ -37,10 +38,24 @@ const HomeScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={
           <View style={styles.header}>
-            <AppText style={styles.text}>Welcome 👋</AppText>
-            <AppText style={[styles.text, { fontSize: 27 }]}>
-              To a World of gifts.🎁
-            </AppText>
+            <View>
+              <AppText style={styles.text}>Welcome 👋</AppText>
+              <AppText style={[styles.text, { fontSize: 27 }]}>
+                To a World of gifts.🎁
+              </AppText>
+            </View>
+            <View style={styles.headerIconCintainer}>
+              <AppIcon
+                style={styles.headerIcon}
+                name="cart"
+                onPress={() => navigation.navigate("cart")}
+              />
+              <AppIcon
+                style={styles.headerIcon}
+                name="apps"
+                onPress={() => console.log("🎊")}
+              />
+            </View>
           </View>
         }
         ListFooterComponent={
@@ -73,8 +88,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
   },
   header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: 5,
     width: "100%",
+  },
+  headerIconCintainer: {
+    flexDirection: "row",
+  },
+  headerIcon: {
+    margin: 5,
   },
   text: {
     color: colors.darkGray,
