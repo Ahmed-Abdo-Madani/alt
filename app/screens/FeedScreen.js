@@ -44,7 +44,6 @@ const HomeScreen = () => {
                 Get new stuff here.🌟
               </AppText>
             </View>
-            <AppButton style={styles.button} title="pay now" />
           </View>
         }
         ListHeaderComponentStyle={styles.header}
