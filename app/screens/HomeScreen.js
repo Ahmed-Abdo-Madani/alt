@@ -1,11 +1,13 @@
-import React from "react";
-import { StyleSheet, FlatList, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, FlatList, View, Modal } from "react-native";
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import AppIcon from "../components/AppIcon";
+
+import LoginScreen from "./LoginScreen";
 
 const lists = [
   {
@@ -29,6 +31,7 @@ const lists = [
 ];
 
 const HomeScreen = ({ navigation }) => {
+  const [visible, setVisible] = useState(false);
   return (
     <Screen>
       <FlatList
@@ -53,7 +56,7 @@ const HomeScreen = ({ navigation }) => {
               <AppIcon
                 style={styles.headerIcon}
                 name="apps"
-                onPress={() => console.log("🎊")}
+                onPress={() => setVisible(true)}
               />
             </View>
           </View>
@@ -77,6 +80,16 @@ const HomeScreen = ({ navigation }) => {
           />
         )}
       />
+      <Modal
+        transparent={true}
+        presentationStyle="overFullScreen"
+        animationType="slide"
+        visible={visible}
+      >
+        <View style={styles.login}>
+          <LoginScreen closeModal={() => setVisible(false)} />
+        </View>
+      </Modal>
     </Screen>
   );
 };
@@ -92,6 +105,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 5,
     width: "100%",
+  },
+  login: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   headerIconCintainer: {
     flexDirection: "row",

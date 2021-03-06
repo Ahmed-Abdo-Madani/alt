@@ -54,7 +54,8 @@ const Card = ({ title, subtitle, image, feed = false, home = false }) => {
           </View>
         </TouchableOpacity>
         <Modal
-          presentationStyle="pageSheet"
+          transparent={true}
+          presentationStyle="overFullScreen"
           animationType="slide"
           visible={visible}
         >
