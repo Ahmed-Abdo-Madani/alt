@@ -1,14 +1,28 @@
-import React from "react";
-import { StyleSheet, Image, ScrollView, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, ScrollView, View } from "react-native";
+import firebase from "firebase";
 
 import Screen from "../components/Screen";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
-
-const lists = [];
+import LoginScreen from "./LoginScreen";
 
 const HomeScreen = () => {
+  const [loggedIn, setloggedIn] = useState(false);
+  const [loaded, setloaded] = useState(false);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        setloaded(true);
+        setloggedIn(false);
+      } else {
+        setloaded(true);
+        setloggedIn(true);
+      }
+    });
+  }, []);
+  if (!loggedIn) return <LoginScreen />;
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>

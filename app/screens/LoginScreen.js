@@ -11,41 +11,54 @@ import InputField from "../components/InputField";
 import AppIcon from "../components/AppIcon";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
+import { useDispatch } from "react-redux";
+import { login } from "../actions/userActions";
 
 const LoginScreen = ({ closeModal, style }) => {
+  const dispatch = useDispatch();
   const recaptchaVerifierRef = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState();
-  const [verificationId, setVerificationId] = useState();
-  const [verificationCode, setVerificationCode] = useState();
+
   const firebaseConfig = firebase.apps.length
     ? firebase.app().options
     : undefined;
 
   const attemptInvisibleVerification = true;
 
-  const handlePhoneAuth = async () => {
+  const handlePhoneAuth = () => {
+    dispatch(login(verificationCode));
+  };
+  const signInWithPhoneNumber = () => {
+    dispatch(login(phoneNumber, recaptchaVerifierRef));
+  };
+
+  /*   const handlePhoneAuth2 = async () => {
     try {
       const phoneProvider = new firebase.auth.PhoneAuthProvider();
       phoneProvider
         .verifyPhoneNumber(phoneNumber, recaptchaVerifierRef.current)
-        .then((sentVerificationId) => setVerificationId(sentVerificationId));
+        .then((sentVerificationId) => setVerificationId(sentVerificationId))
+        .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const signInWithPhoneNumber = async () => {
+  const signInWithPhoneNumber2 = async () => {
     try {
-      console.log(verificationId);
       const credential = firebase.auth.PhoneAuthProvider.credential(
         verificationId,
         verificationCode
       );
-      await firebase.auth().signInWithCredential(credential);
+      await firebase
+        .auth()
+        .signInWithCredential(credential)
+        .then((res) => console.log(res));
     } catch (error) {
       console.log(error);
     }
-  };
+  }; */
+
   return (
     <View style={[styles.container, style]}>
       <AppIcon
@@ -71,7 +84,7 @@ const LoginScreen = ({ closeModal, style }) => {
         <>
           <InputField
             style={styles.InputField}
-            placeholder="Enter OTG ..."
+            placeholder="Enter OTP ..."
             keyboardType="numeric"
             autoCorrect={false}
             onChangeText={(text) => {
@@ -91,7 +104,20 @@ const LoginScreen = ({ closeModal, style }) => {
         <>
           <InputField
             style={styles.InputField}
-            placeholder="Enter phone number here ..."
+            placeholder="User name ..."
+            autoCorrect={false}
+            onChangeText={(text) => setPhoneNumber(text)}
+          />
+          <InputField
+            style={styles.InputField}
+            placeholder="Email address ..."
+            keyboardType="email-address"
+            autoCorrect={false}
+            onChangeText={(text) => setPhoneNumber(text)}
+          />
+          <InputField
+            style={styles.InputField}
+            placeholder="phone number ..."
             keyboardType="phone-pad"
             autoCorrect={false}
             onChangeText={(text) => setPhoneNumber(text)}
@@ -102,7 +128,7 @@ const LoginScreen = ({ closeModal, style }) => {
             disabled={!phoneNumber}
             onPress={handlePhoneAuth}
             textColor={colors.white}
-            title="sign in"
+            title="sign up"
           />
         </>
       )}
@@ -123,8 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   InputField: {
-    marginTop: 50,
-    marginVertical: 10,
+    marginVertical: 5,
   },
   submitButton: {
     marginVertical: 25,
@@ -134,6 +159,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: "center",
-    marginTop: 50,
+    marginVertical: 20,
   },
 });

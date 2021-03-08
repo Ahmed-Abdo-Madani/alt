@@ -2,6 +2,9 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet } from "react-native";
 import * as firebase from "firebase";
+import { Provider } from "react-redux";
+
+import store from "./app/store";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBQjCScPiH1kMvuXWi0xVwtNj3iAo1UOHc",
@@ -13,16 +16,18 @@ const firebaseConfig = {
   measurementId: "G-JTGJX916N3",
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 import AppNavigator from "./app/navigation/AppNavigator";
 
 export default function App() {
   return (
-    <>
+    <Provider store={store}>
       <StatusBar style="auto" />
       <AppNavigator />
-    </>
+    </Provider>
   );
 }
 
