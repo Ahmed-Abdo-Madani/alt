@@ -1,12 +1,11 @@
 import React from "react";
 import { StyleSheet, FlatList, Image, ScrollView, View } from "react-native";
 
-import Screen from "../components/Screen";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
-import GoBackButton from "../components/GoBackButton";
 import AppButton from "../components/AppButton";
+import AppIcon from "../components/AppIcon";
 
 const lists = [
   {
@@ -17,7 +16,7 @@ const lists = [
   },
   {
     id: 2,
-    title: "name holder with coffee",
+    title: "da golden sword of atherah , with name ingraving in the blade",
     subtitle: "$55",
     image: require("../assets/test3.jpeg"),
   },
@@ -29,12 +28,18 @@ const lists = [
   },
 ];
 
-const HomeScreen = () => {
+const HomeScreen = ({ closeModal, style }) => {
   return (
-    <Screen>
+    <View style={[styles.container, style]}>
+      <AppIcon
+        style={styles.closeButton}
+        onPress={closeModal}
+        name="close"
+        iconColor={colors.darkGray}
+      />
       <FlatList
         showsVerticalScrollIndicator={false}
-        style={styles.container}
+        style={styles.flatList}
         data={lists}
         keyExtractor={(item) => item.id.toString()}
         ItemSeparatorComponent={() => (
@@ -42,24 +47,23 @@ const HomeScreen = () => {
             style={{
               width: "100%",
               height: 1,
-              backgroundColor: colors.lightGray,
+              backgroundColor: colors.creamy,
             }}
           />
         )}
         ListHeaderComponent={
           <View style={styles.header}>
             <View>
-              <AppText style={styles.text}>Cart 👋</AppText>
-              <AppText style={[styles.text, { fontSize: 27 }]}>
-                To a World of gifts.🎁
+              <AppText style={styles.text}>Cart 🛒</AppText>
+              <AppText style={[styles.text, { fontSize: 17 }]}>
+                We take Care of your gifts.🎁
               </AppText>
             </View>
-            <GoBackButton style={styles.button} />
           </View>
         }
         ListFooterComponent={
           <View style={styles.header}>
-            <AppButton style={styles.button} title="pay now" />
+            <AppButton style={styles.payButton} title="pay now" />
           </View>
         }
         ListHeaderComponentStyle={styles.header}
@@ -71,7 +75,7 @@ const HomeScreen = () => {
           />
         )}
       />
-    </Screen>
+    </View>
   );
 };
 
@@ -79,17 +83,27 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 11,
+    borderRadius: 25,
+    width: "80%",
+    height: "90%",
+    backgroundColor: colors.white,
   },
+  flatList: { zIndex: -1 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 5,
-    marginVertical: 10,
+    padding: 10,
     width: "100%",
   },
-  button: {
-    position: "relative",
+  closeButton: {
+    alignSelf: "flex-end",
+    zIndex: 1,
+    top: 10,
+    right: 10,
+    position: "absolute",
+  },
+  payButton: {
+    marginTop: 15,
   },
   text: {
     color: colors.darkGray,

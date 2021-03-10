@@ -2,8 +2,12 @@ import React from "react";
 import { StyleSheet, Text } from "react-native";
 import colors from "../config/colors";
 
-const AppText = ({ children, style }) => {
-  return <Text style={[styles.text, style]}>{children}</Text>;
+const AppText = ({ children, numberOfLines = 1, style }) => {
+  return (
+    <Text numberOfLines={numberOfLines} style={[styles.text, style]}>
+      {children}
+    </Text>
+  );
 };
 
 export default AppText;

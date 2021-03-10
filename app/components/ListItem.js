@@ -30,28 +30,26 @@ export default Card;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: colors.creamyDark,
+    backgroundColor: colors.creamyDarkTrans,
     width: "100%",
-    marginVertical: 10,
-    padding: 10,
+    marginVertical: 5,
+    padding: 5,
     alignItems: "center",
   },
   image: {
     height: 70,
     width: 70,
     borderRadius: 35,
-    marginRight: 10,
+    marginRight: 7,
   },
   icon: {
     marginRight: 20,
   },
-  textContainer: {
-    alignItems: "center",
-    padding: 10,
-  },
+  textContainer: {},
   text: {
-    color: colors.darkGray,
-    paddingBottom: 5,
+    color: colors.lightGray,
+    paddingBottom: 10,
+    fontSize: 16,
     textTransform: "capitalize",
   },
 });

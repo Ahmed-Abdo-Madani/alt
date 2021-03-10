@@ -12,13 +12,14 @@ import AppIcon from "../components/AppIcon";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { login, loginVerification } from "../actions/userActions";
+import { login } from "../actions/userActions";
 
 const LoginScreen = ({ closeModal, style }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const recaptchaVerifierRef = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [verificationId, setVerificationId] = useState();
   const [verificationCode, setVerificationCode] = useState();
 
   const firebaseConfig = firebase.apps.length
@@ -27,14 +28,23 @@ const LoginScreen = ({ closeModal, style }) => {
 
   const attemptInvisibleVerification = true;
 
-  const handlePhoneAuth = () => {
-    dispatch(loginVerification(verificationCode));
+  /*   const handlePhoneAuth = () => {
+    try {
+      const credential = firebase.auth.PhoneAuthProvider.credential(
+        getState().userLogin.verificationId,
+        verificationCode
+        );
+        dispatch(loginVerification(verificationCode));
+    } catch (error) {
+      
+    }
+
   };
   const signInWithPhoneNumber = () => {
     dispatch(login(phoneNumber, recaptchaVerifierRef));
-  };
+  }; */
 
-  /*   const handlePhoneAuth2 = async () => {
+  const handlePhoneAuth = async () => {
     try {
       const phoneProvider = new firebase.auth.PhoneAuthProvider();
       phoneProvider
@@ -46,20 +56,21 @@ const LoginScreen = ({ closeModal, style }) => {
     }
   };
 
-  const signInWithPhoneNumber2 = async () => {
+  const handlePhoneVerification = async () => {
     try {
       const credential = firebase.auth.PhoneAuthProvider.credential(
         verificationId,
         verificationCode
       );
+
       await firebase
         .auth()
         .signInWithCredential(credential)
-        .then((res) => console.log(res));
+        .then((res) => res.user && dispatch(login(res.user)));
     } catch (error) {
       console.log(error);
     }
-  }; */
+  };
 
   return (
     <View style={[styles.container, style]}>
@@ -82,7 +93,7 @@ const LoginScreen = ({ closeModal, style }) => {
         firebaseConfig={firebaseConfig}
       />
 
-      {userLogin.verificationId ? (
+      {verificationId ? (
         <>
           <InputField
             style={styles.InputField}
@@ -96,7 +107,7 @@ const LoginScreen = ({ closeModal, style }) => {
           <AppButton
             style={styles.submitButton}
             shadow={false}
-            onPress={handlePhoneAuth}
+            onPress={handlePhoneVerification}
             bgColor={colors.green}
             textColor={colors.white}
             title="Verifie"
@@ -128,7 +139,7 @@ const LoginScreen = ({ closeModal, style }) => {
             style={styles.submitButton}
             shadow={false}
             disabled={!phoneNumber}
-            onPress={signInWithPhoneNumber}
+            onPress={handlePhoneAuth}
             textColor={colors.white}
             title="sign up"
           />
@@ -147,7 +158,6 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "90%",
     padding: 25,
-
     backgroundColor: colors.white,
   },
   InputField: {

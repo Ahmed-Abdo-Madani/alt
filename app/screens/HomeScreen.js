@@ -8,6 +8,8 @@ import AppText from "../components/AppText";
 import AppIcon from "../components/AppIcon";
 
 import LoginScreen from "./LoginScreen";
+import CartScreen from "./CartScreen";
+import { useSelector } from "react-redux";
 
 const lists = [
   {
@@ -31,6 +33,7 @@ const lists = [
 ];
 
 const HomeScreen = ({ navigation }) => {
+  const { userInfo } = useSelector((state) => state.userLogin);
   const [visible, setVisible] = useState(false);
   return (
     <Screen>
@@ -51,7 +54,7 @@ const HomeScreen = ({ navigation }) => {
               <AppIcon
                 style={styles.headerIcon}
                 name="cart"
-                onPress={() => navigation.navigate("cart")}
+                onPress={() => setVisible(true)}
               />
               <AppIcon
                 style={styles.headerIcon}
@@ -87,7 +90,11 @@ const HomeScreen = ({ navigation }) => {
         visible={visible}
       >
         <View style={styles.login}>
-          <LoginScreen closeModal={() => setVisible(false)} />
+          {!userInfo ? (
+            <CartScreen closeModal={() => setVisible(false)} />
+          ) : (
+            <LoginScreen closeModal={() => setVisible(false)} />
+          )}
         </View>
       </Modal>
     </Screen>
