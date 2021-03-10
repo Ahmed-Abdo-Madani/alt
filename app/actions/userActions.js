@@ -1,6 +1,4 @@
-import { useState } from "react";
 import firebase from "firebase";
-
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -9,25 +7,29 @@ import {
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
 } from "../constants/userConstants";
-import { useSelector } from "react-redux";
 
 export const login = (phoneNumber, recaptchaVerifierRef) => async (
-  dispatch
+  dispatch,
+  getState
 ) => {
-  const [verificationId, setVerificationId] = useState();
-  const firebaseConfig = firebase.apps.length
-    ? firebase.app().options
-    : undefined;
-
   dispatch({
     type: USER_LOGIN_REQUEST,
   });
+  console.log(getState().userLogin);
 
   try {
     const phoneProvider = new firebase.auth.PhoneAuthProvider();
     phoneProvider
       .verifyPhoneNumber(phoneNumber, recaptchaVerifierRef.current)
-      .then((vId) => setVerificationId(vId));
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: USER_LOGIN_SUCCESS,
+            verificationId: res,
+            loggedIn: false,
+          });
+        }
+      });
   } catch (error) {
     console.log(error);
     dispatch({
@@ -35,29 +37,32 @@ export const login = (phoneNumber, recaptchaVerifierRef) => async (
       payload: error,
     });
   }
-  dispatch({
-    type: USER_LOGIN_SUCCESS,
-    payload: { verificationId },
-    loggedIn: false,
-  });
 };
-export const loginVerification = (verificationCode) => async (dispatch) => {
-  const [user, setuser] = useState();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+export const loginVerification = (verificationCode) => async (
+  dispatch,
+  getState
+) => {
+  console.log(getState().userLogin);
   dispatch({
     type: USER_LOGIN_REQUEST,
   });
 
   try {
     const credential = firebase.auth.PhoneAuthProvider.credential(
-      userInfo.verificationId,
+      getState().userLogin.verificationId,
       verificationCode
     );
     await firebase
       .auth()
       .signInWithCredential(credential)
-      .then((res) => setuser(res.user));
+      .then((res) => {
+        if (res)
+          dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: res.user,
+            loggedIn: true,
+          });
+      });
   } catch (error) {
     console.log(error);
     dispatch({
@@ -65,9 +70,4 @@ export const loginVerification = (verificationCode) => async (dispatch) => {
       payload: error,
     });
   }
-  dispatch({
-    type: USER_LOGIN_SUCCESS,
-    payload: user,
-    loggedIn: true,
-  });
 };

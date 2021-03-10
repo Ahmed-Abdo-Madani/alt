@@ -11,13 +11,15 @@ import InputField from "../components/InputField";
 import AppIcon from "../components/AppIcon";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
-import { useDispatch } from "react-redux";
-import { login } from "../actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { login, loginVerification } from "../actions/userActions";
 
 const LoginScreen = ({ closeModal, style }) => {
   const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
   const recaptchaVerifierRef = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [verificationCode, setVerificationCode] = useState();
 
   const firebaseConfig = firebase.apps.length
     ? firebase.app().options
@@ -26,7 +28,7 @@ const LoginScreen = ({ closeModal, style }) => {
   const attemptInvisibleVerification = true;
 
   const handlePhoneAuth = () => {
-    dispatch(login(verificationCode));
+    dispatch(loginVerification(verificationCode));
   };
   const signInWithPhoneNumber = () => {
     dispatch(login(phoneNumber, recaptchaVerifierRef));
@@ -80,7 +82,7 @@ const LoginScreen = ({ closeModal, style }) => {
         firebaseConfig={firebaseConfig}
       />
 
-      {verificationId ? (
+      {userLogin.verificationId ? (
         <>
           <InputField
             style={styles.InputField}
@@ -94,7 +96,7 @@ const LoginScreen = ({ closeModal, style }) => {
           <AppButton
             style={styles.submitButton}
             shadow={false}
-            onPress={signInWithPhoneNumber}
+            onPress={handlePhoneAuth}
             bgColor={colors.green}
             textColor={colors.white}
             title="Verifie"
@@ -102,19 +104,19 @@ const LoginScreen = ({ closeModal, style }) => {
         </>
       ) : (
         <>
-          <InputField
+          {/*  <InputField
             style={styles.InputField}
             placeholder="User name ..."
             autoCorrect={false}
-            onChangeText={(text) => setPhoneNumber(text)}
+            onChangeText={(text) => console.log(text)}
           />
           <InputField
             style={styles.InputField}
             placeholder="Email address ..."
             keyboardType="email-address"
             autoCorrect={false}
-            onChangeText={(text) => setPhoneNumber(text)}
-          />
+            onChangeText={(text) => console.log(text)}
+          /> */}
           <InputField
             style={styles.InputField}
             placeholder="phone number ..."
@@ -126,7 +128,7 @@ const LoginScreen = ({ closeModal, style }) => {
             style={styles.submitButton}
             shadow={false}
             disabled={!phoneNumber}
-            onPress={handlePhoneAuth}
+            onPress={signInWithPhoneNumber}
             textColor={colors.white}
             title="sign up"
           />

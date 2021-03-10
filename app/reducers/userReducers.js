@@ -15,6 +15,7 @@ export const userLoginReducer = (state = {}, action) => {
       return {
         loading: false,
         userInfo: action.payload,
+        verificationId: action.verificationId,
         loggedIn: action.loggedIn,
       };
     case USER_LOGIN_FAIL:
