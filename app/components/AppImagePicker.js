@@ -13,7 +13,7 @@ const requsetPermission = async () => {
   }
 };
 
-const AppImagePicker = ({ imageURI, onSelect }) => {
+const AppImagePicker = ({ imageURI, onSelect, style }) => {
   useEffect(() => {
     requsetPermission();
   }, []);
@@ -32,7 +32,7 @@ const AppImagePicker = ({ imageURI, onSelect }) => {
   };
   return (
     <TouchableWithoutFeedback onPress={selectImage}>
-      <View style={styles.container}>
+      <View style={[styles.container, style]}>
         {!imageURI ? (
           <MaterialCommunityIcons
             name="plus"
