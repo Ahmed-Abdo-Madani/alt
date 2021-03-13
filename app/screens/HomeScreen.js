@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList, View, Modal } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";
@@ -9,39 +10,29 @@ import AppIcon from "../components/AppIcon";
 
 import LoginScreen from "./LoginScreen";
 import CartScreen from "./CartScreen";
-import { useSelector } from "react-redux";
 
-const lists = [
-  {
-    id: 1,
-    title: "name holder with coffee",
-    subtitle: "$55",
-    image: require("../assets/test1.jpeg"),
-  },
-  {
-    id: 2,
-    title: "golden sword",
-    subtitle: "$10",
-    image: require("../assets/test3.jpeg"),
-  },
-  {
-    id: 3,
-    title: "dignified warrior set",
-    subtitle: "$999",
-    image: require("../assets/test4.jpeg"),
-  },
-];
+import { getHomeItems } from "../actions/itemsAction";
 
 const HomeScreen = ({ navigation }) => {
+  const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
+  const { loading, error, items } = getHomeScreenItems;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getHomeItems());
+  }, [dispatch]);
+
   const { userInfo } = useSelector((state) => state.userLogin);
   const [visible, setVisible] = useState(false);
+
   return (
     <Screen>
       <FlatList
         showsVerticalScrollIndicator={false}
         style={styles.container}
-        data={lists}
-        keyExtractor={(item) => item.id.toString()}
+        data={items}
+        keyExtractor={(item) => item.id}
         ListHeaderComponent={
           <View style={styles.header}>
             <View>
@@ -73,12 +64,12 @@ const HomeScreen = ({ navigation }) => {
           </View>
         }
         ListHeaderComponentStyle={styles.header}
-        renderItem={({ item }) => (
+        renderItem={({ item: { data } }) => (
           <Card
             home
-            title={item.title}
-            subtitle={item.subtitle}
-            image={item.image}
+            title={data.name}
+            subtitle={data.price}
+            image={data.imageURL}
             onPress={() => navigation.navigate("itemDetails")}
           />
         )}

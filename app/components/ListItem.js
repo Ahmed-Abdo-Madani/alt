@@ -5,9 +5,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-const Card = ({ title, subtitle, image, iconName }) => {
+const Card = ({ title, subtitle, onPress, image, iconName }) => {
   return (
-    <TouchableOpacity activeOpacity={0.65} style={styles.container}>
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.65}
+      style={styles.container}
+    >
       {image && <Image style={styles.image} source={image} />}
       {iconName && (
         <MaterialCommunityIcons

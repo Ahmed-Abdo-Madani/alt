@@ -22,7 +22,7 @@ const Card = ({ title, subtitle, image, feed = false, home = false }) => {
         activeOpacity={0.75}
         style={styles.container}
       >
-        <Image style={styles.image} source={image} />
+        <Image style={styles.image} source={{ uri: image }} />
         <View style={styles.textContainer}>
           <AppText>{title}</AppText>
           <AppText>{subtitle}</AppText>

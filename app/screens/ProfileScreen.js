@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, ScrollView, View, Modal } from "react-native";
 import firebase from "firebase";
 
 import Screen from "../components/Screen";
@@ -7,10 +7,12 @@ import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import LoginScreen from "./LoginScreen";
+import AddItemScreen from "./AddItemScreen";
 
 const HomeScreen = () => {
   const [loggedIn, setloggedIn] = useState(false);
   const [loaded, setloaded] = useState(false);
+  const [visible, setvisible] = useState(false);
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
@@ -33,7 +35,22 @@ const HomeScreen = () => {
       <ScrollView style={styles.tabsContainer}>
         <ListItem iconName="clipboard-text-outline" title="orders" />
         <ListItem iconName="hammer-wrench" title="Settings" />
+        <ListItem
+          iconName="plus"
+          title="Add Item"
+          onPress={() => setvisible(true)}
+        />
       </ScrollView>
+      <Modal
+        transparent={true}
+        presentationStyle="overFullScreen"
+        animationType="slide"
+        visible={visible}
+      >
+        <View style={styles.modal}>
+          <AddItemScreen closeModal={() => setvisible(false)} />
+        </View>
+      </Modal>
     </Screen>
   );
 };
@@ -71,5 +88,9 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 200,
+  },
+  modal: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
