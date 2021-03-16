@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, KeyboardAvoidingView, Keyboard } from "react-native";
+import firebase from "firebase";
+import "firebase/firestore";
+import "firebase/firebase-storage";
 
 import InputField from "../components/InputField";
 import ImagePicker from "../components/AppImagePicker";
@@ -7,13 +10,38 @@ import colors from "../config/colors";
 import AppIcon from "../components/AppIcon";
 import AppButton from "../components/AppButton";
 
-const handleUpload = async () => {};
-
 const AddItemScreen = ({ closeModal }) => {
   const [image, setimage] = useState();
   const [title, settitle] = useState();
   const [price, setprice] = useState();
   const [imageHeight, setImageHeight] = useState(200);
+
+  const handleItemUpload = async (uri) => {
+    await firebase
+      .firestore()
+      .collection("items")
+      .add({ imageURL: uri, name: title, price })
+      .then((res) => console.log(res.collection));
+  };
+
+  const handleUpload = async (uri) => {
+    const imagePath = `items_images/${Math.random().toString(36)}`;
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const task = firebase.storage().ref().child(imagePath).put(blob);
+    const taskProgress = (snapshot) => {
+      console.log(`transferred : ${snapshot.bytesTransferred}`);
+    };
+    const taskError = (snapshot) => {
+      console.log(`Error : ${snapshot}`);
+    };
+    const taskCompleted = () => {
+      task.snapshot.ref.getDownloadURL().then((snapshot) => {
+        handleItemUpload(snapshot);
+      });
+    };
+    task.on("state_changed", taskProgress, taskError, taskCompleted);
+  };
 
   const handleImageHide = () => {
     setImageHeight(50);
@@ -61,7 +89,11 @@ const AddItemScreen = ({ closeModal }) => {
         autoCorrect={false}
         onChangeText={(text) => setprice(text)}
       />
-      <AppButton title="submit" style={styles.submitButton} />
+      <AppButton
+        title="submit"
+        style={styles.submitButton}
+        onPress={() => handleUpload(image)}
+      />
     </KeyboardAvoidingView>
   );
 };
