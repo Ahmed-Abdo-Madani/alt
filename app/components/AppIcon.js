@@ -6,13 +6,14 @@ import colors from "../config/colors";
 const AppIcon = ({
   style,
   onPress,
+  disabled,
   size = 35,
   iconColor = colors.blueLight,
   backgroundColor = colors.creamy,
   name = "progress-wrench",
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity disabled={disabled} onPress={onPress}>
       <View
         style={[
           {

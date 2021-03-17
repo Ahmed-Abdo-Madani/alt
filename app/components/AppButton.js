@@ -6,6 +6,7 @@ import AppText from "../components/AppText";
 
 const AppButton = ({
   title,
+  disabled,
   shadow = true,
   style,
   onPress,
@@ -14,6 +15,7 @@ const AppButton = ({
 }) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[
         styles.conatainer,
         { backgroundColor: bgColor },

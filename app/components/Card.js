@@ -85,6 +85,8 @@ const styles = StyleSheet.create({
   image: {
     height: 200,
     width: "100%",
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
   textContainer: {
     flexDirection: "row",

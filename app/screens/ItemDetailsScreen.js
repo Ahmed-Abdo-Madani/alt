@@ -48,7 +48,7 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
 
       <Image
         style={[styles.image, { height: imageHeight }]}
-        source={item.image}
+        source={{ uri: item.image }}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
