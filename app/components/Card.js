@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import {
-  Image,
   StyleSheet,
   TouchableOpacity,
   View,
   Modal,
   ImageBackground,
 } from "react-native";
-
+import { Image } from "react-native-expo-image-cache";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-const Card = ({ title, subtitle, image, feed = false, home = false }) => {
+const Card = ({ id, title, subtitle, image, feed = false, home = false }) => {
   const [visible, setVisible] = useState(false);
 
   return home ? (
@@ -22,7 +21,7 @@ const Card = ({ title, subtitle, image, feed = false, home = false }) => {
         activeOpacity={0.75}
         style={styles.container}
       >
-        <Image style={styles.image} source={{ uri: image }} />
+        <Image style={styles.image} uri={image} />
         <View style={styles.textContainer}>
           <AppText>{title}</AppText>
           <AppText>{subtitle}</AppText>
@@ -34,7 +33,7 @@ const Card = ({ title, subtitle, image, feed = false, home = false }) => {
         visible={visible}
       >
         <ItemDetailsScreen
-          item={{ title, subtitle, image }}
+          item={{ id, title, subtitle, image }}
           closeModal={() => setVisible(false)}
         />
       </Modal>
@@ -60,7 +59,7 @@ const Card = ({ title, subtitle, image, feed = false, home = false }) => {
           visible={visible}
         >
           <ItemDetailsScreen
-            item={{ title, subtitle, image }}
+            item={{ id, title, subtitle, image }}
             closeModal={() => setVisible(false)}
           />
         </Modal>

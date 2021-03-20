@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Keyboard,
-  Image,
   View,
   Text,
   Platform,
@@ -11,6 +10,7 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { Image } from "react-native-expo-image-cache";
 
 import colors from "../config/colors";
 import AppText from "../components/AppText";
@@ -18,6 +18,7 @@ import GoBackButton from "../components/GoBackButton";
 import AppButton from "../components/AppButton";
 import InputField from "../components/InputField";
 
+import cache from "../utility/cache";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
   title: Yup.string().required().label("Title"),
@@ -39,6 +40,14 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
   const handleImageShow = () => {
     setImageHeight(300);
   };
+
+  const handleAddToCart = async (requestDetails) => {
+    const key = "cartItems";
+    const cartInCache = await cache.get(key);
+    const checkCart = cartInCache ? cartInCache : [];
+
+    cache.store(key, [{ item, requestDetails }, ...checkCart]);
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -46,10 +55,7 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
     >
       <GoBackButton onPress={closeModal} name="close" />
 
-      <Image
-        style={[styles.image, { height: imageHeight }]}
-        source={{ uri: item.image }}
-      />
+      <Image style={[styles.image, { height: imageHeight }]} uri={item.image} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.textContainer}
@@ -68,7 +74,7 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
           <Text style={styles.inputFormHeader}>item details</Text>
           <Formik
             initialValues={{ name: "", title: "" }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={(values) => handleAddToCart(values)}
             validationSchema={validationSchema}
           >
             {({

@@ -64,12 +64,13 @@ const HomeScreen = ({ navigation }) => {
           </View>
         }
         ListHeaderComponentStyle={styles.header}
-        renderItem={({ item: { data } }) => (
+        renderItem={({ item }) => (
           <Card
             home
-            title={data.name}
-            subtitle={data.price}
-            image={data.imageURL}
+            id={item.id}
+            title={item.data.name}
+            subtitle={item.data.price}
+            image={item.data.imageURL}
             onPress={() => navigation.navigate("itemDetails")}
           />
         )}
@@ -81,7 +82,7 @@ const HomeScreen = ({ navigation }) => {
         visible={visible}
       >
         <View style={styles.login}>
-          {!userInfo ? (
+          {userInfo ? (
             <CartScreen closeModal={() => setVisible(false)} />
           ) : (
             <LoginScreen closeModal={() => setVisible(false)} />

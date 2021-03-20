@@ -1,5 +1,6 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Image } from "react-native-expo-image-cache";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
@@ -12,7 +13,7 @@ const Card = ({ title, subtitle, onPress, image, iconName }) => {
       activeOpacity={0.65}
       style={styles.container}
     >
-      {image && <Image style={styles.image} source={image} />}
+      {image && <Image style={styles.image} uri={image} />}
       {iconName && (
         <MaterialCommunityIcons
           name={iconName}

@@ -1,34 +1,24 @@
-import React from "react";
-import { StyleSheet, FlatList, Image, ScrollView, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, FlatList, View } from "react-native";
 
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 import AppIcon from "../components/AppIcon";
+import cache from "../utility/cache";
 
-const lists = [
-  {
-    id: 1,
-    title: "name holder with coffee",
-    subtitle: "$55",
-    image: require("../assets/test1.jpeg"),
-  },
-  {
-    id: 2,
-    title: "da golden sword of atherah , with name ingraving in the blade",
-    subtitle: "$55",
-    image: require("../assets/test3.jpeg"),
-  },
-  {
-    id: 3,
-    title: "name holder with coffee",
-    subtitle: "$55",
-    image: require("../assets/test4.jpeg"),
-  },
-];
+const CartScreen = ({ closeModal, style }) => {
+  const [cart, setcart] = useState([]);
+  useEffect(() => {
+    getCart();
+  }, []);
+  const getCart = async () => {
+    const cartInCache = await cache.get("cartItems");
+    console.log(cartInCache);
+    setcart(cartInCache);
+  };
 
-const HomeScreen = ({ closeModal, style }) => {
   return (
     <View style={[styles.container, style]}>
       <AppIcon
@@ -37,49 +27,51 @@ const HomeScreen = ({ closeModal, style }) => {
         name="close"
         iconColor={colors.darkGray}
       />
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        style={styles.flatList}
-        data={lists}
-        keyExtractor={(item) => item.id.toString()}
-        ItemSeparatorComponent={() => (
-          <View
-            style={{
-              width: "100%",
-              height: 1,
-              backgroundColor: colors.creamy,
-            }}
-          />
-        )}
-        ListHeaderComponent={
-          <View style={styles.header}>
-            <View>
-              <AppText style={styles.text}>Cart 🛒</AppText>
-              <AppText style={[styles.text, { fontSize: 17 }]}>
-                We take Care of your gifts.🎁
-              </AppText>
+      {cart && (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          style={styles.flatList}
+          data={cart}
+          keyExtractor={(listing) => listing.item.id.toString()}
+          ItemSeparatorComponent={() => (
+            <View
+              style={{
+                width: "100%",
+                height: 1,
+                backgroundColor: colors.creamy,
+              }}
+            />
+          )}
+          ListHeaderComponent={
+            <View style={styles.header}>
+              <View>
+                <AppText style={styles.text}>Cart 🛒</AppText>
+                <AppText style={[styles.text, { fontSize: 17 }]}>
+                  We take Care of your gifts.🎁
+                </AppText>
+              </View>
             </View>
-          </View>
-        }
-        ListFooterComponent={
-          <View style={styles.header}>
-            <AppButton style={styles.payButton} title="pay now" />
-          </View>
-        }
-        ListHeaderComponentStyle={styles.header}
-        renderItem={({ item }) => (
-          <ListItem
+          }
+          ListFooterComponent={
+            <View style={styles.header}>
+              <AppButton style={styles.payButton} title="pay now" />
+            </View>
+          }
+          ListHeaderComponentStyle={styles.header}
+          renderItem={({ listing: { item } }) => ({
+            /* <ListItem
             title={item.title}
             subtitle={item.subtitle}
             image={item.image}
-          />
-        )}
-      />
+          /> */
+          })}
+        />
+      )}
     </View>
   );
 };
 
-export default HomeScreen;
+export default CartScreen;
 
 const styles = StyleSheet.create({
   container: {

@@ -13,6 +13,7 @@ const HomeScreen = () => {
   const [loggedIn, setloggedIn] = useState(false);
   const [loaded, setloaded] = useState(false);
   const [visible, setvisible] = useState(false);
+  const [userState, setuserState] = useState();
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
@@ -21,6 +22,7 @@ const HomeScreen = () => {
       } else {
         setloaded(true);
         setloggedIn(true);
+        setuserState(user.phoneNumber);
       }
     });
   }, []);
@@ -28,10 +30,12 @@ const HomeScreen = () => {
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.userInitials}>
-          <AppText style={styles.text}>👳‍♂️</AppText>
+        <View style={styles.icon}>
+          <AppText style={{ fontSize: 75 }}>👳‍♂️</AppText>
         </View>
+        <AppText style={styles.text}>{userState}</AppText>
       </View>
+
       <ScrollView style={styles.tabsContainer}>
         <ListItem iconName="clipboard-text-outline" title="orders" />
         <ListItem iconName="hammer-wrench" title="Settings" />
@@ -64,26 +68,27 @@ const styles = StyleSheet.create({
   tabsContainer: {
     paddingTop: 35,
   },
+
   header: {
-    alignItems: "center",
-    backgroundColor: colors.creamyDarkTrans,
+    flexDirection: "row",
     width: "100%",
-    padding: 50,
-  },
-  userInitials: {
-    position: "absolute",
-    bottom: -25,
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: colors.lightGray,
+    backgroundColor: colors.creamyDark,
   },
   text: {
-    color: colors.white,
-    fontSize: 75,
+    color: colors.lightGray,
+    fontSize: 30,
     fontWeight: "bold",
+  },
+  icon: {
+    margin: 10,
+    width: 90,
+    height: 90,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 45,
+    backgroundColor: colors.lightGray,
   },
   image: {
     width: "100%",
