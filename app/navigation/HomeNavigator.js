@@ -4,10 +4,11 @@ const Tabs = createBottomTabNavigator();
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import HomeStack from "./HomeStack";
-import HomeScreen from "../screens/HomeScreen";
+import ProfileStack from "./ProfileStack";
+
 import AboutUsScreen from "../screens/AboutUsScreen";
 import FeedScreen from "../screens/FeedScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+
 import colors from "../config/colors";
 
 export default function AppNavigator() {
@@ -46,8 +47,8 @@ export default function AppNavigator() {
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
         }}
-        name="profile"
-        component={ProfileScreen}
+        name="profileStack"
+        component={ProfileStack}
       />
       <Tabs.Screen
         options={{

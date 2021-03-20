@@ -20,6 +20,7 @@ const FeedNavigatior = () => (
       component={ItemDetailsScreen}
       options={{ headerShown: false }}
     />
+
   </Stack.Navigator>
 );
 
