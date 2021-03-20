@@ -15,7 +15,6 @@ const CartScreen = ({ closeModal, style }) => {
   }, []);
   const getCart = async () => {
     const cartInCache = await cache.get("cartItems");
-    console.log(cartInCache);
     setcart(cartInCache);
   };
 
@@ -32,7 +31,7 @@ const CartScreen = ({ closeModal, style }) => {
           showsVerticalScrollIndicator={false}
           style={styles.flatList}
           data={cart}
-          keyExtractor={(listing) => listing.item.id.toString()}
+          keyExtractor={(item) => item.id}
           ItemSeparatorComponent={() => (
             <View
               style={{
@@ -58,13 +57,13 @@ const CartScreen = ({ closeModal, style }) => {
             </View>
           }
           ListHeaderComponentStyle={styles.header}
-          renderItem={({ listing: { item } }) => ({
-            /* <ListItem
+          renderItem={({  item  }) => (
+           <ListItem
             title={item.title}
             subtitle={item.subtitle}
             image={item.image}
-          /> */
-          })}
+          /> 
+          )}
         />
       )}
     </View>

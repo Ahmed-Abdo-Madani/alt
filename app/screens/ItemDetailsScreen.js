@@ -45,8 +45,8 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
     const key = "cartItems";
     const cartInCache = await cache.get(key);
     const checkCart = cartInCache ? cartInCache : [];
-
-    cache.store(key, [{ item, requestDetails }, ...checkCart]);
+    const {id , title , price , image}=item
+    cache.store(key, [{ id , title , price , image, requestDetails }, ...checkCart]);
   };
   return (
     <KeyboardAvoidingView
