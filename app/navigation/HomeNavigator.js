@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tabs = createBottomTabNavigator();
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+import HomeStack from "./HomeStack";
 import HomeScreen from "../screens/HomeScreen";
 import AboutUsScreen from "../screens/AboutUsScreen";
 import FeedScreen from "../screens/FeedScreen";
@@ -27,8 +28,8 @@ export default function AppNavigator() {
             <MaterialCommunityIcons name="home" size={size} color={color} />
           ),
         }}
-        name="home"
-        component={HomeScreen}
+        name="homestack"
+        component={HomeStack}
       />
       <Tabs.Screen
         options={{

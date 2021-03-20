@@ -24,7 +24,10 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required().label("Title"),
 });
 
-const ItemDetailsScreen = ({ closeModal, item }) => {
+const ItemDetailsScreen = ({ route }) => {
+  const { id, data } = route.params;
+  const { name, price, imageURL: image } = data;
+
   const [imageHeight, setImageHeight] = useState(300);
   useEffect(() => {
     Keyboard.addListener("keyboardWillShow", handleImageHide);
@@ -45,24 +48,25 @@ const ItemDetailsScreen = ({ closeModal, item }) => {
     const key = "cartItems";
     const cartInCache = await cache.get(key);
     const checkCart = cartInCache ? cartInCache : [];
-    const {id , title , price , image}=item
-    cache.store(key, [{ id , title , price , image, requestDetails }, ...checkCart]);
+    cache.store(key, [
+      { id, title: name, price, image, requestDetails },
+      ...checkCart,
+    ]);
   };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <GoBackButton onPress={closeModal} name="close" />
-
-      <Image style={[styles.image, { height: imageHeight }]} uri={item.image} />
+      <GoBackButton name="close" />
+      <Image style={[styles.image, { height: imageHeight }]} uri={image} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.textContainer}
       >
         <View style={styles.titleConatainer}>
-          <AppText style={styles.text}>{item.title}</AppText>
-          <AppText style={styles.text}>{item.subtitle}</AppText>
+          <AppText style={styles.text}>{name}</AppText>
+          <AppText style={styles.text}>{price}</AppText>
         </View>
         <View style={styles.subtitleConatainer}>
           <AppText style={styles.subtext}>

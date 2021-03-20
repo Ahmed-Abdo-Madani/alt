@@ -11,13 +11,20 @@ import ItemDetailsScreen from "../screens/ItemDetailsScreen";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-const Card = ({ id, title, subtitle, image, feed = false, home = false }) => {
+const Card = ({
+  onPress,
+  title,
+  subtitle,
+  image,
+  feed = false,
+  home = false,
+}) => {
   const [visible, setVisible] = useState(false);
 
   return home ? (
     <>
       <TouchableOpacity
-        onPress={() => setVisible(true)}
+        onPress={onPress}
         activeOpacity={0.75}
         style={styles.container}
       >
@@ -27,7 +34,7 @@ const Card = ({ id, title, subtitle, image, feed = false, home = false }) => {
           <AppText>{subtitle}</AppText>
         </View>
       </TouchableOpacity>
-      <Modal
+      {/*  <Modal
         presentationStyle="fullScreen"
         animationType="slide"
         visible={visible}
@@ -36,7 +43,7 @@ const Card = ({ id, title, subtitle, image, feed = false, home = false }) => {
           item={{ id, title, subtitle, image }}
           closeModal={() => setVisible(false)}
         />
-      </Modal>
+      </Modal> */}
     </>
   ) : (
     feed && (
@@ -52,7 +59,7 @@ const Card = ({ id, title, subtitle, image, feed = false, home = false }) => {
             <AppText style={styles.feedText}>{subtitle}</AppText>
           </View>
         </TouchableOpacity>
-        <Modal
+        {/* <Modal
           transparent={true}
           presentationStyle="overFullScreen"
           animationType="slide"
@@ -62,7 +69,7 @@ const Card = ({ id, title, subtitle, image, feed = false, home = false }) => {
             item={{ id, title, subtitle, image }}
             closeModal={() => setVisible(false)}
           />
-        </Modal>
+        </Modal> */}
       </>
     )
   );

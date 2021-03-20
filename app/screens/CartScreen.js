@@ -53,16 +53,16 @@ const CartScreen = ({ closeModal, style }) => {
           }
           ListFooterComponent={
             <View style={styles.header}>
-              <AppButton style={styles.payButton} title="pay now" />
+              <AppButton style={styles.payButton} title="Order now" />
             </View>
           }
           ListHeaderComponentStyle={styles.header}
-          renderItem={({  item  }) => (
-           <ListItem
-            title={item.title}
-            subtitle={item.subtitle}
-            image={item.image}
-          /> 
+          renderItem={({ item }) => (
+            <ListItem
+              title={item.title}
+              subtitle={item.subtitle}
+              image={item.image}
+            />
           )}
         />
       )}

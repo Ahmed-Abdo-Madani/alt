@@ -71,7 +71,7 @@ const HomeScreen = ({ navigation }) => {
             title={item.data.name}
             subtitle={item.data.price}
             image={item.data.imageURL}
-            onPress={() => navigation.navigate("itemDetails")}
+            onPress={() => navigation.navigate("itemDetails", item)}
           />
         )}
       />
