@@ -9,7 +9,6 @@ const OrderScreen = () => {
     const getOrders = async()=>{
         const res = await cache.get('orders')
         setorders(res)
-
     }
     useEffect(() => {
         getOrders()
