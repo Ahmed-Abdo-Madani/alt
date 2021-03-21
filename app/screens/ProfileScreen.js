@@ -9,7 +9,7 @@ import AppText from "../components/AppText";
 import LoginScreen from "./LoginScreen";
 import AddItemScreen from "./AddItemScreen";
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({ navigation }) => {
   const [loggedIn, setloggedIn] = useState(false);
   const [loaded, setloaded] = useState(false);
   const [visible, setvisible] = useState(false);
@@ -37,7 +37,16 @@ const ProfileScreen = ({navigation}) => {
       </View>
 
       <ScrollView style={styles.tabsContainer}>
-        <ListItem iconName="clipboard-text-outline" title="orders" onPress={()=> navigation.navigate('orders')} />
+        <ListItem
+          iconName="clipboard-text-outline"
+          title="orders"
+          onPress={() => navigation.navigate("orders")}
+        />
+        <ListItem
+          iconName="map-marker"
+          title="My Address"
+          onPress={() => navigation.navigate("map")}
+        />
         <ListItem iconName="hammer-wrench" title="Settings" />
         <ListItem
           iconName="plus"
