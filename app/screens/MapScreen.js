@@ -8,7 +8,7 @@ import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 
-import { saveShippingAddress } from "../actions/cartActions";
+import { saveShippingAddress } from "../actions/userActions";
 export default function App({ navigation }) {
   const [location, setLocation] = useState();
   const [address, setaddress] = useState();

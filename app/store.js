@@ -12,19 +12,23 @@ const reducers = combineReducers({
   cart: cartAddReducer,
 });
 
-const cartItemsFromStorage = cache.get("cartItems")
-  ? cache.get("cartItems")
-  : [];
-const userInfoFromStorage = cache.get("user") ? cache.get("user") : null;
-const shippingAddressFromStorage = cache.get("address")
-  ? cache.get("address")
-  : {};
+const getCahce= async(key) =>{
+  const getit =  await cache.get(key)
+    if(getit) return getit
+  return  null
+}
+const cartItemsFromStorage = getCahce("cartItems")
+const userInfoFromStorage = getCahce("user") 
+const shippingAddressFromStorage = getCahce("address")
+ 
 const initialState = {
   cart: {
     cartItems: cartItemsFromStorage,
+},
+  userLogin: { 
+    userInfo: userInfoFromStorage,
     shippingAddress: shippingAddressFromStorage,
-  },
-  userLogin: { userInfo: userInfoFromStorage },
+   },
 };
 
 const store = createStore(reducers, initialState, applyMiddleware(thunk));

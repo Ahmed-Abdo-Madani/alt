@@ -11,11 +11,10 @@ import { useSelector } from "react-redux";
 
 const CartScreen = ({ closeModal, style }) => {
   const [cart, setcart] = useState();
-  const [address, setaddress] = useState();
   const [loading, setloading] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const { userInfo,shippingAddress } = userLogin;
 
   const handleOrderUpload = async () => {
     setloading(true);
@@ -23,7 +22,7 @@ const CartScreen = ({ closeModal, style }) => {
       await firebase
         .firestore()
         .collection("orders")
-        .add({ cart, address, userInfo })
+        .add({ cart, shippingAddress, userInfo })
         .then(() => setloading(false));
     } catch (error) {
       console.log(error);

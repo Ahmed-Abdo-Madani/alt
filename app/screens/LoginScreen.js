@@ -28,21 +28,6 @@ const LoginScreen = ({ closeModal, style }) => {
 
   const attemptInvisibleVerification = true;
 
-  /*   const handlePhoneAuth = () => {
-    try {
-      const credential = firebase.auth.PhoneAuthProvider.credential(
-        getState().userLogin.verificationId,
-        verificationCode
-        );
-        dispatch(loginVerification(verificationCode));
-    } catch (error) {
-      
-    }
-
-  };
-  const signInWithPhoneNumber = () => {
-    dispatch(login(phoneNumber, recaptchaVerifierRef));
-  }; */
 
   const handlePhoneAuth = async () => {
     try {
@@ -66,7 +51,9 @@ const LoginScreen = ({ closeModal, style }) => {
       await firebase
         .auth()
         .signInWithCredential(credential)
-        .then((res) => res.user && dispatch(login(res.user)));
+        .then((res) =>{ if(res.user) dispatch(login(res.user))
+        console.log(res.user)
+        });
     } catch (error) {
       console.log(error);
     }
@@ -115,19 +102,6 @@ const LoginScreen = ({ closeModal, style }) => {
         </>
       ) : (
         <>
-          {/*  <InputField
-            style={styles.InputField}
-            placeholder="User name ..."
-            autoCorrect={false}
-            onChangeText={(text) => console.log(text)}
-          />
-          <InputField
-            style={styles.InputField}
-            placeholder="Email address ..."
-            keyboardType="email-address"
-            autoCorrect={false}
-            onChangeText={(text) => console.log(text)}
-          /> */}
           <InputField
             style={styles.InputField}
             placeholder="phone number ..."
@@ -159,6 +133,7 @@ const styles = StyleSheet.create({
     height: "90%",
     padding: 25,
     backgroundColor: colors.white,
+    alignSelf:'center'
   },
   InputField: {
     marginVertical: 5,

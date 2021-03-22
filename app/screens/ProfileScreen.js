@@ -8,32 +8,37 @@ import colors from "../config/colors";
 import AppText from "../components/AppText";
 import LoginScreen from "./LoginScreen";
 import AddItemScreen from "./AddItemScreen";
+import cache from "../utility/cache";
 
 const ProfileScreen = ({ navigation }) => {
-  const [loggedIn, setloggedIn] = useState(false);
-  const [loaded, setloaded] = useState(false);
+
   const [visible, setvisible] = useState(false);
   const [userState, setuserState] = useState();
+
+  const getUserState = async()=>{
+    const {phoneNumber} =await cache.get('user')
+    if (phoneNumber) setuserState(phoneNumber)
+  }
+
+  const handleSignOut = ()=>{
+    firebase.auth().signOut().then(()=> {console.log('user Signed out')
+    setuserState()
+  })
+  }
+
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        setloaded(true);
-        setloggedIn(false);
-      } else {
-        setloaded(true);
-        setloggedIn(true);
-        setuserState(user.phoneNumber);
-      }
-    });
+    !userState && getUserState()
   }, []);
-  if (!loggedIn) return <LoginScreen />;
+
+  if (!userState) return <LoginScreen />;
+
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
         <View style={styles.icon}>
           <AppText style={{ fontSize: 75 }}>👳‍♂️</AppText>
         </View>
-        <AppText style={styles.text}>{userState}</AppText>
+        <AppText style={styles.text}>{userState? userState : "No User"}</AppText>
       </View>
 
       <ScrollView style={styles.tabsContainer}>
@@ -52,6 +57,11 @@ const ProfileScreen = ({ navigation }) => {
           iconName="plus"
           title="Add Item"
           onPress={() => setvisible(true)}
+        />
+        <ListItem
+          iconName="logout"
+          title="Log out"
+          onPress={handleSignOut}
         />
       </ScrollView>
       <Modal
