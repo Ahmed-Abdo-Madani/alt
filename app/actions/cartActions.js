@@ -35,5 +35,5 @@ export const saveShippingAddress = (data) => async (dispatch) => {
     payload: data,
   });
 
-  cache.store("shippingAddress", data);
+  cache.store("address", data);
 };

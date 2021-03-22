@@ -7,9 +7,31 @@ import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 import AppIcon from "../components/AppIcon";
 import cache from "../utility/cache";
+import { useSelector } from "react-redux";
 
 const CartScreen = ({ closeModal, style }) => {
-  const [cart, setcart] = useState([]);
+  const [cart, setcart] = useState();
+  const [address, setaddress] = useState();
+  const [loading, setloading] = useState(false);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const handleOrderUpload = async () => {
+    setloading(true);
+    try {
+      await firebase
+        .firestore()
+        .collection("orders")
+        .add({ cart, address, userInfo })
+        .then(() => setloading(false));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const inCart = () => {
+    console.log(cart);
+  };
   useEffect(() => {
     getCart();
   }, []);
@@ -53,7 +75,11 @@ const CartScreen = ({ closeModal, style }) => {
           }
           ListFooterComponent={
             <View style={styles.header}>
-              <AppButton style={styles.payButton} title="Order now" />
+              <AppButton
+                style={styles.payButton}
+                title="Order now"
+                onPress={inCart}
+              />
             </View>
           }
           ListHeaderComponentStyle={styles.header}

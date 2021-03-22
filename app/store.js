@@ -16,8 +16,8 @@ const cartItemsFromStorage = cache.get("cartItems")
   ? cache.get("cartItems")
   : [];
 const userInfoFromStorage = cache.get("user") ? cache.get("user") : null;
-const shippingAddressFromStorage = cache.get("shippingAddress")
-  ? cache.get("shippingAddress")
+const shippingAddressFromStorage = cache.get("address")
+  ? cache.get("address")
   : {};
 const initialState = {
   cart: {

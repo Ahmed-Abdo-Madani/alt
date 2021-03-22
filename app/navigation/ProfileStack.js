@@ -6,9 +6,41 @@ import OrderScreen from "../screens/OrderScreen";
 import MapScreen from "../screens/MapScreen";
 
 const Stack = createStackNavigator();
-
+const config = {
+  animation: "spring",
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
 const ProfileStack = () => (
-  <Stack.Navigator mode="modal">
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: false,
+      cardStyle: { backgroundColor: "transparent" },
+      cardOverlayEnabled: true,
+      cardStyleInterpolator: ({ current: { progress } }) => ({
+        cardStyle: {
+          opacity: progress.interpolate({
+            inputRange: [0, 0.5, 0.9, 1],
+            outputRange: [0, 0.25, 0.7, 1],
+          }),
+        },
+        overlayStyle: {
+          opacity: progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 0.4],
+            extrapolate: "clamp",
+          }),
+        },
+      }),
+    }}
+    mode="modal"
+  >
     <Stack.Screen
       name="profile"
       component={ProfileScreen}
@@ -24,7 +56,12 @@ const ProfileStack = () => (
     <Stack.Screen
       name="map"
       component={MapScreen}
-      options={{ headerShown: true }}
+      options={{
+        transitionSpec: {
+          open: config,
+          close: config,
+        },
+      }}
     />
   </Stack.Navigator>
 );
