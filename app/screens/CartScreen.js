@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View } from "react-native";
+import firebase from "firebase";
+import "firebase/firestore";
+import "firebase/firebase-storage";
 
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
@@ -11,10 +14,9 @@ import { useSelector } from "react-redux";
 
 const CartScreen = ({ closeModal, style }) => {
   const [cart, setcart] = useState();
+  const [address, setaddress] = useState();
+  const [user, setuser] = useState();
   const [loading, setloading] = useState(false);
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo,shippingAddress } = userLogin;
 
   const handleOrderUpload = async () => {
     setloading(true);
@@ -22,21 +24,25 @@ const CartScreen = ({ closeModal, style }) => {
       await firebase
         .firestore()
         .collection("orders")
-        .add({ cart, shippingAddress, userInfo })
+        .add({ cart, address, user })
         .then(() => setloading(false));
     } catch (error) {
       console.log(error);
     }
   };
   const inCart = () => {
-    console.log(cart);
+    console.log(userLogin);
   };
   useEffect(() => {
     getCart();
   }, []);
   const getCart = async () => {
     const cartInCache = await cache.get("cartItems");
+    const addressInCache = await cache.get("address");
+    const userInCache = await cache.get("user");
     setcart(cartInCache);
+    setaddress(addressInCache);
+    setuser(userInCache);
   };
 
   return (
@@ -77,7 +83,7 @@ const CartScreen = ({ closeModal, style }) => {
               <AppButton
                 style={styles.payButton}
                 title="Order now"
-                onPress={inCart}
+                onPress={handleOrderUpload}
               />
             </View>
           }
