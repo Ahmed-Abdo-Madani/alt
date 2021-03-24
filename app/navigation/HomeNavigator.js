@@ -11,7 +11,7 @@ import FeedScreen from "../screens/FeedScreen";
 
 import colors from "../config/colors";
 
-export default function AppNavigator() {
+export default function HomeNavigator() {
   return (
     <Tabs.Navigator
       tabBarOptions={{
