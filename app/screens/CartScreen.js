@@ -3,20 +3,22 @@ import { StyleSheet, FlatList, View } from "react-native";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/firebase-storage";
+import { useSelector } from "react-redux";
 
+import SendNotifications from "../utility/pushNotifications";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 import AppIcon from "../components/AppIcon";
 import cache from "../utility/cache";
-import { useSelector } from "react-redux";
 
 const CartScreen = ({ closeModal, style }) => {
   const [cart, setcart] = useState();
   const [address, setaddress] = useState();
   const [user, setuser] = useState();
   const [loading, setloading] = useState(false);
+  const [orderSent, setorderSent] = useState(false);
 
   const handleOrderUpload = async () => {
     setloading(true);
@@ -25,14 +27,17 @@ const CartScreen = ({ closeModal, style }) => {
         .firestore()
         .collection("orders")
         .add({ cart, address, user })
-        .then(() => setloading(false));
+        .then(() => setorderSent(true));
     } catch (error) {
       console.log(error);
     }
+    if (orderSent) {
+      const targetExpoPushToken = "ExponentPushToken[5zMoeBGjA-SrzanQtYRTFW]";
+      const message = "new Order: " + user.phoneNumber;
+      SendNotifications.sendPushNotification(targetExpoPushToken, message);
+    }
   };
-  const inCart = () => {
-    console.log(userLogin);
-  };
+
   useEffect(() => {
     getCart();
   }, []);
