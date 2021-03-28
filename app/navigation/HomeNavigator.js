@@ -32,7 +32,7 @@ export default function HomeNavigator() {
         name="homestack"
         component={HomeStack}
       />
-      <Tabs.Screen
+      {/*  <Tabs.Screen
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="rss" color={color} size={size} />
@@ -40,7 +40,7 @@ export default function HomeNavigator() {
         }}
         name="feed"
         component={FeedScreen}
-      />
+      /> */}
       <Tabs.Screen
         options={{
           tabBarIcon: ({ size, color }) => (

@@ -5,7 +5,6 @@ import "firebase/firestore";
 import "firebase/firebase-storage";
 import { useSelector } from "react-redux";
 
-import SendNotifications from "../utility/pushNotifications";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
@@ -34,7 +33,6 @@ const CartScreen = ({ closeModal, style }) => {
     if (orderSent) {
       const targetExpoPushToken = "ExponentPushToken[5zMoeBGjA-SrzanQtYRTFW]";
       const message = "new Order: " + user.phoneNumber;
-      SendNotifications.sendPushNotification(targetExpoPushToken, message);
     }
   };
 
