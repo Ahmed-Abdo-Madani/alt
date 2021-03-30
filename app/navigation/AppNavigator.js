@@ -13,7 +13,7 @@ export default function AppNavigator() {
   useEffect(() => {
     registerForPushNotifications();
     Notifications.addNotificationResponseReceivedListener(() =>
-      navigation.navigate("feed")
+      navigation.navigate("itemDetails")
     );
   }, []);
 
@@ -22,7 +22,6 @@ export default function AppNavigator() {
       const permission = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       if (!permission.granted) return;
       const token = await Notifications.getExpoPushTokenAsync();
-      console.log(token);
     } catch (error) {
       console.log("Error getting Push Token :" + error);
     }
