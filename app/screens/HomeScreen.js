@@ -14,17 +14,18 @@ import CartScreen from "./CartScreen";
 import { getHomeItems } from "../actions/itemsAction";
 
 const HomeScreen = ({ navigation }) => {
+
+  const [visible, setVisible] = useState(false);
+
+  const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
   const { loading, error, items } = getHomeScreenItems;
-
+  
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getHomeItems());
   }, [dispatch]);
 
-  const { userInfo } = useSelector((state) => state.userLogin);
-  const [visible, setVisible] = useState(false);
 
   return (
     <Screen>

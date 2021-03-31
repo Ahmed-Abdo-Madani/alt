@@ -9,14 +9,30 @@ import HomeNavigator from "./HomeNavigator";
 import navigation, { navigationRef } from "./RootNavigation";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
 
+import { USER_LOGIN } from "../constants/userConstants";
+import cache from "../utility/cache";
+import { useDispatch } from "react-redux";
+
 export default function AppNavigator() {
   useEffect(() => {
     registerForPushNotifications();
     Notifications.addNotificationResponseReceivedListener(() =>
-      navigation.navigate("itemDetails")
+    navigation.navigate("itemDetails")
     );
+    getUserFromCache()
   }, []);
+  
 
+  const dispatch = useDispatch()
+  const getUserFromCache = async()=>{
+    const user = await cache.get('user')
+    if (user){
+    dispatch({
+        type: USER_LOGIN,
+        payload: user,
+      })
+    }
+  }
   const registerForPushNotifications = async () => {
     try {
       const permission = await Permissions.askAsync(Permissions.NOTIFICATIONS);

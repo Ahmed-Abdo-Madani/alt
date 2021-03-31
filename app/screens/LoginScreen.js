@@ -11,12 +11,12 @@ import InputField from "../components/InputField";
 import AppIcon from "../components/AppIcon";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../actions/userActions";
 
-const LoginScreen = ({ closeModal, style,afterSignIn }) => {
+const LoginScreen = ({ closeModal, style,userLoggedIn,inModal=true }) => {
   const dispatch = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
+
   const recaptchaVerifierRef = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState();
   const [verificationId, setVerificationId] = useState();
@@ -50,8 +50,10 @@ const LoginScreen = ({ closeModal, style,afterSignIn }) => {
       await firebase
         .auth()
         .signInWithCredential(credential)
-        .then((res) =>{ if(res.user) {console.log(res.user)
-           dispatch(login(res.user))}
+        .then((res) =>{ if(res.user) {
+          dispatch(login(res.user))
+          userLoggedIn(res.user)
+          }
         });
     } catch (error) {
       console.log(error);
@@ -60,15 +62,15 @@ const LoginScreen = ({ closeModal, style,afterSignIn }) => {
 
   return (
     <View style={[styles.container, style]}>
-      <AppIcon
+      {inModal && <AppIcon
         style={styles.closeButton}
         onPress={closeModal}
         name="close"
         iconColor={colors.darkGray}
-      />
+      />}
 
       <MaterialCommunityIcons
-        style={styles.icon}
+        style={[styles.icon,  {marginTop:inModal ? 0:45}]}
         name="cellphone-iphone"
         size={105}
         color={colors.blueDark}
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: "center",
-    marginBottom:45
+    marginBottom: 45
   },
   banner:{
     marginTop:15

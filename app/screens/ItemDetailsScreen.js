@@ -20,8 +20,7 @@ import InputField from "../components/InputField";
 
 import cache from "../utility/cache";
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required().label("Name"),
-  title: Yup.string().required().label("Title"),
+  request: Yup.string().required().label("Request"),
 });
 
 const ItemDetailsScreen = ({ route }) => {
@@ -69,15 +68,15 @@ const ItemDetailsScreen = ({ route }) => {
           <AppText style={styles.text}>{price}</AppText>
         </View>
         <View style={styles.subtitleConatainer}>
-          <AppText style={styles.subtext}>
+          <AppText numberOfLines={3} style={styles.subtext}>
             This file contains additional information, probably added from the
             digital camera or scanner used to create or digitize it.
           </AppText>
         </View>
         <View style={styles.formCard}>
-          <Text style={styles.inputFormHeader}>item details</Text>
+          <Text style={styles.inputFormHeader}>Request details</Text>
           <Formik
-            initialValues={{ name: "", title: "" }}
+            initialValues={{ request: "" }}
             onSubmit={(values) => handleAddToCart(values)}
             validationSchema={validationSchema}
           >
@@ -91,26 +90,15 @@ const ItemDetailsScreen = ({ route }) => {
               <>
                 <InputField
                   autoCorrect={false}
-                  onChangeText={handleChange("name")}
-                  placeholder="name ..."
+                  onChangeText={handleChange("request")}
+                  multiline={true}
+                  placeholder="Please enter rquest here ..."
                   onBlur={() => {
-                    setFieldTouched("name");
+                    setFieldTouched("request");
                   }}
-                  error={errors.name}
-                  touched={touched.name}
+                  error={errors.request}
+                  touched={touched.request}
                 />
-
-                <InputField
-                  autoCorrect={false}
-                  onChangeText={handleChange("title")}
-                  placeholder="job title ..."
-                  onBlur={() => {
-                    setFieldTouched("title");
-                  }}
-                  error={errors.title}
-                  touched={touched.title}
-                />
-
                 <View style={styles.buttonContainer}>
                   <AppButton
                     style={styles.cartButton}
@@ -118,11 +106,6 @@ const ItemDetailsScreen = ({ route }) => {
                     onPress={handleSubmit}
                     textColor={colors.blueLight}
                     title="Add to Cart"
-                  />
-                  <AppButton
-                    onPress={handleSubmit}
-                    style={styles.buyButton}
-                    title="Buy Now"
                   />
                 </View>
               </>
@@ -194,8 +177,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   cartButton: {
-    width: "60%",
-    backgroundColor: colors.white,
+    backgroundColor: colors.creamy,
   },
   buyButton: {
     width: "40%",

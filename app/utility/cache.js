@@ -35,8 +35,16 @@ const get = async (key) => {
     console.log("Error in getting Async_Storage :" + error);
   }
 };
+const remove = async(key)=>{
+  try {
+    await AsyncStorage.removeItem(prefix + key);
+  } catch (error) {
+    console.log("cache layer remove item :"+error)
+  }
+} 
 
 export default {
   store,
   get,
+  remove
 };

@@ -12,23 +12,23 @@ const reducers = combineReducers({
   cart: cartAddReducer,
 });
 
-const getCahce= async(key) =>{
+/* const getCahce= async(key) =>{
   const getit =  await cache.get(key)
     if(getit) return getit
   return  null
 }
 const cartItemsFromStorage = getCahce("cartItems")
 const userInfoFromStorage = getCahce("user")
-const shippingAddressFromStorage = getCahce("address")
+const shippingAddressFromStorage = getCahce("address") */
  
 const initialState = {
-  cart: {
+  /* cart: {
     cartItems: cartItemsFromStorage,
 },
   userLogin: { 
     userInfo: userInfoFromStorage,
     shippingAddress: shippingAddressFromStorage,
-   },
+   }, */
 };
 
 const store = createStore(reducers, initialState, applyMiddleware(thunk));

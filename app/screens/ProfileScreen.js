@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View, Modal } from "react-native";
 import firebase from "firebase";
+import cache from "../utility/cache";
+
 
 import Screen from "../components/Screen";
 import ListItem from "../components/ListItem";
@@ -8,32 +10,36 @@ import colors from "../config/colors";
 import AppText from "../components/AppText";
 import LoginScreen from "./LoginScreen";
 import AddItemScreen from "./AddItemScreen";
-import cache from "../utility/cache";
 import { useSelector } from "react-redux";
 
 const ProfileScreen = ({ navigation }) => {
-
   const [visible, setvisible] = useState(false);
-  const { userInfo } = useSelector(state => state.userLogin)
-  const waitt = userInfo.then(value => value)
-  console.log(waitt)
+  const [user, setUser] = useState();
+
+  const getStateFromCache = async ()=>{
+    const userFromCahce = await cache.get('user')
+    if (userFromCahce) setUser(userFromCahce)
+  }
+  useEffect(() => {
+    if (!user) getStateFromCache()
+  }, [user])
 
   const handleSignOut = ()=>{
-    firebase.auth().signOut().then(()=> {console.log('user Signed out')
+    firebase.auth().signOut().then(()=> {setUser()
+      cache.remove('user')
   })
+  
   }
 
-
-
-  if (!userInfo) return <LoginScreen style={styles.loginScreen} />;
+  if (!user) return <LoginScreen style={styles.loginScreen} userLoggedIn={(res)=> setUser(res)} inModal={false} />;
 
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
+        <AppText style={styles.text}>{user.phoneNumber}</AppText>
         <View style={styles.icon}>
           <AppText style={{ fontSize: 75 }}>👳‍♂️</AppText>
         </View>
-        <AppText style={styles.text}>{userInfo.uid}</AppText>
       </View>
 
       <ScrollView style={styles.tabsContainer}>
