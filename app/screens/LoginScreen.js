@@ -14,7 +14,7 @@ import colors from "../config/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
 
-const LoginScreen = ({ closeModal, style }) => {
+const LoginScreen = ({ closeModal, style,afterSignIn }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const recaptchaVerifierRef = useRef(null);
@@ -44,15 +44,14 @@ const LoginScreen = ({ closeModal, style }) => {
   const handlePhoneVerification = async () => {
     try {
       const credential = firebase.auth.PhoneAuthProvider.credential(
-        verificationId,
-        verificationCode
+        verificationId,verificationCode
       );
 
       await firebase
         .auth()
         .signInWithCredential(credential)
-        .then((res) =>{ if(res.user) dispatch(login(res.user))
-        console.log(res.user)
+        .then((res) =>{ if(res.user) {console.log(res.user)
+           dispatch(login(res.user))}
         });
     } catch (error) {
       console.log(error);
@@ -102,24 +101,34 @@ const LoginScreen = ({ closeModal, style }) => {
         </>
       ) : (
         <>
+        <View style={styles.inputContainer}>
+    
           <InputField
             style={styles.InputField}
             placeholder="phone number ..."
             keyboardType="phone-pad"
             autoCorrect={false}
-            onChangeText={(text) => setPhoneNumber(text)}
+            onChangeText={(text) => setPhoneNumber("+966"+text)}
+          /></View>
+          <AppButton
+            style={styles.submitButton}
+            shadow={false}
+            disabled={!phoneNumber}
+            onPress={handlePhoneAuth}
+            title="sign up"
           />
           <AppButton
             style={styles.submitButton}
             shadow={false}
             disabled={!phoneNumber}
             onPress={handlePhoneAuth}
-            textColor={colors.white}
-            title="sign up"
+            bgColor={colors.creamy}
+            textColor={colors.blueLight}
+            title="login"
           />
         </>
       )}
-      {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+      {attemptInvisibleVerification && <FirebaseRecaptchaBanner style={styles.banner} />}
     </View>
   );
 };
@@ -135,17 +144,23 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignSelf:'center'
   },
+  inputContainer:{
+    marginBottom: 15,
+
+  },
   InputField: {
-    marginVertical: 5,
   },
   submitButton: {
-    marginVertical: 25,
+    marginVertical: 5,
   },
   closeButton: {
     alignSelf: "flex-end",
   },
   icon: {
     alignSelf: "center",
-    marginVertical: 20,
+    marginBottom:45
   },
+  banner:{
+    marginTop:15
+  }
 });

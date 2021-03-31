@@ -9,28 +9,23 @@ import AppText from "../components/AppText";
 import LoginScreen from "./LoginScreen";
 import AddItemScreen from "./AddItemScreen";
 import cache from "../utility/cache";
+import { useSelector } from "react-redux";
 
 const ProfileScreen = ({ navigation }) => {
 
   const [visible, setvisible] = useState(false);
-  const [userState, setuserState] = useState();
-
-  const getUserState = async()=>{
-    const {phoneNumber} =await cache.get('user')
-    if (phoneNumber) setuserState(phoneNumber)
-  }
+  const { userInfo } = useSelector(state => state.userLogin)
+  const waitt = userInfo.then(value => value)
+  console.log(waitt)
 
   const handleSignOut = ()=>{
     firebase.auth().signOut().then(()=> {console.log('user Signed out')
-    setuserState()
   })
   }
 
-  useEffect(() => {
-    !userState && getUserState()
-  }, []);
 
-  if (!userState) return <LoginScreen />;
+
+  if (!userInfo) return <LoginScreen style={styles.loginScreen} />;
 
   return (
     <Screen style={styles.container}>
@@ -38,7 +33,7 @@ const ProfileScreen = ({ navigation }) => {
         <View style={styles.icon}>
           <AppText style={{ fontSize: 75 }}>👳‍♂️</AppText>
         </View>
-        <AppText style={styles.text}>{userState? userState : "No User"}</AppText>
+        <AppText style={styles.text}>{userInfo.uid}</AppText>
       </View>
 
       <ScrollView style={styles.tabsContainer}>
@@ -87,7 +82,15 @@ const styles = StyleSheet.create({
   tabsContainer: {
     paddingTop: 35,
   },
-
+  loginScreen:{
+    borderRadius: 0,
+    width: "100%",
+    height: "100%",
+    paddingTop:20,
+    padding: 25,
+    backgroundColor: colors.white,
+    alignSelf:'center'
+  },
   header: {
     flexDirection: "row",
     width: "100%",

@@ -18,7 +18,7 @@ const getCahce= async(key) =>{
   return  null
 }
 const cartItemsFromStorage = getCahce("cartItems")
-const userInfoFromStorage = getCahce("user") 
+const userInfoFromStorage = getCahce("user")
 const shippingAddressFromStorage = getCahce("address")
  
 const initialState = {
