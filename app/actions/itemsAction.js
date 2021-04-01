@@ -8,14 +8,13 @@ import {
   HOME_SCREEN_ITEMS_FAIL,
 } from "../constants/itemsConstants";
 
-export const getHomeItems = () => async (dispatch) => {
+export const getHomeItems = (refresh = false) => async (dispatch) => {
   const cache_storage_key = "homeItems";
   dispatch({ type: HOME_SCREEN_ITEMS_REQUSET });
-
   const data = await cache.get(cache_storage_key);
-  if (data) {
+  if (data && !refresh) {
     dispatch({ type: HOME_SCREEN_ITEMS_SUCCESS, payload: data });
-  } else {
+  } else  {
     try {
       await firebase
         .firestore()

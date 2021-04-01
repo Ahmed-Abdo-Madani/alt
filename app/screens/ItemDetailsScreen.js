@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
 
 const ItemDetailsScreen = ({ route }) => {
   const { id, data } = route.params;
-  const { name, price, imageURL: image } = data;
+  const { name, price, imageURL: image , description } = data;
 
   const [imageHeight, setImageHeight] = useState(300);
   useEffect(() => {
@@ -69,8 +69,7 @@ const ItemDetailsScreen = ({ route }) => {
         </View>
         <View style={styles.subtitleConatainer}>
           <AppText numberOfLines={3} style={styles.subtext}>
-            This file contains additional information, probably added from the
-            digital camera or scanner used to create or digitize it.
+            {description}
           </AppText>
         </View>
         <View style={styles.formCard}>

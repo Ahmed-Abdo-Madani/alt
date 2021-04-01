@@ -12,70 +12,95 @@ import LoginScreen from "./LoginScreen";
 import CartScreen from "./CartScreen";
 
 import { getHomeItems } from "../actions/itemsAction";
+import AppActivityIndicator from "../components/AppActivityIndicator";
 
 const HomeScreen = ({ navigation }) => {
-
   const [visible, setVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
   const { loading, error, items } = getHomeScreenItems;
-  
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHomeItems());
   }, [dispatch]);
 
-
   return (
     <Screen>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        style={styles.container}
-        data={items}
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={
-          <View style={styles.header}>
-            <View>
-              <AppText style={styles.text}>Welcome 👋</AppText>
+      {loading ? (
+        <>
+          <AppActivityIndicator visible={true} />
+          <AppText
+            style={[
+              styles.text,
+              {
+                color: colors.darkGray,
+                fontSize: 15,
+                alignSelf: "center",
+                position: "absolute",
+                top: "75%",
+              },
+            ]}
+          >
+            Loading ...
+          </AppText>
+        </>
+      ) : (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          style={styles.container}
+          data={items}
+          refreshing={refreshing}
+          onRefresh={() => {
+            dispatch(getHomeItems(true));
+          }}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={
+            <View style={styles.header}>
+              <View>
+                <AppText style={styles.text}>Welcome 👋</AppText>
+                <AppText style={[styles.text, { fontSize: 27 }]}>
+                  To a World of gifts.🎁
+                </AppText>
+              </View>
+              <View style={styles.headerIconCintainer}>
+                <AppIcon
+                  style={styles.headerIcon}
+                  name="cart"
+                  onPress={() => setVisible(true)}
+                />
+                <AppIcon
+                  style={styles.headerIcon}
+                  name="apps"
+                  onPress={() => setVisible(true)}
+                />
+              </View>
+            </View>
+          }
+          ListFooterComponent={
+            <View style={styles.header}>
+              <AppText style={styles.text}>Thank u 😊</AppText>
               <AppText style={[styles.text, { fontSize: 27 }]}>
-                To a World of gifts.🎁
+                We hope u come back 🙌
               </AppText>
             </View>
-            <View style={styles.headerIconCintainer}>
-              <AppIcon
-                style={styles.headerIcon}
-                name="cart"
-                onPress={() => setVisible(true)}
-              />
-              <AppIcon
-                style={styles.headerIcon}
-                name="apps"
-                onPress={() => setVisible(true)}
-              />
-            </View>
-          </View>
-        }
-        ListFooterComponent={
-          <View style={styles.header}>
-            <AppText style={styles.text}>Thank u 😊</AppText>
-            <AppText style={[styles.text, { fontSize: 27 }]}>
-              We hope u come back 🙌
-            </AppText>
-          </View>
-        }
-        ListHeaderComponentStyle={styles.header}
-        renderItem={({ item }) => (
-          <Card
-            home
-            id={item.id}
-            title={item.data.name}
-            subtitle={item.data.price}
-            image={item.data.imageURL}
-            onPress={() => navigation.navigate("itemDetails", item)}
-          />
-        )}
-      />
+          }
+          ListHeaderComponentStyle={styles.header}
+          renderItem={({ item }) => (
+            <Card
+              home
+              id={item.id}
+              title={item.data.name}
+              subtitle={item.data.price}
+              image={item.data.imageURL}
+              onPress={() => navigation.navigate("itemDetails", item)}
+            />
+          )}
+        />
+      )}
+
       <Modal
         transparent={true}
         presentationStyle="overFullScreen"
