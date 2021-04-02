@@ -3,7 +3,6 @@ import { StyleSheet, ScrollView, View, Modal } from "react-native";
 import firebase from "firebase";
 import cache from "../utility/cache";
 
-
 import Screen from "../components/Screen";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
@@ -16,29 +15,42 @@ const ProfileScreen = ({ navigation }) => {
   const [visible, setvisible] = useState(false);
   const [user, setUser] = useState();
 
-  const getStateFromCache = async ()=>{
-    const userFromCahce = await cache.get('user')
-    if (userFromCahce) setUser(userFromCahce)
-  }
+  const getStateFromCache = async () => {
+    const userFromCahce = await cache.get("user");
+    if (userFromCahce) setUser(userFromCahce);
+  };
   useEffect(() => {
-    if (!user) getStateFromCache()
-  }, [user])
+    if (!user) getStateFromCache();
+  }, [user]);
 
-  const handleSignOut = ()=>{
-    firebase.auth().signOut().then(()=> {setUser()
-      cache.remove('user')
-  })
-  
-  }
+  const handleSignOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        setUser();
+        cache.remove("user");
+      });
+  };
 
-  if (!user) return <LoginScreen style={styles.loginScreen} userLoggedIn={(res)=> setUser(res)} inModal={false} />;
+  if (!user)
+    return (
+      <LoginScreen
+        style={styles.loginScreen}
+        userLoggedIn={(res) => setUser(res)}
+        inModal={false}
+      />
+    );
 
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
-        <AppText style={styles.text}>{user.phoneNumber}</AppText>
+        <View>
+          <AppText style={styles.text}>userName</AppText>
+          <AppText style={styles.text}>{user.phoneNumber}</AppText>
+        </View>
         <View style={styles.icon}>
-          <AppText style={{ fontSize: 75 }}>👳‍♂️</AppText>
+          <AppText style={{ fontSize: 75, color:colors.white }}>U</AppText>
         </View>
       </View>
 
@@ -59,11 +71,7 @@ const ProfileScreen = ({ navigation }) => {
           title="Add Item"
           onPress={() => setvisible(true)}
         />
-        <ListItem
-          iconName="logout"
-          title="Log out"
-          onPress={handleSignOut}
-        />
+        <ListItem iconName="logout" title="Log out" onPress={handleSignOut} />
       </ScrollView>
       <Modal
         transparent={true}
@@ -88,14 +96,14 @@ const styles = StyleSheet.create({
   tabsContainer: {
     paddingTop: 35,
   },
-  loginScreen:{
+  loginScreen: {
     borderRadius: 0,
     width: "100%",
     height: "100%",
-    paddingTop:20,
+    paddingTop: 20,
     padding: 25,
     backgroundColor: colors.white,
-    alignSelf:'center'
+    alignSelf: "center",
   },
   header: {
     flexDirection: "row",

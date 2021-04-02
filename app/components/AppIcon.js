@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableWithoutFeedback } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 
@@ -13,7 +13,7 @@ const AppIcon = ({
   name = "progress-wrench",
 }) => {
   return (
-    <TouchableOpacity disabled={disabled} onPress={onPress}>
+    <TouchableWithoutFeedback disabled={disabled} onPress={onPress}>
       <View
         style={[
           {
@@ -33,7 +33,7 @@ const AppIcon = ({
           color={iconColor}
         />
       </View>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 };
 

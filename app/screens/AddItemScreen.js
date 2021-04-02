@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
+  ActivityIndicator,
   KeyboardAvoidingView,
   Keyboard,
   ScrollView,
@@ -15,24 +16,23 @@ import InputField from "../components/InputField";
 import ImagePicker from "../components/AppImagePicker";
 import colors from "../config/colors";
 import AppIcon from "../components/AppIcon";
-import AppButton from "../components/AppButton";
 
 const AddItemScreen = ({ closeModal }) => {
   const [image, setimage] = useState();
   const [title, settitle] = useState();
-  const [loading, setloading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [price, setprice] = useState();
   const [category, setcategory] = useState("gifts");
   const [description, setdescription] = useState();
   const [imageHeight, setImageHeight] = useState(200);
 
   const handleItemUpload = async (uri) => {
-    setloading(true);
+    setUploading(true);
     await firebase
       .firestore()
       .collection("items")
       .add({ imageURL: uri, name: title, price, category, description })
-      .then(() => setloading(false));
+      .then(() => setUploading(false));
   };
 
   const handleUpload = async (uri) => {
@@ -72,7 +72,16 @@ const AddItemScreen = ({ closeModal }) => {
       Keyboard.removeListener("keyboardWillHide", handleImageShow);
     };
   }, []);
-
+  if (uploading)
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator
+          size="large"
+          animating={uploading}
+          color={colors.blueLight}
+        />
+      </View>
+    );
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}

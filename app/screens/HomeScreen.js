@@ -31,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
     <Screen>
       {loading ? (
         <>
-          <AppActivityIndicator visible={true} />
+          <AppActivityIndicator visible={loading} />
           <AppText
             style={[
               styles.text,
@@ -109,7 +109,11 @@ const HomeScreen = ({ navigation }) => {
       >
         <View style={styles.login}>
           {userInfo ? (
-            <CartScreen closeModal={() => setVisible(false)} />
+            <CartScreen
+              closeModal={() => {
+                setVisible(false);
+              }}
+            />
           ) : (
             <LoginScreen closeModal={() => setVisible(false)} />
           )}

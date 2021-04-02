@@ -16,12 +16,12 @@ const HomeScreen = () => {
       </View>
       <View style={styles.body}>
         <AppText style={styles.text}>شركة الطيار للدعاية و الإعلان</AppText>
-        <AppText style={styles.text}>
+        <AppText numberOfLines={7} style={styles.text}>
           Somthing About the company , gota be cool , hip , and most important
           trust worthy. and bla bla bla somthing and another clever thing and
           funny also to say 😎 .
         </AppText>
-        <AppText style={styles.text}>
+        <AppText numberOfLines={3} style={styles.text}>
           Contact us @ 0544258464 - 0137451355
         </AppText>
       </View>

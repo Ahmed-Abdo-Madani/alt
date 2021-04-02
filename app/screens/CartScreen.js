@@ -4,6 +4,7 @@ import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/firebase-storage";
 import { useSelector } from "react-redux";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
@@ -26,7 +27,9 @@ const CartScreen = ({ closeModal, style }) => {
         .firestore()
         .collection("orders")
         .add({ cart, address, user })
-        .then(() => setorderSent(true));
+        .then(() => {
+          emptyCart();
+        });
     } catch (error) {
       console.log(error);
     }
@@ -36,6 +39,11 @@ const CartScreen = ({ closeModal, style }) => {
     }
   };
 
+  const emptyCart = () => {
+    cache.remove("cartItems");
+    setorderSent(true);
+    setloading(false);
+  };
   useEffect(() => {
     getCart();
   }, []);
@@ -56,7 +64,30 @@ const CartScreen = ({ closeModal, style }) => {
         name="close"
         iconColor={colors.darkGray}
       />
-      {cart && (
+      {!cart ? (
+        <View style={styles.noCartContainer}>
+          <MaterialCommunityIcons
+            style={[styles.noCartIcon]}
+            name="cart-remove"
+            size={75}
+            color={colors.blueDark}
+          />
+          <AppText style={styles.noCartText}>Nothing in The Cart</AppText>
+        </View>
+      ) : orderSent ? (
+        <View style={styles.noCartContainer}>
+          <MaterialCommunityIcons
+            style={[styles.noCartIcon]}
+            name="cart-arrow-up"
+            size={75}
+            color={colors.blueLight}
+          />
+          <AppText style={styles.noCartText}>Your order is Sent ✅🪁,</AppText>
+          <AppText style={styles.noCartText}>
+            We will contact you shorlty.
+          </AppText>
+        </View>
+      ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.flatList}
@@ -84,6 +115,7 @@ const CartScreen = ({ closeModal, style }) => {
           ListFooterComponent={
             <View style={styles.header}>
               <AppButton
+                loading={loading}
                 style={styles.payButton}
                 title="Order now"
                 onPress={handleOrderUpload}
@@ -112,6 +144,17 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "90%",
     backgroundColor: colors.white,
+  },
+  noCartContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  noCartText: {
+    color: colors.darkGray,
+  },
+  noCartIcon: {
+    marginVertical: 10,
   },
   flatList: { zIndex: -1 },
   header: {

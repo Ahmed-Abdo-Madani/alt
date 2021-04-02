@@ -23,11 +23,12 @@ const validationSchema = Yup.object().shape({
   request: Yup.string().required().label("Request"),
 });
 
-const ItemDetailsScreen = ({ route }) => {
+const ItemDetailsScreen = ({ route, navigation }) => {
   const { id, data } = route.params;
-  const { name, price, imageURL: image , description } = data;
-
+  const { name, price, imageURL: image, description } = data;
+  const [addingToCart, setaddingToCart] = useState(false);
   const [imageHeight, setImageHeight] = useState(300);
+
   useEffect(() => {
     Keyboard.addListener("keyboardWillShow", handleImageHide);
     Keyboard.addListener("keyboardWillHide", handleImageShow);
@@ -44,13 +45,19 @@ const ItemDetailsScreen = ({ route }) => {
   };
 
   const handleAddToCart = async (requestDetails) => {
+    setaddingToCart(true);
     const key = "cartItems";
-    const cartInCache = await cache.get(key);
-    const checkCart = cartInCache ? cartInCache : [];
-    cache.store(key, [
-      { id, title: name, price, image, requestDetails },
-      ...checkCart,
-    ]);
+    try {
+      const cartInCache = await cache.get(key);
+      const checkCart = cartInCache ? cartInCache : [];
+      cache.store(key, [
+        { id, title: name, price, image, requestDetails },
+        ...checkCart,
+      ]);
+    } catch (error) {
+      console.log("handle add to cart error :" + error);
+    }
+    navigation.goBack();
   };
   return (
     <KeyboardAvoidingView
@@ -102,6 +109,7 @@ const ItemDetailsScreen = ({ route }) => {
                   <AppButton
                     style={styles.cartButton}
                     shadow={false}
+                    loading={addingToCart}
                     onPress={handleSubmit}
                     textColor={colors.blueLight}
                     title="Add to Cart"

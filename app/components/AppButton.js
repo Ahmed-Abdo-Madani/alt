@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 
 import colors from "../config/colors";
 import AppText from "../components/AppText";
@@ -7,6 +7,7 @@ import AppText from "../components/AppText";
 const AppButton = ({
   title,
   disabled,
+  loading = false,
   shadow = true,
   style,
   onPress,
@@ -24,7 +25,11 @@ const AppButton = ({
       ]}
       onPress={onPress}
     >
-      <AppText style={[styles.text, { color: textColor }]}>{title} </AppText>
+      {loading ? (
+        <ActivityIndicator size="small" color={colors.white} />
+      ) : (
+        <AppText style={[styles.text, { color: textColor }]}>{title} </AppText>
+      )}
     </TouchableOpacity>
   );
 };

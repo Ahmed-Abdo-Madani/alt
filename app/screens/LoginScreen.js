@@ -13,12 +13,16 @@ import AppButton from "../components/AppButton";
 import colors from "../config/colors";
 import { useDispatch } from "react-redux";
 import { login } from "../actions/userActions";
+import AppText from "../components/AppText";
 
-const LoginScreen = ({ closeModal, style,userLoggedIn,inModal=true }) => {
+const LoginScreen = ({ closeModal, style, userLoggedIn, inModal = true }) => {
   const dispatch = useDispatch();
 
   const recaptchaVerifierRef = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [buttonPressed, setbuttonPressed] = useState(false);
+  const [userName, setuserName] = useState();
+  const [registered, setregistered] = useState(false);
   const [verificationId, setVerificationId] = useState();
   const [verificationCode, setVerificationCode] = useState();
 
@@ -28,61 +32,85 @@ const LoginScreen = ({ closeModal, style,userLoggedIn,inModal=true }) => {
 
   const attemptInvisibleVerification = true;
 
-
-  const handlePhoneAuth = async () => {
+  const verifiePhoneNumber = async () => {
+    setbuttonPressed(true);
     try {
       const phoneProvider = new firebase.auth.PhoneAuthProvider();
-      phoneProvider
+      await phoneProvider
         .verifyPhoneNumber(phoneNumber, recaptchaVerifierRef.current)
-        .then((sentVerificationId) => setVerificationId(sentVerificationId))
+        .then((sentVerificationId) => {
+          setVerificationId(sentVerificationId);
+          setregistered(true);
+          setbuttonPressed(false);
+        })
         .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handlePhoneVerification = async () => {
+  const saveUserToFireStore = async () => {
+    try {
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(phoneNumber)
+        .set({ userName, isAdmin: false })
+        .then(() => {
+          setbuttonPressed(false);
+        });
+    } catch (error) {
+      console.log("save user to Firestore error : " + error);
+    }
+  };
+
+  const signInWithCredential = async () => {
+    setbuttonPressed(true);
     try {
       const credential = firebase.auth.PhoneAuthProvider.credential(
-        verificationId,verificationCode
+        verificationId,
+        verificationCode
       );
-
       await firebase
         .auth()
         .signInWithCredential(credential)
-        .then((res) =>{ if(res.user) {
-          dispatch(login(res.user))
-          userLoggedIn(res.user)
+        .then((res) => {
+          if (res.user) {
+            dispatch(login(res.user));
+            saveUserToFireStore();
+            userLoggedIn(res.user);
           }
         });
     } catch (error) {
-      console.log(error);
+      console.log("signIn With Credential firebase error : " + error);
     }
   };
 
   return (
     <View style={[styles.container, style]}>
-      {inModal && <AppIcon
-        style={styles.closeButton}
-        onPress={closeModal}
-        name="close"
-        iconColor={colors.darkGray}
-      />}
+      {inModal && (
+        <AppIcon
+          style={styles.closeButton}
+          onPress={closeModal}
+          name="close"
+          iconColor={colors.darkGray}
+        />
+      )}
 
-      <MaterialCommunityIcons
-        style={[styles.icon,  {marginTop:inModal ? 0:45}]}
-        name="cellphone-iphone"
-        size={105}
-        color={colors.blueDark}
-      />
       <FirebaseRecaptchaVerifierModal
         ref={recaptchaVerifierRef}
         attemptInvisibleVerification={attemptInvisibleVerification}
         firebaseConfig={firebaseConfig}
       />
 
-      {verificationId ? (
+      {registered ? (
         <>
+          <MaterialCommunityIcons
+            style={[styles.icon, { marginTop: inModal ? 0 : 45 }]}
+            name="cellphone-key"
+            size={105}
+            color={colors.green}
+          />
           <InputField
             style={styles.InputField}
             placeholder="Enter OTP ..."
@@ -95,7 +123,8 @@ const LoginScreen = ({ closeModal, style,userLoggedIn,inModal=true }) => {
           <AppButton
             style={styles.submitButton}
             shadow={false}
-            onPress={handlePhoneVerification}
+            loading={buttonPressed}
+            onPress={signInWithCredential}
             bgColor={colors.green}
             textColor={colors.white}
             title="Verifie"
@@ -103,34 +132,42 @@ const LoginScreen = ({ closeModal, style,userLoggedIn,inModal=true }) => {
         </>
       ) : (
         <>
-        <View style={styles.inputContainer}>
-    
-          <InputField
-            style={styles.InputField}
-            placeholder="phone number ..."
-            keyboardType="phone-pad"
-            autoCorrect={false}
-            onChangeText={(text) => setPhoneNumber("+966"+text)}
-          /></View>
-          <AppButton
-            style={styles.submitButton}
-            shadow={false}
-            disabled={!phoneNumber}
-            onPress={handlePhoneAuth}
-            title="sign up"
+          <MaterialCommunityIcons
+            style={[styles.icon, { marginTop: inModal ? 0 : 45 }]}
+            name="card-account-phone"
+            size={105}
+            color={colors.blueLight}
           />
+          <AppText style={styles.title}>Register</AppText>
+          <View style={styles.inputContainer}>
+            <InputField
+              style={styles.InputField}
+              placeholder="user name ..."
+              autoCorrect={false}
+              onChangeText={(text) => setuserName(text)}
+            />
+
+            <InputField
+              style={styles.InputField}
+              placeholder="phone number ..."
+              keyboardType="phone-pad"
+              autoCorrect={false}
+              onChangeText={(text) => setPhoneNumber("+966" + text)}
+            />
+          </View>
           <AppButton
             style={styles.submitButton}
             shadow={false}
+            loading={buttonPressed}
             disabled={!phoneNumber}
-            onPress={handlePhoneAuth}
-            bgColor={colors.creamy}
-            textColor={colors.blueLight}
-            title="login"
+            onPress={verifiePhoneNumber}
+            title="sign in"
           />
         </>
       )}
-      {attemptInvisibleVerification && <FirebaseRecaptchaBanner style={styles.banner} />}
+      {attemptInvisibleVerification && (
+        <FirebaseRecaptchaBanner style={styles.banner} />
+      )}
     </View>
   );
 };
@@ -144,14 +181,12 @@ const styles = StyleSheet.create({
     height: "90%",
     padding: 25,
     backgroundColor: colors.white,
-    alignSelf:'center'
+    alignSelf: "center",
   },
-  inputContainer:{
+  inputContainer: {
     marginBottom: 15,
-
   },
-  InputField: {
-  },
+  InputField: {},
   submitButton: {
     marginVertical: 5,
   },
@@ -160,9 +195,15 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: "center",
-    marginBottom: 45
+    marginBottom: 15,
   },
-  banner:{
-    marginTop:15
-  }
+  title: {
+    marginBottom: 5,
+    color: colors.creamyDark,
+    alignSelf: "center",
+    fontSize: 35,
+  },
+  banner: {
+    marginTop: 15,
+  },
 });
