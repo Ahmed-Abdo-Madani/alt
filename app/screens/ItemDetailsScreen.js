@@ -7,6 +7,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
+  Modal,
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -18,6 +19,8 @@ import GoBackButton from "../components/GoBackButton";
 import AppButton from "../components/AppButton";
 import InputField from "../components/InputField";
 
+import LoginScreen from "./LoginScreen";
+
 import cache from "../utility/cache";
 const validationSchema = Yup.object().shape({
   request: Yup.string().required().label("Request"),
@@ -26,12 +29,16 @@ const validationSchema = Yup.object().shape({
 const ItemDetailsScreen = ({ route, navigation }) => {
   const { id, data } = route.params;
   const { name, price, imageURL: image, description } = data;
+
   const [addingToCart, setaddingToCart] = useState(false);
   const [imageHeight, setImageHeight] = useState(300);
+  const [visible, setVisible] = useState(false);
+  const [userState, setUserState] = useState();
 
   useEffect(() => {
     Keyboard.addListener("keyboardWillShow", handleImageHide);
     Keyboard.addListener("keyboardWillHide", handleImageShow);
+    getUserState();
     return () => {
       Keyboard.removeListener("keyboardWillShow", handleImageHide);
       Keyboard.removeListener("keyboardWillHide", handleImageShow);
@@ -43,21 +50,29 @@ const ItemDetailsScreen = ({ route, navigation }) => {
   const handleImageShow = () => {
     setImageHeight(300);
   };
+  const getUserState = async () => {
+    const user = await cache.get("user");
+    setUserState(user);
+  };
 
   const handleAddToCart = async (requestDetails) => {
-    setaddingToCart(true);
-    const key = "cartItems";
-    try {
-      const cartInCache = await cache.get(key);
-      const checkCart = cartInCache ? cartInCache : [];
-      cache.store(key, [
-        { id, title: name, price, image, requestDetails },
-        ...checkCart,
-      ]);
-    } catch (error) {
-      console.log("handle add to cart error :" + error);
+    if (userState) {
+      setaddingToCart(true);
+      const key = "cartItems";
+      try {
+        const cartInCache = await cache.get(key);
+        const checkCart = cartInCache ? cartInCache : [];
+        cache.store(key, [
+          { id, title: name, price, image, requestDetails },
+          ...checkCart,
+        ]);
+      } catch (error) {
+        console.log("handle add to cart error :" + error);
+      }
+      navigation.goBack();
+    } else {
+      setVisible(true);
     }
-    navigation.goBack();
   };
   return (
     <KeyboardAvoidingView
@@ -120,6 +135,16 @@ const ItemDetailsScreen = ({ route, navigation }) => {
           </Formik>
         </View>
       </ScrollView>
+      <Modal
+        transparent={true}
+        presentationStyle="overFullScreen"
+        animationType="slide"
+        visible={visible}
+      >
+        <View style={styles.login}>
+          <LoginScreen closeModal={() => setVisible(false)} />
+        </View>
+      </Modal>
     </KeyboardAvoidingView>
   );
 };
@@ -132,6 +157,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
 
+  login: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   image: {
     width: "100%",
   },

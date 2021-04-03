@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../actions/userActions";
 import AppText from "../components/AppText";
 
-const LoginScreen = ({ closeModal, style, userLoggedIn, inModal = true }) => {
+const LoginScreen = ({ closeModal, style, inModal = true }) => {
   const dispatch = useDispatch();
 
   const recaptchaVerifierRef = useRef(null);
@@ -78,7 +78,6 @@ const LoginScreen = ({ closeModal, style, userLoggedIn, inModal = true }) => {
           if (res.user) {
             dispatch(login(res.user));
             saveUserToFireStore();
-            userLoggedIn(res.user);
           }
         });
     } catch (error) {

@@ -4,27 +4,48 @@ import * as Permissions from "expo-permissions";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
+import { useDispatch } from "react-redux";
 
 import HomeNavigator from "./HomeNavigator";
 import navigation, { navigationRef } from "./RootNavigation";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
 
-import { USER_LOGIN } from "../constants/userConstants";
+import { USER_LOGIN, USER_SHIPPING_ADDRESS } from "../constants/userConstants";
+import { CART_ADD_ITEM } from "../constants/cartConstants";
 import cache from "../utility/cache";
-import { useDispatch } from "react-redux";
 
 export default function AppNavigator() {
+  const dispatch = useDispatch();
+
+  const getCahce = async () => {
+    const cartItemsFromStorage = await cache.get("cartItems");
+    const userInfoFromStorage = await cache.get("user");
+    const shippingAddressFromStorage = await cache.get("address");
+
+    dispatch({
+      type: USER_LOGIN,
+      payload: userInfoFromStorage,
+    });
+
+    dispatch({
+      type: USER_SHIPPING_ADDRESS,
+      payload: shippingAddressFromStorage,
+    });
+    dispatch({
+      type: CART_ADD_ITEM,
+      payload: cartItemsFromStorage,
+    });
+  };
+
   useEffect(() => {
     registerForPushNotifications();
     Notifications.addNotificationResponseReceivedListener(() =>
-    navigation.navigate("itemDetails")
+      navigation.navigate("itemDetails")
     );
-    getUserFromCache()
+    getCahce();
   }, []);
-  
 
-  const dispatch = useDispatch()
-  const getUserFromCache = async()=>{
+  /* const getUserFromCache = async()=>{
     const user = await cache.get('user')
     if (user){
     dispatch({
@@ -32,7 +53,7 @@ export default function AppNavigator() {
         payload: user,
       })
     }
-  }
+  } */
   const registerForPushNotifications = async () => {
     try {
       const permission = await Permissions.askAsync(Permissions.NOTIFICATIONS);

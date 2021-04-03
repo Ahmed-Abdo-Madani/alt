@@ -1,56 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView, View, Modal } from "react-native";
 import firebase from "firebase";
-import cache from "../utility/cache";
+import { useDispatch, useSelector } from "react-redux";
 
+import cache from "../utility/cache";
 import Screen from "../components/Screen";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import LoginScreen from "./LoginScreen";
 import AddItemScreen from "./AddItemScreen";
-import { useSelector } from "react-redux";
+import { USER_LOGIN } from "../constants/userConstants";
 
 const ProfileScreen = ({ navigation }) => {
   const [visible, setvisible] = useState(false);
-  const [user, setUser] = useState();
+  const [userIsLogged, setuserIsLogged] = useState();
 
-  const getStateFromCache = async () => {
-    const userFromCahce = await cache.get("user");
-    if (userFromCahce) setUser(userFromCahce);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, [userInfo]);
+
+  const getcheck = async () => {
+    const getit = await cache.get("user");
+    console.log("user in Cache  " + getit);
   };
-  useEffect(() => {
-    if (!user) getStateFromCache();
-  }, [user]);
-
+  getcheck();
   const handleSignOut = () => {
     firebase
       .auth()
       .signOut()
       .then(() => {
-        setUser();
+        dispatch({
+          type: USER_LOGIN,
+          payload: null,
+        });
         cache.remove("user");
+        cache.remove("cartItems");
       });
   };
 
-  if (!user)
-    return (
-      <LoginScreen
-        style={styles.loginScreen}
-        userLoggedIn={(res) => setUser(res)}
-        inModal={false}
-      />
-    );
+  if (!userInfo)
+    return <LoginScreen style={styles.loginScreen} inModal={false} />;
 
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
         <View>
           <AppText style={styles.text}>userName</AppText>
-          <AppText style={styles.text}>{user.phoneNumber}</AppText>
+          <AppText style={styles.text}>{userInfo.phoneNumber}</AppText>
         </View>
         <View style={styles.icon}>
-          <AppText style={{ fontSize: 75, color:colors.white }}>U</AppText>
+          <AppText style={{ fontSize: 75, color: colors.white }}>U</AppText>
         </View>
       </View>
 
