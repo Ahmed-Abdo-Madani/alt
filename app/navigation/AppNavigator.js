@@ -11,7 +11,7 @@ import navigation, { navigationRef } from "./RootNavigation";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
 
 import { USER_LOGIN, USER_SHIPPING_ADDRESS } from "../constants/userConstants";
-import { CART_ADD_ITEM } from "../constants/cartConstants";
+import { INIT_CART_ITEMS } from "../constants/cartConstants";
 import cache from "../utility/cache";
 
 export default function AppNavigator() {
@@ -32,7 +32,7 @@ export default function AppNavigator() {
       payload: shippingAddressFromStorage,
     });
     dispatch({
-      type: CART_ADD_ITEM,
+      type: INIT_CART_ITEMS,
       payload: cartItemsFromStorage,
     });
   };

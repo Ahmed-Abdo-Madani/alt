@@ -69,7 +69,8 @@ const ItemDetailsScreen = ({ route, navigation }) => {
       } catch (error) {
         console.log("handle add to cart error :" + error);
       }
-      navigation.goBack();
+  
+      navigation.navigate('home', {addedToCart : true});
     } else {
       setVisible(true);
     }

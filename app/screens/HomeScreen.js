@@ -14,7 +14,7 @@ import CartScreen from "./CartScreen";
 import { getHomeItems } from "../actions/itemsAction";
 import AppActivityIndicator from "../components/AppActivityIndicator";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation,route }) => {
   const [visible, setVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -22,10 +22,12 @@ const HomeScreen = ({ navigation }) => {
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
   const { loading, error, items } = getHomeScreenItems;
 
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHomeItems());
-  }, [dispatch]);
+    if ( route.params?.addedToCart ) setVisible(true)
+  }, [route.params]);
 
   return (
     <Screen>

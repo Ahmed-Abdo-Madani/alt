@@ -56,9 +56,6 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
         .collection("users")
         .doc(phoneNumber)
         .set({ userName, isAdmin: false })
-        .then(() => {
-          setbuttonPressed(false);
-        });
     } catch (error) {
       console.log("save user to Firestore error : " + error);
     }

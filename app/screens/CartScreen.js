@@ -14,11 +14,14 @@ import AppIcon from "../components/AppIcon";
 import cache from "../utility/cache";
 
 const CartScreen = ({ closeModal, style }) => {
-  const [cart, setcart] = useState();
-  const [address, setaddress] = useState();
-  const [user, setuser] = useState();
+
+
   const [loading, setloading] = useState(false);
   const [orderSent, setorderSent] = useState(false);
+
+  const {cartItems} = useSelector(state => state.cart)
+  const {userInfo , shippingAddresss} = useSelector(state => state.userLogin)
+
 
   const handleOrderUpload = async () => {
     setloading(true);
@@ -26,7 +29,7 @@ const CartScreen = ({ closeModal, style }) => {
       await firebase
         .firestore()
         .collection("orders")
-        .add({ cart, address, user })
+        .add({ cartItems, shippingAddresss, userInfo })
         .then(() => {
           emptyCart();
         });
@@ -35,7 +38,7 @@ const CartScreen = ({ closeModal, style }) => {
     }
     if (orderSent) {
       const targetExpoPushToken = "ExponentPushToken[5zMoeBGjA-SrzanQtYRTFW]";
-      const message = "new Order: " + user.phoneNumber;
+      const message = "new Order: " + userInfo.phoneNumber;
     }
   };
 
@@ -43,17 +46,6 @@ const CartScreen = ({ closeModal, style }) => {
     cache.remove("cartItems");
     setorderSent(true);
     setloading(false);
-  };
-  useEffect(() => {
-    getCart();
-  }, []);
-  const getCart = async () => {
-    const cartInCache = await cache.get("cartItems");
-    const addressInCache = await cache.get("address");
-    const userInCache = await cache.get("user");
-    setcart(cartInCache);
-    setaddress(addressInCache);
-    setuser(userInCache);
   };
 
   return (
@@ -64,7 +56,7 @@ const CartScreen = ({ closeModal, style }) => {
         name="close"
         iconColor={colors.darkGray}
       />
-      {!cart ? (
+      {!cartItems ? (
         <View style={styles.noCartContainer}>
           <MaterialCommunityIcons
             style={[styles.noCartIcon]}
@@ -91,7 +83,7 @@ const CartScreen = ({ closeModal, style }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.flatList}
-          data={cart}
+          data={cartItems}
           keyExtractor={(item) => item.id}
           ItemSeparatorComponent={() => (
             <View

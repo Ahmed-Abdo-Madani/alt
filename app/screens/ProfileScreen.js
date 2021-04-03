@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, ScrollView, View, Modal } from "react-native";
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,20 +14,12 @@ import { USER_LOGIN } from "../constants/userConstants";
 
 const ProfileScreen = ({ navigation }) => {
   const [visible, setvisible] = useState(false);
-  const [userIsLogged, setuserIsLogged] = useState();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [userInfo]);
-
-  const getcheck = async () => {
-    const getit = await cache.get("user");
-    console.log("user in Cache  " + getit);
-  };
-  getcheck();
   const handleSignOut = () => {
     firebase
       .auth()
