@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList, View, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { SearchBar } from "react-native-elements";
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";
@@ -17,6 +18,8 @@ import AppActivityIndicator from "../components/AppActivityIndicator";
 const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [searchText, setSearchText] = useState();
+  const [serachSet, setSerachSet] = useState([]);
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
@@ -28,6 +31,14 @@ const HomeScreen = ({ navigation, route }) => {
     if (route.params?.addedToCart) setVisible(true);
   }, [route.params]);
 
+  const handelSearch = (text) => {
+    setSearchText(text);
+    const newSet = serachSet.filter((item) => {
+      return item.data.name.includes(text);
+    });
+    console.log(newSet);
+    setSerachSet(newSet);
+  };
   return (
     <Screen>
       {loading ? (
@@ -59,26 +70,36 @@ const HomeScreen = ({ navigation, route }) => {
           }}
           keyExtractor={(item) => item.id}
           ListHeaderComponent={
-            <View style={styles.header}>
-              <View>
-                <AppText style={styles.text}>Welcome 👋</AppText>
-                <AppText style={[styles.text, { fontSize: 27 }]}>
-                  To a World of gifts.🎁
-                </AppText>
+            <>
+              <View style={styles.header}>
+                <View>
+                  <AppText style={styles.text}>Welcome 👋</AppText>
+                  <AppText style={[styles.text, { fontSize: 27 }]}>
+                    To a World of gifts.🎁
+                  </AppText>
+                </View>
+                <View style={styles.headerIconCintainer}>
+                  <AppIcon
+                    style={styles.headerIcon}
+                    name="cart"
+                    onPress={() => setVisible(true)}
+                  />
+                  <AppIcon
+                    style={styles.headerIcon}
+                    name="apps"
+                    onPress={() => setVisible(true)}
+                  />
+                </View>
               </View>
-              <View style={styles.headerIconCintainer}>
-                <AppIcon
-                  style={styles.headerIcon}
-                  name="cart"
-                  onPress={() => setVisible(true)}
-                />
-                <AppIcon
-                  style={styles.headerIcon}
-                  name="apps"
-                  onPress={() => setVisible(true)}
-                />
-              </View>
-            </View>
+              <SearchBar
+                placeholder="Type Here..."
+                onChangeText={(text) => handelSearch(text)}
+                value={searchText}
+                lightTheme
+                round
+                containerStyle={styles.serachBar}
+              />
+            </>
           }
           ListFooterComponent={
             <View style={styles.header}>
@@ -88,7 +109,6 @@ const HomeScreen = ({ navigation, route }) => {
               </AppText>
             </View>
           }
-          ListHeaderComponentStyle={styles.header}
           renderItem={({ item }) => (
             <Card
               home
@@ -131,11 +151,17 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 11,
   },
+
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 5,
     width: "100%",
+  },
+  serachBar: {
+    width: "100%",
+    backgroundColor: colors.creamy,
+    padding: 2,
   },
   login: {
     justifyContent: "center",
