@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Image, ScrollView, View } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 
 import Screen from "../components/Screen";
 

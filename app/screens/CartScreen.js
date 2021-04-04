@@ -5,6 +5,7 @@ import "firebase/firestore";
 import "firebase/firebase-storage";
 import { useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/core";
 
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
@@ -14,14 +15,17 @@ import AppIcon from "../components/AppIcon";
 import cache from "../utility/cache";
 
 const CartScreen = ({ closeModal, style }) => {
-
+  const navigation = useNavigation();
 
   const [loading, setloading] = useState(false);
   const [orderSent, setorderSent] = useState(false);
 
-  const {cartItems} = useSelector(state => state.cart)
-  const {userInfo , shippingAddresss} = useSelector(state => state.userLogin)
+  const { cartItems } = useSelector((state) => state.cart);
 
+  console.log(cartItems);
+  const { userInfo, shippingAddresss } = useSelector(
+    (state) => state.userLogin
+  );
 
   const handleOrderUpload = async () => {
     setloading(true);
@@ -56,7 +60,7 @@ const CartScreen = ({ closeModal, style }) => {
         name="close"
         iconColor={colors.darkGray}
       />
-      {!cartItems ? (
+      {!cartItems || cartItems?.length === 0 ? (
         <View style={styles.noCartContainer}>
           <MaterialCommunityIcons
             style={[styles.noCartIcon]}
@@ -117,9 +121,16 @@ const CartScreen = ({ closeModal, style }) => {
           ListHeaderComponentStyle={styles.header}
           renderItem={({ item }) => (
             <ListItem
-              title={item.title}
-              subtitle={item.subtitle}
-              image={item.image}
+              onPress={() => {
+                navigation.navigate("itemDetails", {
+                  data: item,
+                  id: item.id,
+                });
+              }}
+              id={item.id}
+              title={item.name}
+              subtitle={item.price + " ﷼"}
+              image={item.imageURL}
             />
           )}
         />

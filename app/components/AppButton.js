@@ -8,6 +8,7 @@ const AppButton = ({
   title,
   disabled,
   loading = false,
+  loadingColor = colors.white,
   shadow = true,
   style,
   onPress,
@@ -26,7 +27,7 @@ const AppButton = ({
       onPress={onPress}
     >
       {loading ? (
-        <ActivityIndicator size="small" color={colors.white} />
+        <ActivityIndicator size="small" color={loadingColor} />
       ) : (
         <AppText style={[styles.text, { color: textColor }]}>{title} </AppText>
       )}

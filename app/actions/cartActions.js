@@ -1,21 +1,10 @@
-import {
-  CART_ADD_ITEM,
-  CART_REMOVE_ITEM,
-  CART_SAVE_SHIPPING_ADDRESS,
-} from "../constants/cartConstants";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
 import cache from "../utility/cache";
 
-export const addToCart = (id, request_details, qty = 1) => async (
-  dispatch,
-  getState
-) => {
+export const addToCart = (item) => async (dispatch, getState) => {
   dispatch({
     type: CART_ADD_ITEM,
-    payload: {
-      id,
-      request_details,
-      qty,
-    },
+    payload: item,
   });
   cache.store("cartItems", getState().cart.cartItems);
 };

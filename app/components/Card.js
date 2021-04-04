@@ -3,11 +3,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  Modal,
   ImageBackground,
 } from "react-native";
 import { Image } from "react-native-expo-image-cache";
-import ItemDetailsScreen from "../screens/ItemDetailsScreen";
 import colors from "../config/colors";
 import AppText from "./AppText";
 

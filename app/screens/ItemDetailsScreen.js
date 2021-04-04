@@ -12,7 +12,9 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Image } from "react-native-expo-image-cache";
+import { useDispatch, useSelector } from "react-redux";
 
+import { addToCart } from "../actions/cartActions";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import GoBackButton from "../components/GoBackButton";
@@ -21,24 +23,24 @@ import InputField from "../components/InputField";
 
 import LoginScreen from "./LoginScreen";
 
-import cache from "../utility/cache";
 const validationSchema = Yup.object().shape({
   request: Yup.string().required().label("Request"),
 });
 
 const ItemDetailsScreen = ({ route, navigation }) => {
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const dispatch = useDispatch();
   const { id, data } = route.params;
   const { name, price, imageURL: image, description } = data;
 
   const [addingToCart, setaddingToCart] = useState(false);
   const [imageHeight, setImageHeight] = useState(300);
   const [visible, setVisible] = useState(false);
-  const [userState, setUserState] = useState();
 
   useEffect(() => {
     Keyboard.addListener("keyboardWillShow", handleImageHide);
     Keyboard.addListener("keyboardWillHide", handleImageShow);
-    getUserState();
     return () => {
       Keyboard.removeListener("keyboardWillShow", handleImageHide);
       Keyboard.removeListener("keyboardWillHide", handleImageShow);
@@ -50,29 +52,24 @@ const ItemDetailsScreen = ({ route, navigation }) => {
   const handleImageShow = () => {
     setImageHeight(300);
   };
-  const getUserState = async () => {
-    const user = await cache.get("user");
-    setUserState(user);
-  };
 
   const handleAddToCart = async (requestDetails) => {
-    if (userState) {
-      setaddingToCart(true);
-      const key = "cartItems";
-      try {
-        const cartInCache = await cache.get(key);
-        const checkCart = cartInCache ? cartInCache : [];
-        cache.store(key, [
-          { id, title: name, price, image, requestDetails },
-          ...checkCart,
-        ]);
-      } catch (error) {
-        console.log("handle add to cart error :" + error);
-      }
-  
-      navigation.navigate('home', {addedToCart : true});
+    setaddingToCart(true);
+    if (userInfo) {
+      dispatch(
+        addToCart({
+          id,
+          name,
+          price,
+          imageURL: image,
+          description,
+          requestDetails,
+        })
+      );
+      navigation.navigate("home", { addedToCart: true });
     } else {
       setVisible(true);
+      setaddingToCart(false);
     }
   };
   return (
@@ -80,7 +77,7 @@ const ItemDetailsScreen = ({ route, navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <GoBackButton name="close" />
+      <GoBackButton style={styles.goBack} name="close" />
       <Image style={[styles.image, { height: imageHeight }]} uri={image} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -126,6 +123,7 @@ const ItemDetailsScreen = ({ route, navigation }) => {
                     style={styles.cartButton}
                     shadow={false}
                     loading={addingToCart}
+                    loadingColor={colors.blueLight}
                     onPress={handleSubmit}
                     textColor={colors.blueLight}
                     title="Add to Cart"
@@ -157,7 +155,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
-
+  goBack: {
+    alignSelf: "flex-end",
+    right: 10,
+  },
   login: {
     justifyContent: "center",
     alignItems: "center",

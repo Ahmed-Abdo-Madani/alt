@@ -7,7 +7,6 @@ import HomeStack from "./HomeStack";
 import ProfileStack from "./ProfileStack";
 
 import AboutUsScreen from "../screens/AboutUsScreen";
-import FeedScreen from "../screens/FeedScreen";
 
 import colors from "../config/colors";
 

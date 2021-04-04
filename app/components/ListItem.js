@@ -2,35 +2,50 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
 
+import { removeFromCart } from "../actions/cartActions";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-const Card = ({ title, subtitle, onPress, image, iconName }) => {
+const ListItem = ({ id, title, subtitle, onPress, image, iconName }) => {
+  const dispatch = useDispatch();
+  const handleDeleteItem = () => {
+    dispatch(removeFromCart(id));
+  };
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.65}
-      style={styles.container}
-    >
-      {image && <Image style={styles.image} uri={image} />}
-      {iconName && (
-        <MaterialCommunityIcons
-          name={iconName}
-          style={styles.icon}
-          size={35}
-          color={colors.blueDark}
-        />
-      )}
-      <View style={styles.textContainer}>
-        <AppText style={styles.text}>{title}</AppText>
-        {subtitle && <AppText>{subtitle}</AppText>}
-      </View>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={onPress}
+        activeOpacity={0.65}
+        style={styles.itemContainer}
+      >
+        {image && <Image style={styles.image} uri={image} />}
+        {iconName && (
+          <MaterialCommunityIcons
+            name={iconName}
+            style={styles.icon}
+            size={35}
+            color={colors.blueDark}
+          />
+        )}
+        <View style={styles.textContainer}>
+          <AppText style={styles.text}>{title}</AppText>
+          {subtitle && <AppText>{subtitle}</AppText>}
+        </View>
+      </TouchableOpacity>
+      <MaterialCommunityIcons
+        onPress={handleDeleteItem}
+        name="trash-can"
+        style={styles.deleteButton}
+        size={25}
+        color={colors.red}
+      />
+    </View>
   );
 };
 
-export default Card;
+export default ListItem;
 
 const styles = StyleSheet.create({
   container: {
@@ -41,20 +56,28 @@ const styles = StyleSheet.create({
     padding: 5,
     alignItems: "center",
   },
+  itemContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    flex: 1,
+  },
   image: {
     height: 70,
     width: 70,
     borderRadius: 35,
-    marginRight: 7,
+    marginHorizontal: 7,
   },
   icon: {
     marginRight: 20,
   },
-  textContainer: {},
+  deleteButton: {
+    marginRight: 20,
+  },
+  textContainer: { marginHorizontal: 7 },
   text: {
     color: colors.lightGray,
     paddingBottom: 10,
-    fontSize: 16,
+    fontSize: 18,
     textTransform: "capitalize",
   },
 });
