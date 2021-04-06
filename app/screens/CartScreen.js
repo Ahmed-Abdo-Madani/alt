@@ -22,7 +22,6 @@ const CartScreen = ({ closeModal, style }) => {
 
   const { cartItems } = useSelector((state) => state.cart);
 
-  console.log(cartItems);
   const { userInfo, shippingAddresss } = useSelector(
     (state) => state.userLogin
   );

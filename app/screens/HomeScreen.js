@@ -28,16 +28,15 @@ const HomeScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHomeItems());
-    setSerachSet(items);
     if (route.params?.addedToCart) setVisible(true);
   }, [route.params]);
 
   useEffect(() => {
     filterSet();
-  }, []);
+  }, [searchText]);
 
   const filterSet = () => {
-    const newSet = serachSet?.filter((item) => {
+    const newSet = items?.filter((item) => {
       return item.data.name.includes(searchText);
     });
     setSerachSet(newSet);
