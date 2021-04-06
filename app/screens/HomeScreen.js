@@ -19,24 +19,27 @@ const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [searchText, setSearchText] = useState();
-  const [serachSet, setSerachSet] = useState([]);
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
   const { loading, error, items } = getHomeScreenItems;
+  const [serachSet, setSerachSet] = useState(items);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHomeItems());
+    setSerachSet(items);
     if (route.params?.addedToCart) setVisible(true);
   }, [route.params]);
 
-  const handelSearch = (text) => {
-    setSearchText(text);
-    const newSet = serachSet.filter((item) => {
-      return item.data.name.includes(text);
+  useEffect(() => {
+    filterSet();
+  }, []);
+
+  const filterSet = () => {
+    const newSet = serachSet?.filter((item) => {
+      return item.data.name.includes(searchText);
     });
-    console.log(newSet);
     setSerachSet(newSet);
   };
   return (
@@ -63,7 +66,7 @@ const HomeScreen = ({ navigation, route }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={items}
+          data={serachSet.length === 0 ? items : serachSet}
           refreshing={refreshing}
           onRefresh={() => {
             dispatch(getHomeItems(true));
@@ -93,7 +96,7 @@ const HomeScreen = ({ navigation, route }) => {
               </View>
               <SearchBar
                 placeholder="Type Here..."
-                onChangeText={(text) => handelSearch(text)}
+                onChangeText={(text) => setSearchText(text)}
                 value={searchText}
                 lightTheme
                 round
