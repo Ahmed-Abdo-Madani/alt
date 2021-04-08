@@ -65,7 +65,7 @@ const HomeScreen = ({ navigation, route }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={serachSet.length === 0 ? items : serachSet}
+          data={serachSet?.length === 0 || undefined ? items : serachSet}
           refreshing={refreshing}
           onRefresh={() => {
             dispatch(getHomeItems(true));
