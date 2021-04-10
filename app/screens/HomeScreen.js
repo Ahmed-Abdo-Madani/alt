@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList, View, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-
-
 import Screen from "../components/Screen";
 import Card from "../components/Card";
 import colors from "../config/colors";
@@ -25,7 +23,6 @@ const HomeScreen = ({ navigation, route }) => {
   const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
   const { loading, error, items } = getHomeScreenItems;
-  let listItems = items
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -36,9 +33,7 @@ const HomeScreen = ({ navigation, route }) => {
   const filterSet = () => {
     listItems = items?.filter((item) => {
       return item.data.name.includes(searchText);
-     
     });
-
   };
   return (
     <Screen>
@@ -64,7 +59,7 @@ const HomeScreen = ({ navigation, route }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={listItems}
+          data={items}
           refreshing={refreshing}
           onRefresh={() => {
             dispatch(getHomeItems(true));
@@ -92,11 +87,12 @@ const HomeScreen = ({ navigation, route }) => {
                   />
                 </View>
               </View>
-              <AppSearchBar 
-              loading={false}
-              onChangeText={(text)=> setSearchText(text)}
-              onPress={()=> console.log('Seraching ....')}
-              />
+              {/*    <AppSearchBar
+                loading={false}
+                onChangeText={(text) => setSearchText(text)}
+                placeholder="Serach here..."
+                onPress={() => console.log("Seraching ....")}
+              /> */}
             </>
           }
           ListFooterComponent={
