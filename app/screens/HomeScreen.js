@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList, View, Modal } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { SearchBar } from "react-native-elements";
+
+
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";
@@ -14,6 +15,7 @@ import CartScreen from "./CartScreen";
 
 import { getHomeItems } from "../actions/itemsAction";
 import AppActivityIndicator from "../components/AppActivityIndicator";
+import AppSearchBar from "../components/AppSearchBar";
 
 const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
@@ -23,7 +25,7 @@ const HomeScreen = ({ navigation, route }) => {
   const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
   const { loading, error, items } = getHomeScreenItems;
-  const [serachSet, setSerachSet] = useState(items);
+  let listItems = items
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,15 +33,12 @@ const HomeScreen = ({ navigation, route }) => {
     if (route.params?.addedToCart) setVisible(true);
   }, [route.params]);
 
-  useEffect(() => {
-    filterSet();
-  }, [searchText]);
-
   const filterSet = () => {
-    const newSet = items?.filter((item) => {
+    listItems = items?.filter((item) => {
       return item.data.name.includes(searchText);
+     
     });
-    setSerachSet(newSet);
+
   };
   return (
     <Screen>
@@ -65,7 +64,7 @@ const HomeScreen = ({ navigation, route }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={serachSet?.length === 0 || undefined ? items : serachSet}
+          data={listItems}
           refreshing={refreshing}
           onRefresh={() => {
             dispatch(getHomeItems(true));
@@ -93,13 +92,10 @@ const HomeScreen = ({ navigation, route }) => {
                   />
                 </View>
               </View>
-              <SearchBar
-                placeholder="Type Here..."
-                onChangeText={(text) => setSearchText(text)}
-                value={searchText}
-                lightTheme
-                round
-                containerStyle={styles.serachBar}
+              <AppSearchBar 
+              loading={false}
+              onChangeText={(text)=> setSearchText(text)}
+              onPress={()=> console.log('Seraching ....')}
               />
             </>
           }
