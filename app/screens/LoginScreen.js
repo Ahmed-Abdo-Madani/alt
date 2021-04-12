@@ -55,7 +55,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
         .firestore()
         .collection("users")
         .doc(phoneNumber)
-        .set({ userName, isAdmin: false })
+        .set({ userName, isAdmin: false });
     } catch (error) {
       console.log("save user to Firestore error : " + error);
     }
@@ -136,20 +136,48 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
           />
           <AppText style={styles.title}>Register</AppText>
           <View style={styles.inputContainer}>
-            <InputField
-              style={styles.InputField}
-              placeholder="user name ..."
-              autoCorrect={false}
-              onChangeText={(text) => setuserName(text)}
-            />
+            <View style={styles.fieldContainer}>
+              <MaterialCommunityIcons
+                style={{ marginVertical: 5, marginHorizontal: 5 }}
+                name="account"
+                size={29}
+                color={colors.creamyDark}
+              />
 
-            <InputField
-              style={styles.InputField}
-              placeholder="phone number ..."
-              keyboardType="phone-pad"
-              autoCorrect={false}
-              onChangeText={(text) => setPhoneNumber("+966" + text)}
-            />
+              <InputField
+                style={styles.InputField}
+                placeholder="user name ..."
+                autoCorrect={false}
+                onChangeText={(text) => setuserName(text)}
+              />
+            </View>
+
+            <View style={styles.fieldContainer}>
+              <MaterialCommunityIcons
+                style={{ marginVertical: 5, marginHorizontal: 5 }}
+                name="phone"
+                size={29}
+                color={colors.creamyDark}
+              />
+              <InputField
+                children={
+                  <AppText
+                    style={{
+                      fontSize: 15,
+                      fontWeight: "normal",
+                      color: colors.softGray,
+                    }}
+                  >
+                    +966 |{" "}
+                  </AppText>
+                }
+                style={styles.InputField}
+                placeholder="phone number ..."
+                keyboardType="phone-pad"
+                autoCorrect={false}
+                onChangeText={(text) => setPhoneNumber("+966" + text)}
+              />
+            </View>
           </View>
           <AppButton
             style={styles.submitButton}
@@ -180,9 +208,18 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   inputContainer: {
+    marginHorizontal: 10,
     marginBottom: 15,
   },
-  InputField: {},
+  fieldContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  InputField: {
+    flex: 1,
+  },
   submitButton: {
     marginVertical: 5,
   },

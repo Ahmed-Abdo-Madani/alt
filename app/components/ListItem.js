@@ -8,7 +8,15 @@ import { removeFromCart } from "../actions/cartActions";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-const ListItem = ({ id, title, subtitle, onPress, image, iconName }) => {
+const ListItem = ({
+  id,
+  title,
+  subtitle,
+  onPress,
+  image,
+  iconName,
+  profileItem = false,
+}) => {
   const dispatch = useDispatch();
   const handleDeleteItem = () => {
     dispatch(removeFromCart(id));
@@ -36,10 +44,10 @@ const ListItem = ({ id, title, subtitle, onPress, image, iconName }) => {
       </TouchableOpacity>
       <MaterialCommunityIcons
         onPress={handleDeleteItem}
-        name="trash-can"
+        name={profileItem ? "chevron-right" : "trash-can"}
         style={styles.deleteButton}
         size={25}
-        color={colors.red}
+        color={profileItem ? colors.blueLight : colors.red}
       />
     </View>
   );

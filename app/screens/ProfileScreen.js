@@ -51,22 +51,30 @@ const ProfileScreen = ({ navigation }) => {
 
       <ScrollView style={styles.tabsContainer}>
         <ListItem
+          profileItem
           iconName="clipboard-text-outline"
           title="orders"
           onPress={() => navigation.navigate("orders")}
         />
         <ListItem
+          profileItem
           iconName="map-marker"
           title="My Address"
           onPress={() => navigation.navigate("map")}
         />
-        <ListItem iconName="hammer-wrench" title="Settings" />
+        <ListItem profileItem iconName="hammer-wrench" title="Settings" />
         <ListItem
+          profileItem
           iconName="plus"
           title="Add Item"
           onPress={() => setvisible(true)}
         />
-        <ListItem iconName="logout" title="Log out" onPress={handleSignOut} />
+        <ListItem
+          profileItem
+          iconName="logout"
+          title="Log out"
+          onPress={handleSignOut}
+        />
       </ScrollView>
       <Modal
         transparent={true}

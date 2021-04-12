@@ -3,7 +3,13 @@ import { StyleSheet, TextInput, Text, View } from "react-native";
 
 import colors from "../config/colors";
 
-const InputField = ({ placeholder, error, touched, ...otherProps }) => {
+const InputField = ({
+  placeholder,
+  error,
+  touched,
+  children,
+  ...otherProps
+}) => {
   const [focused, setfocus] = useState(false);
   return (
     <View
@@ -19,8 +25,8 @@ const InputField = ({ placeholder, error, touched, ...otherProps }) => {
         },
       ]}
     >
+      {children}
       <TextInput
-        style={styles.input}
         onFocus={() => setfocus(true)}
         {...otherProps}
         placeholder={placeholder}
@@ -35,14 +41,12 @@ export default InputField;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    flexDirection: "row",
     padding: 5,
     borderBottomWidth: 1,
     marginVertical: 5,
   },
-  input: {
-    fontSize: 18,
-    fontWeight: "500",
-  },
+
   error: {
     paddingTop: 3,
     fontSize: 16,
