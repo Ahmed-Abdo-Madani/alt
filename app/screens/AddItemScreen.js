@@ -12,6 +12,7 @@ import "firebase/firestore";
 import "firebase/firebase-storage";
 import { Picker } from "@react-native-picker/picker";
 
+import categories from '../constants/categories'
 import InputField from "../components/InputField";
 import ImagePicker from "../components/AppImagePicker";
 import colors from "../config/colors";
@@ -135,11 +136,10 @@ const AddItemScreen = ({ closeModal }) => {
           onValueChange={(itemValue, itemIndex) => setcategory(itemValue)}
           mode="dropdown"
         >
-          <Picker.Item label="Office" value="office" />
-          <Picker.Item label="Home" value="home" />
-          <Picker.Item label="Luxurious" value="luxurious" />
-          <Picker.Item label="Gifts" value="gifts" />
-          <Picker.Item label="Offical" value="offical" />
+          {categories.map((item) => {
+               <Picker.Item label={item} value={item} />
+          })}
+          
         </Picker>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -10,6 +10,7 @@ import AppText from "./AppText";
 
 const ListItem = ({
   id,
+  style,
   title,
   subtitle,
   onPress,
@@ -22,7 +23,7 @@ const ListItem = ({
     dispatch(removeFromCart(id));
   };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,style]}>
       <TouchableOpacity
         onPress={onPress}
         activeOpacity={0.65}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, FlatList, TextInput, View, Modal } from "react-native";
+import { StyleSheet, FlatList, TextInput, View, Modal, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import constants from "expo-constants";
 
@@ -15,6 +15,7 @@ import CartScreen from "./CartScreen";
 
 import { getHomeItems } from "../actions/itemsAction";
 import AppActivityIndicator from "../components/AppActivityIndicator";
+import CategoryList from "../components/CategoryList";
 
 const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
@@ -115,6 +116,7 @@ const HomeScreen = ({ navigation, route }) => {
                 />
                 <AppIcon onPress={() => filterSet()} name="magnify" />
               </View>
+              <CategoryList />
 
               {/* <HeroSlider images={HeroImages} /> */}
             </>
