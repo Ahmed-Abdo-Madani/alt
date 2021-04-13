@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, FlatList, TextInput, View, Modal, Text } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  TextInput,
+  View,
+  Modal,
+  Text,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import constants from "expo-constants";
 
@@ -22,9 +29,8 @@ const HomeScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchText, setSearchText] = useState();
   const [searchItems, setsearchItems] = useState();
-
-  let page_number = 1
-  let page_size = 10
+  const [page_number, setPageNumber] = useState(1);
+  const [page_size, setPageSize] = useState(3);
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
@@ -74,11 +80,17 @@ const HomeScreen = ({ navigation, route }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={!searchItems ? items.slice((page_number - 1) * page_size, page_number * page_size) : searchItems}
+          data={
+            !searchItems ? items.slice(0, page_number * page_size) : searchItems
+          }
           refreshing={refreshing}
           onRefresh={() => {
             dispatch(getHomeItems(true));
           }}
+          onEndReached={() => {
+            setPageNumber(page_number + 1);
+          }}
+          onEndReachedThreshold={0.1}
           keyExtractor={(item) => item.id}
           ListHeaderComponentStyle={
             {
@@ -201,7 +213,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   serachBar: {
-    marginVertical:10,
+    marginVertical: 10,
     flex: 1,
     flexDirection: "row",
     padding: 5,

@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import HomeScreen from "../screens/HomeScreen";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
+import CategoryScreen from "../screens/CategoryScreen";
 
 const Stack = createStackNavigator();
 
@@ -20,7 +21,11 @@ const FeedNavigatior = () => (
       component={ItemDetailsScreen}
       options={{ headerShown: false }}
     />
-
+    <Stack.Screen
+      name="category"
+      component={CategoryScreen}
+      options={{ headerShown: true }}
+    />
   </Stack.Navigator>
 );
 
