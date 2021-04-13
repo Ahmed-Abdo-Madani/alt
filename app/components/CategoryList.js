@@ -1,31 +1,20 @@
 import React from 'react'
 import { FlatList, StyleSheet} from 'react-native'
+import CategoryItem from './CategoryItem'
 
-// import categories from '../constants/categories'
-import ListItem from './ListItem'
+import categories from '../constants/categories'
+
 
 const CategoryList = () => {
    
-   const categories = [
-       {name :'office',  id: 1},
-       {name :'gifts',  id: 2},
-       {name :'home',  id: 3},
-       {name :'luxury',  id: 4},
-       {name :'cheap',  id:5},
-       {name :'empty',  id: 6},
-
-   ]
     return (
        <FlatList
-       bounces={false}
        horizontal
-       style={{}}
        showsHorizontalScrollIndicator={false}
        data={categories}
        keyExtractor={(item) => item.id.toString()}
        renderItem={({item}) =>
-        
-           (<ListItem style={{width:150}} profileItem iconName='plus'  onPress={() => console.log(item)} title={item.name}/>)
+           (<CategoryItem   icon={item.icon} title={item.name}/>)
        }
        
        />

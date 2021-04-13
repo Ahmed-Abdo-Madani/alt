@@ -23,6 +23,9 @@ const HomeScreen = ({ navigation, route }) => {
   const [searchText, setSearchText] = useState();
   const [searchItems, setsearchItems] = useState();
 
+  let page_number = 1
+  let page_size = 10
+
   const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
   const { loading, error, items } = getHomeScreenItems;
@@ -71,7 +74,7 @@ const HomeScreen = ({ navigation, route }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={!searchItems ? items : searchItems}
+          data={!searchItems ? items.slice((page_number - 1) * page_size, page_number * page_size) : searchItems}
           refreshing={refreshing}
           onRefresh={() => {
             dispatch(getHomeItems(true));
@@ -198,6 +201,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   serachBar: {
+    marginVertical:10,
     flex: 1,
     flexDirection: "row",
     padding: 5,

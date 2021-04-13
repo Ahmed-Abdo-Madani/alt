@@ -136,9 +136,9 @@ const AddItemScreen = ({ closeModal }) => {
           onValueChange={(itemValue, itemIndex) => setcategory(itemValue)}
           mode="dropdown"
         >
-          {categories.map((item) => {
-               <Picker.Item label={item} value={item} />
-          })}
+          {categories.map((item) => 
+              ( <Picker.Item key={item.id} label={item.name} value={item.name} />)
+          )}
           
         </Picker>
       </ScrollView>
