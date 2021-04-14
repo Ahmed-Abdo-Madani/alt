@@ -5,6 +5,7 @@ import colors from "../config/colors";
 
 const InputField = ({
   placeholder,
+  column = false,
   error,
   touched,
   children,
@@ -16,6 +17,7 @@ const InputField = ({
       style={[
         styles.container,
         {
+          flexDirection: column ? "column" : "row",
           borderBottomColor:
             touched && error
               ? colors.red

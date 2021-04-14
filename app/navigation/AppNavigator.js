@@ -33,7 +33,7 @@ export default function AppNavigator() {
     });
     dispatch({
       type: INIT_CART_ITEMS,
-      payload: cartItemsFromStorage,
+      payload: cartItemsFromStorage ? cartItemsFromStorage : [],
     });
   };
 

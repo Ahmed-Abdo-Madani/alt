@@ -90,7 +90,7 @@ const HomeScreen = ({ navigation, route }) => {
           onEndReached={() => {
             setPageNumber(page_number + 1);
           }}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.5}
           keyExtractor={(item) => item.id}
           ListHeaderComponentStyle={
             {

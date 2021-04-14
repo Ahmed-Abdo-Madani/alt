@@ -62,7 +62,6 @@ const ProfileScreen = ({ navigation }) => {
           title="My Address"
           onPress={() => navigation.navigate("map")}
         />
-        <ListItem profileItem iconName="hammer-wrench" title="Settings" />
         <ListItem
           profileItem
           iconName="plus"

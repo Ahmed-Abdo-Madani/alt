@@ -108,6 +108,7 @@ const ItemDetailsScreen = ({ route, navigation }) => {
             }) => (
               <>
                 <InputField
+                  column
                   autoCorrect={false}
                   onChangeText={handleChange("request")}
                   multiline={true}
