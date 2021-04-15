@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View, Modal } from "react-native";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/firebase-storage";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
+import MapScreen from "./MapScreen";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
@@ -25,6 +26,11 @@ const CartScreen = ({ closeModal, style }) => {
   const { userInfo, shippingAddresss } = useSelector(
     (state) => state.userLogin
   );
+
+  useEffect(() => {
+    if (shippingAddresss === null)
+      navigation.navigate("profileStack", { screen: "map" });
+  }, []);
 
   const handleOrderUpload = async () => {
     setloading(true);
