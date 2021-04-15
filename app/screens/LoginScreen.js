@@ -49,13 +49,13 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
     }
   };
 
-  const saveUserToFireStore = async () => {
+  const saveUserToFireStore = async ({ uid, createdAt }) => {
     try {
       await firebase
         .firestore()
         .collection("users")
         .doc(phoneNumber)
-        .set({ userName, isAdmin: false });
+        .set({ userName, isAdmin: false, phoneNumber, uid, createdAt });
     } catch (error) {
       console.log("save user to Firestore error : " + error);
     }
@@ -73,8 +73,8 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
         .signInWithCredential(credential)
         .then((res) => {
           if (res.user) {
-            dispatch(login(res.user));
-            saveUserToFireStore();
+            dispatch(login({ userName, isAdmin: false, phoneNumber }));
+            saveUserToFireStore(res.user);
           }
         });
     } catch (error) {
@@ -107,6 +107,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
             size={105}
             color={colors.green}
           />
+          <AppText style={styles.title}>Verification</AppText>
           <InputField
             style={styles.InputField}
             placeholder="Enter OTP ..."
@@ -116,6 +117,12 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
               setVerificationCode(text);
             }}
           />
+          <AppText numberOfLines={2} style={styles.verificationInfo}>
+            {`We sent You a One Time Password to ${phoneNumber}.`}
+          </AppText>
+          <AppText style={styles.verificationInfo}>
+            send a new Password in 2 Min
+          </AppText>
           <AppButton
             style={styles.submitButton}
             shadow={false}
@@ -145,7 +152,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
               />
 
               <InputField
-                style={styles.InputField}
+                style={styles.inputPhoneNo}
                 placeholder="user name ..."
                 autoCorrect={false}
                 onChangeText={(text) => setuserName(text)}
@@ -171,7 +178,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
                     +966 |{" "}
                   </AppText>
                 }
-                style={styles.InputField}
+                style={styles.inputPhoneNo}
                 placeholder="phone number ..."
                 keyboardType="phone-pad"
                 autoCorrect={false}
@@ -219,6 +226,10 @@ const styles = StyleSheet.create({
   },
   InputField: {
     flex: 1,
+    marginVertical: 10,
+  },
+  inputPhoneNo: {
+    flex: 1,
   },
   submitButton: {
     marginVertical: 5,
@@ -235,6 +246,12 @@ const styles = StyleSheet.create({
     color: colors.creamyDark,
     alignSelf: "center",
     fontSize: 35,
+  },
+  verificationInfo: {
+    marginVertical: 7,
+    color: colors.softGray,
+    textAlign: "center",
+    fontSize: 16,
   },
   banner: {
     marginTop: 15,

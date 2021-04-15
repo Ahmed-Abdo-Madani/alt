@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, View, Modal } from "react-native";
+import { StyleSheet, FlatList, View, Modal, Text } from "react-native";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/firebase-storage";
@@ -18,6 +18,10 @@ import cache from "../utility/cache";
 const CartScreen = ({ closeModal, style }) => {
   const navigation = useNavigation();
 
+  const [noOfItems, setnoOfItems] = useState(0);
+  const [totalPrice, settotalPrice] = useState(0);
+  const [shippingPrice, setshippingPrice] = useState(0);
+  const [taxes, settaxes] = useState(0);
   const [loading, setloading] = useState(false);
   const [orderSent, setorderSent] = useState(false);
 
@@ -114,7 +118,23 @@ const CartScreen = ({ closeModal, style }) => {
             </View>
           }
           ListFooterComponent={
-            <View style={styles.header}>
+            <View style={styles.footer}>
+              <View>
+                <Text>Order Summary :</Text>
+                <Text style={styles.summaryText}>
+                  {"No of Items : " + noOfItems + " items"}
+                </Text>
+                <Text style={styles.summaryText}>
+                  {"Taxes fees :" + taxes + " ﷼"}
+                </Text>
+                <Text style={styles.summaryText}>
+                  {"Shipping Fees :" + shippingPrice + " ﷼"}
+                </Text>
+                <Text style={styles.summaryText}>
+                  {" "}
+                  {"Total Price :" + totalPrice + " ﷼"}
+                </Text>
+              </View>
               <AppButton
                 loading={loading}
                 style={styles.payButton}
@@ -123,6 +143,7 @@ const CartScreen = ({ closeModal, style }) => {
               />
             </View>
           }
+          ListFooterComponentStyle={{ bottom: 0 }}
           ListHeaderComponentStyle={styles.header}
           renderItem={({ item }) => (
             <ListItem
@@ -152,6 +173,8 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "90%",
     backgroundColor: colors.white,
+    alignSelf: "center",
+    marginTop: 40,
   },
   noCartContainer: {
     flex: 1,
@@ -170,6 +193,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10,
     width: "100%",
+  },
+  footer: {
+    backgroundColor: colors.creamyDark,
+    marginTop: 10,
+    padding: 10,
+    width: "100%",
+  },
+  summaryText: {
+    fontSize: 18,
+    backgroundColor: colors.white,
+    marginTop: 5,
+    paddingLeft: 10,
   },
   closeButton: {
     alignSelf: "flex-end",

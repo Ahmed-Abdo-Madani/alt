@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   navbar: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.creamy,
+    backgroundColor: colors.creamyDark,
     zIndex: 1,
     padding: 10,
     width: "100%",

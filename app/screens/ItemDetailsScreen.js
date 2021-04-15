@@ -22,12 +22,14 @@ import AppButton from "../components/AppButton";
 import InputField from "../components/InputField";
 
 import LoginScreen from "./LoginScreen";
+import { useNavigation } from "@react-navigation/core";
 
 const validationSchema = Yup.object().shape({
   request: Yup.string().required().label("Request"),
 });
 
-const ItemDetailsScreen = ({ route, navigation }) => {
+const ItemDetailsScreen = ({ route }) => {
+  const navigation = useNavigation();
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const dispatch = useDispatch();
@@ -53,23 +55,28 @@ const ItemDetailsScreen = ({ route, navigation }) => {
     setImageHeight(300);
   };
 
+  const dispatchAddToCart = (requestDetails) => {
+    dispatch(
+      addToCart({
+        id,
+        name,
+        price,
+        imageURL: image,
+        description,
+        requestDetails,
+      })
+    );
+  };
   const handleAddToCart = async (requestDetails) => {
     setaddingToCart(true);
     if (userInfo) {
-      dispatch(
-        addToCart({
-          id,
-          name,
-          price,
-          imageURL: image,
-          description,
-          requestDetails,
-        })
-      );
+      dispatchAddToCart(requestDetails);
       navigation.navigate("home", { addedToCart: true });
     } else {
-      setVisible(true);
+      dispatchAddToCart(requestDetails);
+      // setVisible(true);
       setaddingToCart(false);
+      navigation.navigate("profileStack");
     }
   };
   return (

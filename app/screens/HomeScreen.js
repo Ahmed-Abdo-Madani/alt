@@ -23,6 +23,7 @@ import CartScreen from "./CartScreen";
 import { getHomeItems } from "../actions/itemsAction";
 import AppActivityIndicator from "../components/AppActivityIndicator";
 import CategoryList from "../components/CategoryList";
+import { useNavigation } from "@react-navigation/core";
 
 const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
@@ -44,6 +45,7 @@ const HomeScreen = ({ navigation, route }) => {
     "https://images.unsplash.com/photo-1505678261036-a3fcc5e884ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
   ];
 
+  const outOfStack_navigation = useNavigation();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHomeItems());
@@ -112,13 +114,18 @@ const HomeScreen = ({ navigation, route }) => {
                   <AppIcon
                     style={styles.headerIcon}
                     name="cart"
-                    onPress={() => setVisible(true)}
+                    onPress={() => {
+                      // setVisible(true)
+                      outOfStack_navigation.navigate(
+                        userInfo ? "cart" : "profileStack"
+                      );
+                    }}
                   />
-                  <AppIcon
+                  {/* <AppIcon
                     style={styles.headerIcon}
                     name="apps"
                     onPress={() => setVisible(true)}
-                  />
+                  /> */}
                 </View>
               </View>
 

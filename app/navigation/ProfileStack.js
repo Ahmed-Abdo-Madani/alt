@@ -4,6 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "../screens/ProfileScreen";
 import OrderScreen from "../screens/OrderScreen";
 import MapScreen from "../screens/MapScreen";
+import CartScreen from "../screens/CartScreen";
+import LoginScreen from "../screens/LoginScreen";
 
 const Stack = createStackNavigator();
 const config = {
@@ -23,21 +25,6 @@ const ProfileStack = () => (
       headerShown: false,
       cardStyle: { backgroundColor: "transparent" },
       cardOverlayEnabled: true,
-      cardStyleInterpolator: ({ current: { progress } }) => ({
-        cardStyle: {
-          opacity: progress.interpolate({
-            inputRange: [0, 0.5, 0.9, 1],
-            outputRange: [0, 0.25, 0.7, 1],
-          }),
-        },
-        overlayStyle: {
-          opacity: progress.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 0.4],
-            extrapolate: "clamp",
-          }),
-        },
-      }),
     }}
     mode="modal"
   >
@@ -48,21 +35,14 @@ const ProfileStack = () => (
         headerShown: false,
       }}
     />
+    <Stack.Screen name="cart" component={CartScreen} />
+    <Stack.Screen name="login" component={LoginScreen} />
     <Stack.Screen
       name="orders"
       component={OrderScreen}
       options={{ headerShown: true }}
     />
-    <Stack.Screen
-      name="map"
-      component={MapScreen}
-      options={{
-        transitionSpec: {
-          open: config,
-          close: config,
-        },
-      }}
-    />
+    <Stack.Screen name="map" component={MapScreen} />
   </Stack.Navigator>
 );
 

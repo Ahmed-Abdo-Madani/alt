@@ -52,6 +52,12 @@ const ProfileScreen = ({ navigation }) => {
       <ScrollView style={styles.tabsContainer}>
         <ListItem
           profileItem
+          iconName="cart"
+          title="cart"
+          onPress={() => navigation.navigate("cart")}
+        />
+        <ListItem
+          profileItem
           iconName="clipboard-text-outline"
           title="orders"
           onPress={() => navigation.navigate("orders")}
