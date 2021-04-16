@@ -117,7 +117,7 @@ const HomeScreen = ({ navigation, route }) => {
                     onPress={() => {
                       // setVisible(true)
                       outOfStack_navigation.navigate(
-                        userInfo ? "cart" : "profileStack"
+                        userInfo ? "homeCart" : "profileStack"
                       );
                     }}
                   />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, ScrollView, View, Modal } from "react-native";
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import cache from "../utility/cache";
 import Screen from "../components/Screen";
@@ -40,12 +41,17 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
+        <MaterialCommunityIcons
+          style={{ marginRight: 15 }}
+          name="account-circle"
+          size={70}
+          color={colors.blueDark}
+        />
         <View>
-          <AppText style={styles.text}>userName</AppText>
+          <AppText style={[styles.text, { color: colors.blueDark }]}>
+            {userInfo.userName}
+          </AppText>
           <AppText style={styles.text}>{userInfo.phoneNumber}</AppText>
-        </View>
-        <View style={styles.icon}>
-          <AppText style={{ fontSize: 75, color: colors.white }}>U</AppText>
         </View>
       </View>
 
@@ -116,24 +122,17 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     width: "100%",
-    justifyContent: "space-evenly",
+    padding: 10,
     alignItems: "center",
     backgroundColor: colors.creamyDark,
   },
   text: {
     color: colors.lightGray,
-    fontSize: 30,
+    fontSize: 21,
+    marginBottom: 5,
     fontWeight: "bold",
   },
-  icon: {
-    margin: 10,
-    width: 90,
-    height: 90,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 45,
-    backgroundColor: colors.lightGray,
-  },
+
   image: {
     width: "100%",
     height: 200,

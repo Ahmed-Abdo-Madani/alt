@@ -49,13 +49,15 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
     }
   };
 
-  const saveUserToFireStore = async ({ uid, createdAt }) => {
+  const saveUserToFireStore = async ({ uid }) => {
     try {
-      await firebase
-        .firestore()
-        .collection("users")
-        .doc(phoneNumber)
-        .set({ userName, isAdmin: false, phoneNumber, uid, createdAt });
+      await firebase.firestore().collection("users").doc(phoneNumber).set({
+        userName,
+        isAdmin: false,
+        phoneNumber,
+        uid,
+        createdAt: new Date().toDateString(),
+      });
     } catch (error) {
       console.log("save user to Firestore error : " + error);
     }

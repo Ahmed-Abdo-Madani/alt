@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import AppText from "../components/AppText";
+import colors from "../config/colors";
 import cache from "../utility/cache";
 
 const OrderScreen = () => {
@@ -31,6 +32,7 @@ export default OrderScreen;
 
 const styles = StyleSheet.create({
   noOrder: {
+    backgroundColor: colors.creamy,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

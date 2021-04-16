@@ -56,6 +56,7 @@ export default function App({ navigation }) {
     <View style={styles.container}>
       {location && (
         <>
+          <View style={styles.closeButton} />
           <View style={styles.navbar}>
             <AppText style={styles.textInfo}>Seleted address :</AppText>
             <AppText numberOfLines={3} style={styles.text}>
@@ -110,9 +111,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
     borderRadius: 25,
-    overflow: "hidden",
     justifyContent: "center",
     alignSelf: "center",
+  },
+  closeButton: {
+    alignSelf: "center",
+    zIndex: 1,
+    width: "30%",
+    height: 10,
+    backgroundColor: colors.lightGray,
+    borderRadius: 5,
+    top: -5,
+    position: "absolute",
   },
   navbar: {
     justifyContent: "center",
@@ -123,6 +133,8 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "absolute",
     bottom: 0,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
   },
   button: { marginVertical: 10 },
   text: { marginVertical: 10 },
@@ -131,5 +143,6 @@ const styles = StyleSheet.create({
     zIndex: -1,
     width: "100%",
     height: "100%",
+    borderRadius: 25,
   },
 });

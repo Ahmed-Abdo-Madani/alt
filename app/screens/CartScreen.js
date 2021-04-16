@@ -63,12 +63,7 @@ const CartScreen = ({ closeModal, style }) => {
 
   return (
     <View style={[styles.container, style]}>
-      <AppIcon
-        style={styles.closeButton}
-        onPress={closeModal}
-        name="close"
-        iconColor={colors.darkGray}
-      />
+      <View style={styles.closeButton} />
       {!cartItems || cartItems?.length === 0 ? (
         <View style={styles.noCartContainer}>
           <MaterialCommunityIcons
@@ -207,10 +202,13 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   closeButton: {
-    alignSelf: "flex-end",
+    alignSelf: "center",
     zIndex: 1,
-    top: 10,
-    right: 10,
+    width: "30%",
+    height: 10,
+    backgroundColor: colors.lightGray,
+    borderRadius: 5,
+    top: -5,
     position: "absolute",
   },
   payButton: {

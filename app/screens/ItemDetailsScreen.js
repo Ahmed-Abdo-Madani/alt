@@ -71,7 +71,8 @@ const ItemDetailsScreen = ({ route }) => {
     setaddingToCart(true);
     if (userInfo) {
       dispatchAddToCart(requestDetails);
-      navigation.navigate("home", { addedToCart: true });
+      navigation.navigate("homeCart");
+      setaddingToCart(false);
     } else {
       dispatchAddToCart(requestDetails);
       // setVisible(true);
