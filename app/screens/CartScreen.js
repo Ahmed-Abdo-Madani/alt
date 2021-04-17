@@ -3,20 +3,19 @@ import { StyleSheet, FlatList, View, Modal, Text } from "react-native";
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/firebase-storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
-import MapScreen from "./MapScreen";
+import { wipeCart } from "../actions/cartActions";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
-import AppIcon from "../components/AppIcon";
-import cache from "../utility/cache";
 
-const CartScreen = ({ closeModal, style }) => {
+const CartScreen = ({ style }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [noOfItems, setnoOfItems] = useState(0);
   const [totalPrice, settotalPrice] = useState(0);
@@ -56,7 +55,7 @@ const CartScreen = ({ closeModal, style }) => {
   };
 
   const emptyCart = () => {
-    cache.remove("cartItems");
+    dispatch(wipeCart());
     setorderSent(true);
     setloading(false);
   };
@@ -64,17 +63,7 @@ const CartScreen = ({ closeModal, style }) => {
   return (
     <View style={[styles.container, style]}>
       <View style={styles.closeButton} />
-      {!cartItems || cartItems?.length === 0 ? (
-        <View style={styles.noCartContainer}>
-          <MaterialCommunityIcons
-            style={[styles.noCartIcon]}
-            name="cart-remove"
-            size={75}
-            color={colors.blueDark}
-          />
-          <AppText style={styles.noCartText}>Nothing in The Cart</AppText>
-        </View>
-      ) : orderSent ? (
+      {orderSent ? (
         <View style={styles.noCartContainer}>
           <MaterialCommunityIcons
             style={[styles.noCartIcon]}
@@ -86,6 +75,16 @@ const CartScreen = ({ closeModal, style }) => {
           <AppText style={styles.noCartText}>
             We will contact you shorlty.
           </AppText>
+        </View>
+      ) : !cartItems || cartItems?.length === 0 ? (
+        <View style={styles.noCartContainer}>
+          <MaterialCommunityIcons
+            style={[styles.noCartIcon]}
+            name="cart-remove"
+            size={75}
+            color={colors.blueDark}
+          />
+          <AppText style={styles.noCartText}>Nothing in The Cart</AppText>
         </View>
       ) : (
         <FlatList

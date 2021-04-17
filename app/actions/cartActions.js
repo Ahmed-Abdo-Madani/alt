@@ -1,4 +1,8 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_EMPTY_ITEMS,
+} from "../constants/cartConstants";
 import cache from "../utility/cache";
 
 export const addToCart = (item) => async (dispatch, getState) => {
@@ -16,6 +20,13 @@ export const removeFromCart = (id) => async (dispatch, getState) => {
   });
 
   cache.store("cartItems", getState().cart.cartItems);
+};
+
+export const wipeCart = () => async (dispatch) => {
+  dispatch({
+    type: CART_EMPTY_ITEMS,
+  });
+  cache.remove("cartItems");
 };
 
 /* export const saveShippingAddress = (data) => async (dispatch) => {
