@@ -6,6 +6,7 @@ import {
   FirebaseRecaptchaVerifierModal,
   FirebaseRecaptchaBanner,
 } from "expo-firebase-recaptcha";
+import CountDown from "react-native-countdown-component";
 
 import InputField from "../components/InputField";
 import AppIcon from "../components/AppIcon";
@@ -17,10 +18,11 @@ import AppText from "../components/AppText";
 
 const LoginScreen = ({ closeModal, style, inModal = true }) => {
   const dispatch = useDispatch();
-
   const recaptchaVerifierRef = useRef(null);
+
   const [phoneNumber, setPhoneNumber] = useState();
   const [buttonPressed, setbuttonPressed] = useState(false);
+  const [waitForSend, setWaitForSend] = useState(true);
   const [userName, setuserName] = useState();
   const [registered, setregistered] = useState(false);
   const [verificationId, setVerificationId] = useState();
@@ -31,6 +33,11 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
     : undefined;
 
   const attemptInvisibleVerification = true;
+
+  const resendOTP = () => {
+    setWaitForSend(true);
+    verifiePhoneNumber();
+  };
 
   const verifiePhoneNumber = async () => {
     setbuttonPressed(true);
@@ -122,9 +129,39 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
           <AppText numberOfLines={2} style={styles.verificationInfo}>
             {`We sent You a One Time Password to ${phoneNumber}.`}
           </AppText>
-          <AppText style={styles.verificationInfo}>
-            send a new Password in 2 Min
-          </AppText>
+          <View
+            style={{
+              flexDirection: "row",
+              alignSelf: "center",
+              marginVertical: 15,
+            }}
+          >
+            {waitForSend ? (
+              <>
+                <AppText style={styles.verificationInfo}>
+                  send a new Password in . . .
+                </AppText>
+                <CountDown
+                  style={{}}
+                  until={59}
+                  size={14}
+                  onFinish={() => setWaitForSend(false)}
+                  timeToShow={["S"]}
+                  digitStyle={{ backgroundColor: colors.creamyDarkTrans }}
+                  timeLabels={{}}
+                />
+              </>
+            ) : (
+              <AppButton
+                style={{ width: "auto" }}
+                shadow={false}
+                onPress={resendOTP}
+                bgColor={colors.white}
+                textColor={colors.blueLight}
+                title="Resend"
+              />
+            )}
+          </View>
           <AppButton
             style={styles.submitButton}
             shadow={false}
@@ -250,7 +287,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
   },
   verificationInfo: {
-    marginVertical: 7,
+    marginTop: 25,
     color: colors.softGray,
     textAlign: "center",
     fontSize: 16,
