@@ -145,6 +145,7 @@ const CartScreen = ({ style }) => {
                 navigation.navigate("itemDetails", {
                   data: item,
                   id: item.id,
+                  request: item.requestDetails,
                 });
               }}
               id={item.id}

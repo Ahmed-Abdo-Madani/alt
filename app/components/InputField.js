@@ -30,8 +30,8 @@ const InputField = ({
       {children}
       <TextInput
         onFocus={() => setfocus(true)}
-        {...otherProps}
         placeholder={placeholder}
+        {...otherProps}
       />
       {!touched || (error && <Text style={styles.error}>{error}</Text>)}
     </View>

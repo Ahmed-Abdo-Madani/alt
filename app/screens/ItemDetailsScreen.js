@@ -33,7 +33,7 @@ const ItemDetailsScreen = ({ route }) => {
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const dispatch = useDispatch();
-  const { id, data } = route.params;
+  const { id, data, request } = route.params;
   const { name, price, imageURL: image, description } = data;
 
   const [addingToCart, setaddingToCart] = useState(false);
@@ -120,7 +120,9 @@ const ItemDetailsScreen = ({ route }) => {
                   autoCorrect={false}
                   onChangeText={handleChange("request")}
                   multiline={true}
-                  placeholder="Please enter rquest here ..."
+                  placeholder={
+                    request ? request.request : "Please enter rquest here ..."
+                  }
                   onBlur={() => {
                     setFieldTouched("request");
                   }}
@@ -128,15 +130,27 @@ const ItemDetailsScreen = ({ route }) => {
                   touched={touched.request}
                 />
                 <View style={styles.buttonContainer}>
-                  <AppButton
-                    style={styles.cartButton}
-                    shadow={false}
-                    loading={addingToCart}
-                    loadingColor={colors.blueLight}
-                    onPress={handleSubmit}
-                    textColor={colors.blueLight}
-                    title="Add to Cart"
-                  />
+                  {!request ? (
+                    <AppButton
+                      style={styles.cartButton}
+                      shadow={false}
+                      loading={addingToCart}
+                      loadingColor={colors.blueLight}
+                      onPress={handleSubmit}
+                      textColor={colors.blueLight}
+                      title="Add to Cart"
+                    />
+                  ) : (
+                    <AppButton
+                      style={styles.cartButton}
+                      shadow={false}
+                      loading={addingToCart}
+                      loadingColor={colors.blueLight}
+                      onPress={handleSubmit}
+                      textColor={colors.blueLight}
+                      title="Update"
+                    />
+                  )}
                 </View>
               </>
             )}
