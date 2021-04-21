@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   footer: {
-    backgroundColor: colors.creamyDark,
+    backgroundColor: colors.creamy,
     marginTop: 10,
     padding: 10,
     width: "100%",

@@ -18,9 +18,10 @@ export const cartAddReducer = (
         cartItems: action.payload,
       };
     case CART_ADD_ITEM:
+      const checkedItems = state.cartItems.filter((item)=> item.id !== action.payload.id)
       return {
         ...state,
-        cartItems: [...state.cartItems, action.payload],
+        cartItems: [...checkedItems, action.payload],
       };
 
     case CART_REMOVE_ITEM:
