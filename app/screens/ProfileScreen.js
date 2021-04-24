@@ -70,6 +70,12 @@ const ProfileScreen = ({ navigation }) => {
         />
         <ListItem
           profileItem
+          iconName="cash"
+          title="payment"
+          onPress={() => navigation.navigate("pay")}
+        />
+        <ListItem
+          profileItem
           iconName="map-marker"
           title="My Address"
           onPress={() => navigation.navigate("map")}

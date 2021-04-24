@@ -5822,6 +5822,11 @@ mute-stream@0.0.7:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
   integrity sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=
 
+myfatoorah-reactnative@0.0.270:
+  version "0.0.270"
+  resolved "https://registry.yarnpkg.com/myfatoorah-reactnative/-/myfatoorah-reactnative-0.0.270.tgz#1d63bc263ea373cbbb45f5ddf7197f8ee922286b"
+  integrity sha512-OPdbbt9d5F94YVF7mO+wgAbszAXhp/aH84iAP3jLabjxHS+P+AHmrT64L19NzraWK9XWE5hinY6h8cHavqxcjA==
+
 nan@^2.12.1, nan@^2.13.2:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
