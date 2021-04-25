@@ -1,30 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 import InputField from "../components/InputField";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  execute_Direct_Payment,
+  setCardInfo,
+  execute_Request_Json,
+  init_Payment,
+} from "../actions/paymentActions";
+import AppButton from "../components/AppButton";
+import colors from "../config/colors";
 
 const validationSchema = Yup.object().shape({
-  cardNo: Yup.number().required().max(16).label("CardNo"),
-  ExpiryYear: Yup.number().required().max(2).label("ExpYear"),
-  ExpiryMonth: Yup.number().required().max(2).label("ExpMonth"),
-  holderName: Yup.string().required().max(35).label("HolderName"),
-  ccv: Yup.number().required().max(3).label("CCV"),
+  cardNo: Yup.number().required().label("CardNo"),
+  ExpiryYear: Yup.number().required().label("ExpYear"),
+  ExpiryMonth: Yup.number().required().label("ExpMonth"),
+  holderName: Yup.string().required().label("HolderName"),
+  ccv: Yup.number().required().label("CCV"),
 });
 
 const AppPaymentScreen = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(init_Payment(50));
+    console.log("dispatched in appPayment");
+  }, []);
+
+  const handlePayment = (cardInfo) => {
+    dispatch(execute_Request_Json(4));
+    dispatch(
+      setCardInfo({
+        month: cardInfo.ExpiryMonth,
+        year: cardInfo.ExpiryYear,
+        cvv: cardInfo.ccv,
+        cardNumber: cardInfo.cardNo,
+        cardHolderName: cardInfo.holderName,
+      })
+    );
+    dispatch(execute_Direct_Payment());
+  };
   return (
-    <View>
+    <View style={styles.container}>
       <Formik
         initialValues={{
-          cardNo: "",
-          ccv: "",
-          holderName: "",
-          ExpiryYear: "",
-          ExpiryMonth: "",
+          cardNo: "5123450000000008",
+          ccv: "100",
+          holderName: "Watashi des",
+          ExpiryYear: "21",
+          ExpiryMonth: "05",
         }}
-        onSubmit={(values) => handleAddToCart(values)}
+        onSubmit={(values) => handlePayment(values)}
         validationSchema={validationSchema}
       >
         {({ handleChange, handleSubmit, errors, touched, setFieldTouched }) => (
@@ -96,11 +124,11 @@ const AppPaymentScreen = () => {
             <AppButton
               style={styles.cartButton}
               shadow={false}
-              loading={addingToCart}
+              loading={false}
               loadingColor={colors.blueLight}
               onPress={handleSubmit}
               textColor={colors.blueLight}
-              title="Add to Cart"
+              title="pay"
             />
           </>
         )}
@@ -111,4 +139,12 @@ const AppPaymentScreen = () => {
 
 export default AppPaymentScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingTop: 50,
+
+    backgroundColor: colors.white,
+  },
+});

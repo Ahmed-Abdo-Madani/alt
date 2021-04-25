@@ -11,7 +11,7 @@ const reducers = combineReducers({
   userLogin: userLoginReducer,
   getHomeScreenItems: getHomeScreenItemsReducer,
   cart: cartAddReducer,
-  usesrPayment: userPaymentReducer,
+  userPayment: userPaymentReducer,
 });
 
 const initialState = {};

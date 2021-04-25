@@ -3,7 +3,13 @@ import {
   INIT_PAYMENTS_FAIL,
   INIT_PAYMENTS_REQUEST,
   INIT_PAYMENTS_SUCCESS,
+  EXECUTE_PAYMENT_REQUEST,
+  EXECUTE_PAYMENT_FAIL,
+  EXECUTE_PAYMENT_SUCCESS,
+  PAYMENT_CARD,
 } from "../constants/paymentConstants";
+
+import navigation from "../navigation/RootNavigation";
 
 import {
   MFPaymentRequest,
@@ -85,3 +91,95 @@ export const execute_Request_Json = (selectedIndex) => async (
 };
 
 //__________________________________________________________________________________________
+
+export const execute_Payment = (navigation) => async (dispatch, getState) => {
+  const request = getState().userPayment.request;
+
+  dispatch({ type: EXECUTE_PAYMENT_REQUEST });
+  MFPaymentRequest.sharedInstance.executePayment(
+    navigation,
+    request,
+    MFLanguage.ARABIC,
+    (response) => {
+      if (response.getError()) {
+        dispatch({
+          type: EXECUTE_PAYMENT_FAIL,
+          payload: "Execute_Payment_Error: " + response.getError().error,
+        });
+      } else {
+        var bodyString = response.getBodyString();
+        var invoiceId = response.getInvoiceId();
+        var paymentStatusResponse = response.getBodyJson().Data;
+        console.log("success !!!!!!!");
+        dispatch({
+          type: EXECUTE_PAYMENT_SUCCESS,
+          payload: {
+            InvoiceStatus: paymentStatusResponse.InvoiceStatus,
+            paymentStatusResponse,
+            invoiceId,
+            bodyString,
+          },
+        });
+      }
+    }
+  );
+};
+
+//__________________________________________________________________________________________
+
+export const execute_Direct_Payment = () => async (dispatch, getState) => {
+  const request = getState().userPayment.request;
+  const MFCard = getState().userPayment.MFCard;
+
+  dispatch({ type: EXECUTE_PAYMENT_REQUEST });
+  MFPaymentRequest.sharedInstance.executeDirectPayment(
+    navigation,
+    request,
+    MFCard,
+    MFLanguage.ARABIC,
+    (response) => {
+      if (response.getError()) {
+        dispatch({
+          type: EXECUTE_PAYMENT_FAIL,
+          payload: "Execute_Direct_Payment_Error: " + response.getError().error,
+        });
+      } else {
+        var paymentStatusResponse = response.getBodyJson()
+          .getPaymentStatusResponse;
+        var invoiceId = paymentStatusResponse.InvoiceId;
+
+        dispatch({
+          type: EXECUTE_PAYMENT_SUCCESS,
+          payload: {
+            InvoiceStatus: paymentStatusResponse.InvoiceStatus,
+            paymentStatusResponse,
+            invoiceId,
+          },
+        });
+      }
+    }
+  );
+};
+
+//__________________________________________________________________________________________
+
+export const setCardInfo = (cardInfo) => async (dispatch) => {
+  const { month, year, cvv, cardNumber, cardHolderName } = cardInfo;
+  let cardExpiryMonth = month;
+  let cardExpiryYear = year;
+  let cardSecureCode = cvv;
+  let paymentType = MFPaymentype.CARD;
+  // let paymentType = MFPaymentype.TOKEN
+  let saveToken = false;
+  let MFCard = new MFCardInfo(
+    cardNumber,
+    cardExpiryMonth,
+    cardExpiryYear,
+    cardSecureCode,
+    cardHolderName,
+    paymentType,
+    saveToken
+  );
+  MFCard.bypass = false;
+  dispatch({ type: PAYMENT_CARD, payload: { cardInfo, MFCard } });
+};
