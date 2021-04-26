@@ -82,6 +82,12 @@ const ProfileScreen = ({ navigation }) => {
         />
         <ListItem
           profileItem
+          iconName="traffic-cone"
+          title="Delivery Track"
+          onPress={() => navigation.navigate("track")}
+        />
+        <ListItem
+          profileItem
           iconName="plus"
           title="Add Item"
           onPress={() => setvisible(true)}
