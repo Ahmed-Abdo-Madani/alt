@@ -1,9 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { calc_Rate } from "../actions/shippingActions";
+
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
 
 // API_URL: "https://ws.dev.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc/json/CalculateRate"
+
 const request_Template = {
   ClientInfo: {
     UserName: "reem@reem.com",
@@ -83,12 +87,23 @@ const request_Template = {
 };
 
 const DeliveryScreen = () => {
+  const dispatch = useDispatch();
+
+  const { loading, error, shippingCost } = useSelector(
+    (state) => state.shipping
+  );
   const deliveryHandler = async () => {
-    console.log("result");
+    dispatch(calc_Rate(request_Template));
+    if (shippingCost) console.log(shippingCost);
+    if (error) console.log(error);
   };
   return (
     <View style={styles.container}>
-      <AppButton onPress={() => deliveryHandler()} title="Track" />
+      <AppButton
+        loading={loading}
+        onPress={() => deliveryHandler()}
+        title="Track"
+      />
     </View>
   );
 };
