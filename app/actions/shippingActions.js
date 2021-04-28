@@ -2,12 +2,110 @@ import {
   CALC_RATE_FAIL,
   CALC_RATE_REQUSET,
   CALC_RATE_SUCCESS,
+  CREATE_SHIPMENT_REQUSET,
+  CREATE_SHIPMENT_FAIL,
+  CREATE_SHIPMENT_SUCCESS,
+  CREATE_PICKUP_FAIL,
+  CREATE_PICKUP_REQUSET,
+  CREATE_PICKUP_SUCCESS,
+  PRINT_LABEL_FAIL,
+  PRINT_LABEL_SUCCESS,
+  PRINT_LABEL_REQUSET,
 } from "../constants/ShippingConstants";
 import axios from "axios";
+
+const ClientInfo = {
+  UserName: "reem@reem.com",
+  Password: "123456789",
+  Version: "v1.0",
+  AccountNumber: "4004636",
+  AccountPin: "432432",
+  AccountEntity: "RUH",
+  AccountCountryCode: "SA",
+  Source: 24,
+};
+const Transaction = null;
+
+const request_Template = {
+  ClientInfo,
+  Transaction,
+  OriginAddress: {
+    Line1: null,
+    Line2: null,
+    Line3: null,
+    City: "Hafar al batin",
+    StateOrProvinceCode: "",
+    PostCode: "31991",
+    CountryCode: "SA",
+    Longitude: 0.0,
+    Latitude: 0.0,
+    BuildingNumber: null,
+    BuildingName: null,
+    Floor: null,
+    Apartment: null,
+    POBox: null,
+    Description: null,
+  },
+  DestinationAddress: {
+    Line1: null,
+    Line2: null,
+    Line3: null,
+    City: "Riyadh",
+    StateOrProvinceCode: "",
+    PostCode: "22334",
+    CountryCode: "SA",
+    Longitude: 0.0,
+    Latitude: 0.0,
+    BuildingNumber: null,
+    BuildingName: null,
+    Floor: null,
+    Apartment: null,
+    POBox: null,
+    Description: null,
+  },
+  ShipmentDetails: {
+    Dimensions: null,
+    ActualWeight: {
+      Unit: "kg",
+      Value: 5.0,
+    },
+    ChargeableWeight: {
+      Unit: "kg",
+      Value: 5.0,
+    },
+    DescriptionOfGoods: null,
+    GoodsOriginCountry: null,
+    NumberOfPieces: 1,
+    ProductGroup: "DOM",
+    ProductType: "ONP",
+    PaymentType: "P",
+    PaymentOptions: null,
+    CustomsValueAmount: null,
+    CashOnDeliveryAmount: null,
+    InsuranceAmount: null,
+    CashAdditionalAmount: null,
+    CashAdditionalAmountDescription: null,
+    CollectAmount: null,
+    Services: "",
+    Items: null,
+    DeliveryInstructions: null,
+    AdditionalProperties: null,
+    ContainsDangerousGoods: false,
+  },
+  PreferredCurrencyCode: "SAR",
+};
 
 const base_url =
   "https://ws.dev.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc/json";
 export const calc_Rate = (request_data) => async (dispatch, getState) => {
+  const {
+    ClientInfo,
+    DestinationAddress,
+    OriginAddress,
+    PreferredCurrencyCode,
+    ShipmentDetails,
+    Transaction,
+  } = request_Template;
   try {
     dispatch({ type: CALC_RATE_REQUSET });
     /* const {
@@ -21,7 +119,14 @@ export const calc_Rate = (request_data) => async (dispatch, getState) => {
     };
     const { data } = await axios.post(
       `${base_url}/CalculateRate`,
-      request_data,
+      {
+        ClientInfo,
+        DestinationAddress,
+        OriginAddress,
+        PreferredCurrencyCode,
+        ShipmentDetails,
+        Transaction,
+      },
       config
     );
     dispatch({ type: CALC_RATE_SUCCESS, payload: data });
@@ -29,6 +134,82 @@ export const calc_Rate = (request_data) => async (dispatch, getState) => {
     dispatch({
       type: CALC_RATE_FAIL,
       payload: `Aramex Calculate Rate Api Error : ${error}`,
+    });
+  }
+};
+
+export const shipment_Creation_Request = (request_data) => async (
+  dispatch,
+  getState
+) => {
+  dispatch({ type: CREATE_SHIPMENT_REQUSET });
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        //   Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      `${base_url}/ShipmentCreationRequest`,
+      request_data,
+      config
+    );
+    dispatch({ type: CREATE_SHIPMENT_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CREATE_SHIPMENT_FAIL,
+      payload: `Aramex Shipment Creation Request Api Error : ${error}`,
+    });
+  }
+};
+
+export const pickup_Creation_Request = (request_data) => async (
+  dispatch,
+  getState
+) => {
+  dispatch({ type: CREATE_PICKUP_REQUSET });
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      `${base_url}/PickupCreationRequest`,
+      request_data,
+      config
+    );
+    dispatch({ type: CREATE_PICKUP_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: CREATE_PICKUP_FAIL,
+      payload: `Aramex CREATE PICKUP Request Api Error : ${error}`,
+    });
+  }
+};
+
+export const print_Label_Request = (request_data) => async (
+  dispatch,
+  getState
+) => {
+  dispatch({ type: PRINT_LABEL_REQUSET });
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      `${base_url}/LabelPrintingRequest`,
+      request_data,
+      config
+    );
+    dispatch({ type: PRINT_LABEL_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRINT_LABEL_FAIL,
+      payload: `Aramex PRINT_LABEL Request Api Error : ${error}`,
     });
   }
 };

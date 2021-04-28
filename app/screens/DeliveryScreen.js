@@ -6,7 +6,7 @@ import { calc_Rate } from "../actions/shippingActions";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
 
-// API_URL: "https://ws.dev.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc/json/CalculateRate"
+// TEST_API_URL: "https://ws.dev.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc/json/CalculateRate"
 
 const request_Template = {
   ClientInfo: {
