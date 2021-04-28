@@ -25,10 +25,47 @@ const ClientInfo = {
   Source: 24,
 };
 const Transaction = null;
-
+const ShipmentDetails = {
+  Dimensions: null,
+  ActualWeight: {
+    Unit: "kg",
+    Value: 5.0,
+  },
+  ChargeableWeight: {
+    Unit: "kg",
+    Value: 5.0,
+  },
+  DescriptionOfGoods: null,
+  GoodsOriginCountry: null,
+  NumberOfPieces: 1,
+  ProductGroup: "DOM",
+  ProductType: "ONP",
+  PaymentType: "P",
+  PaymentOptions: null,
+  CustomsValueAmount: null,
+  CashOnDeliveryAmount: null,
+  InsuranceAmount: null,
+  CashAdditionalAmount: null,
+  CashAdditionalAmountDescription: null,
+  CollectAmount: null,
+  Services: "",
+  Items: null,
+  DeliveryInstructions: null,
+  AdditionalProperties: null,
+  ContainsDangerousGoods: false,
+};
+const Shipment = {
+  Shipper: "watashi des",
+  Consignee: "also watashi",
+  ShippingDateTime: new Date().toDateString(),
+  Details: ShipmentDetails,
+};
+const Shipments = [Shipment];
+const LabelInfo = { ReportID: 150, ReportType: "URL" };
 const request_Template = {
   ClientInfo,
   Transaction,
+  ShipmentDetails,
   OriginAddress: {
     Line1: null,
     Line2: null,
@@ -63,40 +100,13 @@ const request_Template = {
     POBox: null,
     Description: null,
   },
-  ShipmentDetails: {
-    Dimensions: null,
-    ActualWeight: {
-      Unit: "kg",
-      Value: 5.0,
-    },
-    ChargeableWeight: {
-      Unit: "kg",
-      Value: 5.0,
-    },
-    DescriptionOfGoods: null,
-    GoodsOriginCountry: null,
-    NumberOfPieces: 1,
-    ProductGroup: "DOM",
-    ProductType: "ONP",
-    PaymentType: "P",
-    PaymentOptions: null,
-    CustomsValueAmount: null,
-    CashOnDeliveryAmount: null,
-    InsuranceAmount: null,
-    CashAdditionalAmount: null,
-    CashAdditionalAmountDescription: null,
-    CollectAmount: null,
-    Services: "",
-    Items: null,
-    DeliveryInstructions: null,
-    AdditionalProperties: null,
-    ContainsDangerousGoods: false,
-  },
+
   PreferredCurrencyCode: "SAR",
 };
 
 const base_url =
   "https://ws.dev.aramex.net/ShippingAPI.V2/RateCalculator/Service_1_0.svc/json";
+
 export const calc_Rate = (request_data) => async (dispatch, getState) => {
   const {
     ClientInfo,
@@ -138,10 +148,7 @@ export const calc_Rate = (request_data) => async (dispatch, getState) => {
   }
 };
 
-export const shipment_Creation_Request = (request_data) => async (
-  dispatch,
-  getState
-) => {
+export const shipment_Creation_Request = () => async (dispatch, getState) => {
   dispatch({ type: CREATE_SHIPMENT_REQUSET });
   try {
     const config = {
@@ -151,8 +158,13 @@ export const shipment_Creation_Request = (request_data) => async (
       },
     };
     const { data } = await axios.post(
-      `${base_url}/ShipmentCreationRequest`,
-      request_data,
+      "https://ws.dev.aramex.net/shippingapi.v2/shipping/service_1_0.svc/json/CreateShipments",
+      {
+        ClientInfo,
+        Transaction,
+        Shipments,
+        LabelInfo,
+      },
       config
     );
     dispatch({ type: CREATE_SHIPMENT_SUCCESS, payload: data });

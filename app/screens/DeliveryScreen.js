@@ -1,7 +1,10 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { calc_Rate } from "../actions/shippingActions";
+import {
+  calc_Rate,
+  shipment_Creation_Request,
+} from "../actions/shippingActions";
 
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
@@ -89,12 +92,12 @@ const request_Template = {
 const DeliveryScreen = () => {
   const dispatch = useDispatch();
 
-  const { loading, error, shippingCost } = useSelector(
+  const { loading, error, shippingCost, createShipmentResponse } = useSelector(
     (state) => state.shipping
   );
   const deliveryHandler = async () => {
-    dispatch(calc_Rate(request_Template));
-    if (shippingCost) console.log(shippingCost);
+    dispatch(shipment_Creation_Request());
+    if (createShipmentResponse) console.log(createShipmentResponse);
     if (error) console.log(error);
   };
   return (
