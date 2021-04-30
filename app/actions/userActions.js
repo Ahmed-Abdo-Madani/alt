@@ -1,4 +1,8 @@
-import { USER_LOGIN,USER_SHIPPING_ADDRESS } from "../constants/userConstants";
+import {
+  USER_LOGIN,
+  USER_SHIPPING_ADDRESS,
+  USER_PUSH_TOKEN,
+} from "../constants/userConstants";
 import cache from "../utility/cache";
 
 export const login = (user) => async (dispatch) => {
@@ -16,4 +20,12 @@ export const saveShippingAddress = (data) => async (dispatch) => {
   });
 
   cache.store("address", data);
+};
+export const saveUserPushToken = (data) => async (dispatch) => {
+  dispatch({
+    type: USER_PUSH_TOKEN,
+    payload: data,
+  });
+
+  cache.store("userPushToken", data);
 };

@@ -11,7 +11,12 @@ import HomeNavigator from "./HomeNavigator";
 import navigation, { navigationRef } from "./RootNavigation";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
 
-import { USER_LOGIN, USER_SHIPPING_ADDRESS } from "../constants/userConstants";
+import {
+  USER_LOGIN,
+  USER_PUSH_TOKEN,
+  USER_SHIPPING_ADDRESS,
+} from "../constants/userConstants";
+import { saveUserPushToken } from "../actions/userActions";
 import { INIT_CART_ITEMS } from "../constants/cartConstants";
 import cache from "../utility/cache";
 
@@ -63,10 +68,16 @@ export default function AppNavigator() {
     }
   } */
   const registerForPushNotifications = async () => {
+    const userPushToken_inCahe = await cache.get("userPushToken");
     try {
       const permission = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       if (!permission.granted) return;
       const token = await Notifications.getExpoPushTokenAsync();
+      if (!userPushToken_inCahe) {
+        dispatch(saveUserPushToken(token));
+      } else {
+        dispatch({ type: USER_PUSH_TOKEN, payload: token });
+      }
     } catch (error) {
       console.log("Error getting Push Token :" + error);
     }

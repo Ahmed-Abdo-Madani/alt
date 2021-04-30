@@ -2,6 +2,7 @@ import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
   CART_EMPTY_ITEMS,
+  SEND_ORDER_NOTIFICATION,
 } from "../constants/cartConstants";
 import cache from "../utility/cache";
 

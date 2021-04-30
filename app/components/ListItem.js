@@ -1,5 +1,10 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Image } from "react-native-expo-image-cache";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
@@ -10,6 +15,8 @@ import AppText from "./AppText";
 
 const ListItem = ({
   id,
+  disabled = false,
+  loading = false,
   style,
   title,
   subtitle,
@@ -23,8 +30,9 @@ const ListItem = ({
     dispatch(removeFromCart(id));
   };
   return (
-    <View style={[styles.container,style]}>
+    <View style={[styles.container, style]}>
       <TouchableOpacity
+        disabled={disabled}
         onPress={onPress}
         activeOpacity={0.65}
         style={styles.itemContainer}
@@ -43,13 +51,22 @@ const ListItem = ({
           {subtitle && <AppText>{subtitle}</AppText>}
         </View>
       </TouchableOpacity>
-      <MaterialCommunityIcons
-        onPress={handleDeleteItem}
-        name={profileItem ? "chevron-right" : "trash-can"}
-        style={styles.deleteButton}
-        size={25}
-        color={profileItem ? colors.blueLight : colors.red}
-      />
+
+      {loading ? (
+        <ActivityIndicator
+          style={styles.deleteButton}
+          color={colors.blueLight}
+          size={25}
+        />
+      ) : (
+        <MaterialCommunityIcons
+          onPress={handleDeleteItem}
+          name={profileItem ? "chevron-right" : "trash-can"}
+          style={styles.deleteButton}
+          size={25}
+          color={profileItem ? colors.blueLight : colors.red}
+        />
+      )}
     </View>
   );
 };

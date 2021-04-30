@@ -5,6 +5,7 @@ import {
   CART_SAVE_SHIPPING_ADDRESS,
   CART_SAVE_PAYMENT_METHOD,
   INIT_CART_ITEMS,
+  SEND_ORDER_NOTIFICATION,
 } from "../constants/cartConstants";
 
 export const cartAddReducer = (
@@ -18,7 +19,9 @@ export const cartAddReducer = (
         cartItems: action.payload,
       };
     case CART_ADD_ITEM:
-      const checkedItems = state.cartItems.filter((item)=> item.id !== action.payload.id)
+      const checkedItems = state.cartItems.filter(
+        (item) => item.id !== action.payload.id
+      );
       return {
         ...state,
         cartItems: [...checkedItems, action.payload],
@@ -43,6 +46,11 @@ export const cartAddReducer = (
       return {
         ...state,
         cartItems: [],
+      };
+    case SEND_ORDER_NOTIFICATION:
+      return {
+        ...state,
+        success: true,
       };
 
     default:

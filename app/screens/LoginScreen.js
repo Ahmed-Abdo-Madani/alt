@@ -12,12 +12,13 @@ import InputField from "../components/InputField";
 import AppIcon from "../components/AppIcon";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
 import AppText from "../components/AppText";
 
 const LoginScreen = ({ closeModal, style, inModal = true }) => {
   const dispatch = useDispatch();
+  const { pushToken } = useSelector((state) => state.userLogin);
   const recaptchaVerifierRef = useRef(null);
 
   const [phoneNumber, setPhoneNumber] = useState();
@@ -63,6 +64,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
         isAdmin: false,
         phoneNumber,
         uid,
+        pushToken: pushToken.data,
         createdAt: new Date().toDateString(),
       });
     } catch (error) {

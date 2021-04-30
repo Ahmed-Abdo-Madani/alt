@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView, View, Modal } from "react-native";
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,12 @@ import { USER_LOGIN } from "../constants/userConstants";
 
 const ProfileScreen = ({ navigation }) => {
   const [visible, setvisible] = useState(false);
+  const [logoutPressed, setlogoutPressed] = useState(false);
+
+  useEffect(() => {
+    setlogoutPressed(false);
+    setvisible(false);
+  }, []);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -22,6 +28,7 @@ const ProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleSignOut = () => {
+    setlogoutPressed(true);
     firebase
       .auth()
       .signOut()
@@ -68,24 +75,24 @@ const ProfileScreen = ({ navigation }) => {
           title="orders"
           onPress={() => navigation.navigate("orders")}
         />
-        <ListItem
+        {/*   <ListItem
           profileItem
           iconName="cash"
           title="payment"
           onPress={() => navigation.navigate("pay")}
-        />
+        /> */}
         <ListItem
           profileItem
           iconName="map-marker"
           title="My Address"
           onPress={() => navigation.navigate("map")}
         />
-        <ListItem
+        {/*   <ListItem
           profileItem
           iconName="traffic-cone"
           title="Delivery Track"
           onPress={() => navigation.navigate("track")}
-        />
+        /> */}
         <ListItem
           profileItem
           iconName="plus"
@@ -93,6 +100,7 @@ const ProfileScreen = ({ navigation }) => {
           onPress={() => setvisible(true)}
         />
         <ListItem
+          loading={logoutPressed}
           profileItem
           iconName="logout"
           title="Log out"
