@@ -94,4 +94,6 @@ export default function AppNavigator() {
           options={MFWebView.navigationOptions}
         />
       </Stack.Navigator>
-    </Navigation
+    </NavigationContainer>
+  );
+}
