@@ -12,6 +12,7 @@ import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
+import { send_Order_Notification } from "../actions/notificationActions";
 
 const CartScreen = ({ style }) => {
   const navigation = useNavigation();
@@ -44,6 +45,7 @@ const CartScreen = ({ style }) => {
         .add({ cartItems, shippingAddresss, userInfo })
         .then(() => {
           emptyCart();
+          dispatch(send_Order_Notification({ userInfo, cartItems }));
         });
     } catch (error) {
       console.log(error);

@@ -7,6 +7,7 @@ import { getHomeScreenItemsReducer } from "./reducers/itemsReducers";
 import { cartAddReducer } from "./reducers/cartReducers";
 import { userPaymentReducer } from "./reducers/paymentReducers";
 import { shippingReducer } from "./reducers/ShippingReducers";
+import { notificationsReducer } from "./reducers/notificationsReducers";
 
 const reducers = combineReducers({
   userLogin: userLoginReducer,
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   cart: cartAddReducer,
   userPayment: userPaymentReducer,
   shipping: shippingReducer,
+  notifications: notificationsReducer,
 });
 
 const initialState = {};

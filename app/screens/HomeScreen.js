@@ -21,6 +21,10 @@ import LoginScreen from "./LoginScreen";
 import CartScreen from "./CartScreen";
 
 import { getHomeItems } from "../actions/itemsAction";
+import {
+  getAdmins,
+  send_Order_Notification,
+} from "../actions/notificationActions";
 import AppActivityIndicator from "../components/AppActivityIndicator";
 import CategoryList from "../components/CategoryList";
 import { useNavigation } from "@react-navigation/core";
@@ -49,6 +53,7 @@ const HomeScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHomeItems());
+    dispatch(getAdmins());
     if (route.params?.addedToCart) setVisible(true);
   }, [route.params]);
 

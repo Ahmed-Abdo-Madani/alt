@@ -2,7 +2,6 @@ import {
   USER_LOGIN,
   USER_DETAILS_RESET,
   USER_SHIPPING_ADDRESS,
-  USER_PUSH_TOKEN,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -19,11 +18,7 @@ export const userLoginReducer = (state = {}, action) => {
         ...state,
         shippingAddresss: action.payload,
       };
-    case USER_PUSH_TOKEN:
-      return {
-        ...state,
-        pushToken: action.payload,
-      };
+
     default:
       return state;
   }

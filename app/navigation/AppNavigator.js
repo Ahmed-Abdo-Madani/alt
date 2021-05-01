@@ -46,7 +46,7 @@ export default function AppNavigator() {
   useEffect(() => {
     registerForPushNotifications();
     Notifications.addNotificationResponseReceivedListener(() =>
-      navigation.navigate("itemDetails")
+      navigation.navigate("profileStack",{ screen: 'orders' })
     );
     getCahce();
 
@@ -94,6 +94,4 @@ export default function AppNavigator() {
           options={MFWebView.navigationOptions}
         />
       </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+    </Navigation

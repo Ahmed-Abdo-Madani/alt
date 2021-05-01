@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
 
 import InputField from "../components/InputField";
-import { useDispatch, useSelector } from "react-redux";
 import {
   execute_Direct_Payment,
   setCardInfo,
@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingTop: 50,
-
     backgroundColor: colors.white,
   },
 });
