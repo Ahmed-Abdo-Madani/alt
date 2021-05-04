@@ -12,7 +12,7 @@ import "firebase/firestore";
 import "firebase/firebase-storage";
 import { Picker } from "@react-native-picker/picker";
 
-import categories from '../constants/categories'
+import categories from "../constants/categories";
 import InputField from "../components/InputField";
 import ImagePicker from "../components/AppImagePicker";
 import colors from "../config/colors";
@@ -115,18 +115,18 @@ const AddItemScreen = ({ closeModal }) => {
           imageURI={image}
         />
         <InputField
-          placeholder="name..."
+          placeholder="الاسم..."
           autoCorrect={false}
           onChangeText={(text) => settitle(text)}
         />
         <InputField
-          placeholder="price..."
+          placeholder="السعر..."
           keyboardType="numeric"
           autoCorrect={false}
           onChangeText={(text) => setprice(text)}
         />
         <InputField
-          placeholder="description..."
+          placeholder="الوصف..."
           autoCorrect={false}
           onChangeText={(text) => setdescription(text)}
         />
@@ -136,10 +136,9 @@ const AddItemScreen = ({ closeModal }) => {
           onValueChange={(itemValue, itemIndex) => setcategory(itemValue)}
           mode="dropdown"
         >
-          {categories.map((item) => 
-              ( <Picker.Item key={item.id} label={item.name} value={item.name} />)
-          )}
-          
+          {categories.map((item) => (
+            <Picker.Item key={item.id} label={item.name} value={item.name} />
+          ))}
         </Picker>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -162,6 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 5,
   },
+
   closeButton: {
     alignSelf: "flex-start",
   },

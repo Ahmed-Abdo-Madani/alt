@@ -124,14 +124,15 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
           <InputField
             style={styles.InputField}
             placeholder="أدخل الرمز المرسل ..."
-            error={"الرمز المدخل خاطئ"}
             keyboardType="numeric"
             autoCorrect={false}
             onChangeText={(text) => {
               setVerificationCode(text);
             }}
           />
-          <AppText numberOfLines={2} style={styles.errorOTP}></AppText>
+          {OTPError && (
+            <AppText style={styles.errorOTP}>الرمز المدخل غير صحيح</AppText>
+          )}
           <AppText numberOfLines={2} style={styles.verificationInfo}>
             {`تم إرسال رمز سري للرقم  ${phoneNumber}`}
           </AppText>

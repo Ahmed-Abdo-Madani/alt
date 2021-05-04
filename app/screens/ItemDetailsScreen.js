@@ -101,7 +101,7 @@ const ItemDetailsScreen = ({ route }) => {
           </AppText>
         </View>
         <View style={styles.formCard}>
-          <Text style={styles.inputFormHeader}>Request details</Text>
+          <Text style={styles.inputFormHeader}>تفاصيل الطلب</Text>
           <Formik
             initialValues={{ request: "" }}
             onSubmit={(values) => handleAddToCart(values)}
@@ -121,7 +121,7 @@ const ItemDetailsScreen = ({ route }) => {
                   onChangeText={handleChange("request")}
                   multiline={true}
                   placeholder={
-                    request ? request.request : "Please enter rquest here ..."
+                    request ? request.request : "أكتب تفاصيل طلبك هنا ..."
                   }
                   onBlur={() => {
                     setFieldTouched("request");
@@ -212,21 +212,20 @@ const styles = StyleSheet.create({
   },
   formCard: {
     width: "100%",
+  },
+  inputFormHeader: {
+    width: "100%",
     padding: 15,
-    marginVertical: 15,
+    marginTop: 25,
     borderTopWidth: 35,
     borderTopColor: colors.creamy,
     borderRadius: 15,
-    backgroundColor: colors.white,
+
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.1,
     shadowColor: "black",
-  },
-  inputFormHeader: {
-    position: "absolute",
-    top: -27,
-    marginLeft: 10,
+    textAlign: "right",
     fontWeight: "bold",
     fontSize: 20,
     color: colors.lightGray,

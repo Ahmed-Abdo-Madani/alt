@@ -29,6 +29,7 @@ const InputField = ({
     >
       {children}
       <TextInput
+        style={styles.InputField}
         onFocus={() => setfocus(true)}
         placeholder={placeholder}
         {...otherProps}
@@ -48,7 +49,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginVertical: 5,
   },
-
+  InputField: {
+    width: "100%",
+    textAlign: "right",
+  },
   error: {
     paddingTop: 3,
     fontSize: 16,

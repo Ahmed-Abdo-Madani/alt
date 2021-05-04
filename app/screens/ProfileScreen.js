@@ -71,13 +71,13 @@ const ProfileScreen = ({ navigation }) => {
         <ListItem
           profileItem
           iconName="cart"
-          title="cart"
+          title="العربة"
           onPress={() => navigation.navigate("cart")}
         />
         <ListItem
           profileItem
           iconName="clipboard-text-outline"
-          title="orders"
+          title="الطلبات"
           onPress={() => navigation.navigate("orders")}
         />
         {/*   <ListItem
@@ -89,7 +89,7 @@ const ProfileScreen = ({ navigation }) => {
         <ListItem
           profileItem
           iconName="map-marker"
-          title="My Address"
+          title="العنوان"
           onPress={() => navigation.navigate("map")}
         />
         {/*   <ListItem
@@ -102,7 +102,7 @@ const ProfileScreen = ({ navigation }) => {
           <ListItem
             profileItem
             iconName="plus"
-            title="Add Item"
+            title="أضف منتج"
             onPress={() => setvisible(true)}
           />
         )}
@@ -110,7 +110,7 @@ const ProfileScreen = ({ navigation }) => {
           loading={logoutPressed}
           profileItem
           iconName="logout"
-          title="Log out"
+          title="تسجيل الخروج"
           onPress={handleSignOut}
         />
       </ScrollView>
