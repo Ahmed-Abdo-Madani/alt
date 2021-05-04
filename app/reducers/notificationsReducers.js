@@ -23,6 +23,7 @@ export const notificationsReducer = (state = {}, action) => {
       return {
         ...state,
         loading: true,
+        admins: [],
       };
     case GET_ADMIN_SUCCESS:
       return {
@@ -34,11 +35,11 @@ export const notificationsReducer = (state = {}, action) => {
       return {
         ...state,
         loading: false,
+        admins: [],
         error: action.payload,
       };
 
     //----------------------------------------------
-
     case SEND_ORDER_NOTIFICATION_REQUEST:
       return {
         ...state,

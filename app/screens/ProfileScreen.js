@@ -14,16 +14,25 @@ import AddItemScreen from "./AddItemScreen";
 import { USER_LOGIN } from "../constants/userConstants";
 
 const ProfileScreen = ({ navigation }) => {
-  const [visible, setvisible] = useState(false);
-  const [logoutPressed, setlogoutPressed] = useState(false);
-
-  useEffect(() => {
-    setlogoutPressed(false);
-    setvisible(false);
-  }, []);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  const { admins } = useSelector((state) => state.notifications);
+  const [visible, setvisible] = useState(false);
+  const [isAdmin, setisAdmin] = useState(false);
+  const [logoutPressed, setlogoutPressed] = useState(false);
+
+  const checkForAdmins = () => {
+    const admin = admins.filter((admin) => admin.id === userInfo?.phoneNumber);
+    if (admin.length !== 0) setisAdmin(true);
+  };
+  useEffect(() => {
+    checkForAdmins();
+    return () => {
+      setvisible(false);
+      setlogoutPressed(false);
+      setisAdmin(false);
+    };
+  }, [userInfo]);
 
   const dispatch = useDispatch();
 
@@ -93,12 +102,14 @@ const ProfileScreen = ({ navigation }) => {
           title="Delivery Track"
           onPress={() => navigation.navigate("track")}
         /> */}
-        <ListItem
-          profileItem
-          iconName="plus"
-          title="Add Item"
-          onPress={() => setvisible(true)}
-        />
+        {isAdmin && (
+          <ListItem
+            profileItem
+            iconName="plus"
+            title="Add Item"
+            onPress={() => setvisible(true)}
+          />
+        )}
         <ListItem
           loading={logoutPressed}
           profileItem

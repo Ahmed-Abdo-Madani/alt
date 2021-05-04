@@ -18,7 +18,7 @@ import AppText from "../components/AppText";
 
 const LoginScreen = ({ closeModal, style, inModal = true }) => {
   const dispatch = useDispatch();
-  const { pushToken } = useSelector((state) => state.userLogin);
+  const { pushToken } = useSelector((state) => state.notifications);
   const recaptchaVerifierRef = useRef(null);
 
   const [phoneNumber, setPhoneNumber] = useState();
@@ -61,7 +61,6 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
     try {
       await firebase.firestore().collection("users").doc(phoneNumber).set({
         userName,
-        isAdmin: false,
         phoneNumber,
         uid,
         pushToken: pushToken.data,

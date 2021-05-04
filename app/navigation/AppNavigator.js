@@ -46,7 +46,7 @@ export default function AppNavigator() {
   useEffect(() => {
     registerForPushNotifications();
     Notifications.addNotificationResponseReceivedListener(() =>
-      navigation.navigate("profileStack",{ screen: 'orders' })
+      navigation.navigate("profileStack", { screen: "orders" })
     );
     getCahce();
 
@@ -69,14 +69,17 @@ export default function AppNavigator() {
   } */
   const registerForPushNotifications = async () => {
     const userPushToken_inCahe = await cache.get("userPushToken");
+
     try {
-      const permission = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      if (!permission.granted) return;
-      const token = await Notifications.getExpoPushTokenAsync();
       if (!userPushToken_inCahe) {
+        const permission = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS
+        );
+        if (!permission.granted) return;
+        const token = await Notifications.getExpoPushTokenAsync();
         dispatch(saveUserPushToken(token));
       } else {
-        dispatch({ type: USER_PUSH_TOKEN, payload: token });
+        dispatch({ type: USER_PUSH_TOKEN, payload: userPushToken_inCahe });
       }
     } catch (error) {
       console.log("Error getting Push Token :" + error);

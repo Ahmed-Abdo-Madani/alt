@@ -49,21 +49,25 @@ export const send_Order_Notification = (data) => async (dispatch, getState) => {
 
 export const getAdmins = () => async (dispatch) => {
   dispatch({ type: GET_ADMIN_REQUEST });
-
+  const admins_inCahe = await cache.get("admins");
   try {
-    await firebase
-      .firestore()
-      .collection("admins")
-      .get()
-      .then((snapshot) => {
-        let admins = [];
-        snapshot.docs.forEach((doc) =>
-          admins.push({ id: doc.id, pushToken: doc.data() })
-        );
+    if (!admins_inCahe) {
+      await firebase
+        .firestore()
+        .collection("admins")
+        .get()
+        .then((snapshot) => {
+          let admins = [];
+          snapshot.docs.forEach((doc) =>
+            admins.push({ id: doc.id, pushToken: doc.data() })
+          );
 
-        dispatch({ type: GET_ADMIN_SUCCESS, payload: admins });
-        cache.store("admins", admins);
-      });
+          dispatch({ type: GET_ADMIN_SUCCESS, payload: admins });
+          cache.store("admins", admins);
+        });
+    } else {
+      dispatch({ type: GET_ADMIN_SUCCESS, payload: admins_inCahe });
+    }
   } catch (error) {
     dispatch({ type: GET_ADMIN_FAIL, payload: error });
   }
