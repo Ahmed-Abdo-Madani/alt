@@ -28,6 +28,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
   const [registered, setregistered] = useState(false);
   const [verificationId, setVerificationId] = useState();
   const [verificationCode, setVerificationCode] = useState();
+  const [OTPError, setOTPError] = useState(false);
 
   const firebaseConfig = firebase.apps.length
     ? firebase.app().options
@@ -89,6 +90,8 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
         });
     } catch (error) {
       console.log("signIn With Credential firebase error : " + error);
+      setOTPError(true);
+      setbuttonPressed(false);
     }
   };
 
@@ -117,18 +120,20 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
             size={105}
             color={colors.green}
           />
-          <AppText style={styles.title}>Verification</AppText>
+          <AppText style={styles.title}>تأكيد رقم الهاتف</AppText>
           <InputField
             style={styles.InputField}
-            placeholder="Enter OTP ..."
+            placeholder="أدخل الرمز المرسل ..."
+            error={"الرمز المدخل خاطئ"}
             keyboardType="numeric"
             autoCorrect={false}
             onChangeText={(text) => {
               setVerificationCode(text);
             }}
           />
+          <AppText numberOfLines={2} style={styles.errorOTP}></AppText>
           <AppText numberOfLines={2} style={styles.verificationInfo}>
-            {`We sent You a One Time Password to ${phoneNumber}.`}
+            {`تم إرسال رمز سري للرقم  ${phoneNumber}`}
           </AppText>
           <View
             style={{
@@ -138,9 +143,9 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
             }}
           >
             {waitForSend ? (
-              <>
+              <View style={styles.verificationInfoContainer}>
                 <AppText style={styles.verificationInfo}>
-                  send a new Password in . . .
+                  ارسل رمز جديد في خلال . . .
                 </AppText>
                 <CountDown
                   style={{}}
@@ -151,7 +156,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
                   digitStyle={{ backgroundColor: colors.creamyDarkTrans }}
                   timeLabels={{}}
                 />
-              </>
+              </View>
             ) : (
               <AppButton
                 style={{ width: "auto" }}
@@ -159,7 +164,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
                 onPress={resendOTP}
                 bgColor={colors.white}
                 textColor={colors.blueLight}
-                title="Resend"
+                title="أعد إرسال الرمز"
               />
             )}
           </View>
@@ -170,7 +175,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
             onPress={signInWithCredential}
             bgColor={colors.green}
             textColor={colors.white}
-            title="Verifie"
+            title="التأكيد"
           />
         </>
       ) : (
@@ -181,7 +186,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
             size={105}
             color={colors.blueLight}
           />
-          <AppText style={styles.title}>Register</AppText>
+          <AppText style={styles.title}>التسجيل</AppText>
           <View style={styles.inputContainer}>
             <View style={styles.fieldContainer}>
               <MaterialCommunityIcons
@@ -193,7 +198,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
 
               <InputField
                 style={styles.inputPhoneNo}
-                placeholder="user name ..."
+                placeholder="إسم المستخدم ..."
                 autoCorrect={false}
                 onChangeText={(text) => setuserName(text)}
               />
@@ -219,7 +224,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
                   </AppText>
                 }
                 style={styles.inputPhoneNo}
-                placeholder="phone number ..."
+                placeholder="رقم الهاتف ..."
                 keyboardType="phone-pad"
                 autoCorrect={false}
                 onChangeText={(text) => setPhoneNumber("+966" + text)}
@@ -232,7 +237,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
             loading={buttonPressed}
             disabled={!phoneNumber}
             onPress={verifiePhoneNumber}
-            title="sign in"
+            title="تسجيل الدخول"
           />
         </>
       )}
@@ -287,11 +292,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontSize: 35,
   },
+  errorOTP: {
+    color: colors.red,
+  },
   verificationInfo: {
     marginTop: 25,
     color: colors.softGray,
     textAlign: "center",
     fontSize: 16,
+  },
+  verificationInfoContainer: {
+    justifyContent: "center",
   },
   banner: {
     marginTop: 15,

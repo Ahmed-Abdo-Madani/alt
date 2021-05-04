@@ -38,17 +38,13 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleSignOut = () => {
     setlogoutPressed(true);
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        dispatch({
-          type: USER_LOGIN,
-          payload: null,
-        });
-        cache.remove("user");
-        cache.remove("cartItems");
-      });
+    cache.remove("user");
+    cache.remove("cartItems");
+    dispatch({
+      type: USER_LOGIN,
+      payload: null,
+    });
+    firebase.auth().signOut();
   };
 
   if (!userInfo)

@@ -80,7 +80,7 @@ const HomeScreen = ({ navigation, route }) => {
               },
             ]}
           >
-            Loading ...
+            جاري التحميل ...
           </AppText>
         </>
       ) : (
@@ -110,9 +110,9 @@ const HomeScreen = ({ navigation, route }) => {
             <>
               <View style={styles.header}>
                 <View>
-                  <AppText style={styles.text}>Welcome 👋</AppText>
+                  <AppText style={styles.text}>مرحباً 👋</AppText>
                   <AppText style={[styles.text, { fontSize: 21 }]}>
-                    To a World of gifts.🎁
+                    لعالمٍ من الهدايا.🎁
                   </AppText>
                 </View>
                 <View style={styles.headerIconCintainer}>
@@ -137,7 +137,7 @@ const HomeScreen = ({ navigation, route }) => {
               <View style={styles.serachBar}>
                 <TextInput
                   style={styles.input}
-                  placeholder="Search here ..."
+                  placeholder="إبحث هنا ..."
                   onChangeText={(txt) => setSearchText(txt)}
                   value={searchText}
                 />
@@ -150,10 +150,10 @@ const HomeScreen = ({ navigation, route }) => {
           }
           ListFooterComponent={
             <View style={styles.header}>
-              <AppText style={styles.text}>Thank u 😊</AppText>
+              {/* <AppText style={styles.text}>Thank u 😊</AppText>
               <AppText style={[styles.text, { fontSize: 27 }]}>
                 We hope u come back 🙌
-              </AppText>
+              </AppText> */}
             </View>
           }
           renderItem={({ item }) => (

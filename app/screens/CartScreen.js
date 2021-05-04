@@ -73,10 +73,8 @@ const CartScreen = ({ style }) => {
             size={75}
             color={colors.blueLight}
           />
-          <AppText style={styles.noCartText}>Your order is Sent ✅🪁,</AppText>
-          <AppText style={styles.noCartText}>
-            We will contact you shorlty.
-          </AppText>
+          <AppText style={styles.noCartText}>تم إرسال طلبك بنجاح ✅🪁,</AppText>
+          <AppText style={styles.noCartText}>سنتواصل معك قريباً.</AppText>
         </View>
       ) : !cartItems || cartItems?.length === 0 ? (
         <View style={styles.noCartContainer}>
@@ -86,7 +84,7 @@ const CartScreen = ({ style }) => {
             size={75}
             color={colors.blueDark}
           />
-          <AppText style={styles.noCartText}>Nothing in The Cart</AppText>
+          <AppText style={styles.noCartText}>لا يوجد شئ في العربة 😢</AppText>
         </View>
       ) : (
         <FlatList
@@ -106,9 +104,9 @@ const CartScreen = ({ style }) => {
           ListHeaderComponent={
             <View style={styles.header}>
               <View>
-                <AppText style={styles.text}>Cart 🛒</AppText>
+                <AppText style={styles.text}>العربة 🛒</AppText>
                 <AppText style={[styles.text, { fontSize: 17 }]}>
-                  We take Care of your gifts.🎁
+                  هدايا مصنعة خصيصا لك.🎁
                 </AppText>
               </View>
             </View>
@@ -134,7 +132,7 @@ const CartScreen = ({ style }) => {
               <AppButton
                 loading={loading}
                 style={styles.payButton}
-                title="Order now"
+                title="أرسل الطلب"
                 onPress={handleOrderUpload}
               />
             </View>
@@ -180,6 +178,7 @@ const styles = StyleSheet.create({
   },
   noCartText: {
     color: colors.darkGray,
+    marginTop: 10,
   },
   noCartIcon: {
     marginVertical: 10,

@@ -29,7 +29,7 @@ const Card = ({
         <Image style={styles.image} uri={image} />
         <View style={styles.textContainer}>
           <AppText>{title}</AppText>
-          <AppText>{subtitle}</AppText>
+          <AppText>{`${subtitle} ﷼`}</AppText>
         </View>
       </TouchableOpacity>
       {/*  <Modal
@@ -54,7 +54,7 @@ const Card = ({
           <ImageBackground style={styles.feedImage} source={image} />
           <View style={styles.feedTextContainer}>
             <AppText style={styles.feedText}>{title}</AppText>
-            <AppText style={styles.feedText}>{subtitle}</AppText>
+            <AppText style={styles.feedText}>{`${subtitle} ﷼`}</AppText>
           </View>
         </TouchableOpacity>
         {/* <Modal
