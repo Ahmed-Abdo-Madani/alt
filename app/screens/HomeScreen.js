@@ -112,7 +112,7 @@ const HomeScreen = ({ navigation, route }) => {
                 <View>
                   <AppText style={styles.text}>مرحباً 👋</AppText>
                   <AppText style={[styles.text, { fontSize: 21 }]}>
-                    لعالمٍ من الهدايا.🎁
+                    عالم من الهدايا.🎁
                   </AppText>
                 </View>
                 <View style={styles.headerIconCintainer}>
@@ -200,8 +200,9 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
+    paddingHorizontal: 5,
     paddingVertical: 5,
     width: "100%",
   },
@@ -227,13 +228,14 @@ const styles = StyleSheet.create({
   serachBar: {
     marginVertical: 10,
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     padding: 5,
     borderRadius: 25,
     backgroundColor: colors.creamyDark,
   },
   input: {
-    marginLeft: 10,
+    textAlign: "right",
+    marginRight: 15,
     flex: 1,
   },
 });

@@ -93,7 +93,7 @@ const ItemDetailsScreen = ({ route }) => {
       >
         <View style={styles.titleConatainer}>
           <AppText style={styles.text}>{name}</AppText>
-          <AppText style={styles.text}>{price}</AppText>
+          <AppText style={styles.text}>{`${price} ﷼`}</AppText>
         </View>
         <View style={styles.subtitleConatainer}>
           <AppText numberOfLines={3} style={styles.subtext}>
@@ -101,7 +101,9 @@ const ItemDetailsScreen = ({ route }) => {
           </AppText>
         </View>
         <View style={styles.formCard}>
-          <Text style={styles.inputFormHeader}>تفاصيل الطلب</Text>
+          <View style={styles.inputFormHeader}>
+            <Text style={styles.headerTitleText}>تفاصيل الطلب</Text>
+          </View>
           <Formik
             initialValues={{ request: "" }}
             onSubmit={(values) => handleAddToCart(values)}
@@ -138,7 +140,7 @@ const ItemDetailsScreen = ({ route }) => {
                       loadingColor={colors.blueLight}
                       onPress={handleSubmit}
                       textColor={colors.blueLight}
-                      title="Add to Cart"
+                      title="أضف للعربة"
                     />
                   ) : (
                     <AppButton
@@ -148,7 +150,7 @@ const ItemDetailsScreen = ({ route }) => {
                       loadingColor={colors.blueLight}
                       onPress={handleSubmit}
                       textColor={colors.blueLight}
-                      title="Update"
+                      title="تحديث"
                     />
                   )}
                 </View>
@@ -215,16 +217,14 @@ const styles = StyleSheet.create({
   },
   inputFormHeader: {
     width: "100%",
-    padding: 15,
+    backgroundColor: colors.creamy,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    overflow: "hidden",
+    padding: 10,
     marginTop: 25,
-    borderTopWidth: 35,
-    borderTopColor: colors.creamy,
-    borderRadius: 15,
-
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.1,
-    shadowColor: "black",
+  },
+  headerTitleText: {
     textAlign: "right",
     fontWeight: "bold",
     fontSize: 20,
@@ -236,9 +236,7 @@ const styles = StyleSheet.create({
 
     width: "100%",
   },
-  cartButton: {
-    backgroundColor: colors.creamy,
-  },
+  cartButton: { marginTop: 15, backgroundColor: colors.creamy },
   buyButton: {
     width: "40%",
   },

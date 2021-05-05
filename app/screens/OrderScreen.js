@@ -18,7 +18,7 @@ const OrderScreen = () => {
   if (!orders)
     return (
       <View style={styles.noOrder}>
-        <AppText>You didn`t make an order.</AppText>
+        <AppText style={styles.text}>لا توجد طلبات 😢 </AppText>
       </View>
     );
   return (
@@ -36,5 +36,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  text: {
+    color: colors.lightGray,
   },
 });

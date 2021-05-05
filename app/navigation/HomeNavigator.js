@@ -27,6 +27,7 @@ export default function HomeNavigator() {
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="home" size={size} color={color} />
           ),
+          tabBarLabel: "الرئيسية",
         }}
         name="homestack"
         component={HomeStack}
@@ -45,6 +46,7 @@ export default function HomeNavigator() {
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
+          tabBarLabel: "الحساب",
         }}
         name="profileStack"
         component={ProfileStack}
@@ -58,6 +60,7 @@ export default function HomeNavigator() {
               size={size}
             />
           ),
+          tabBarLabel: "عن الشركة",
         }}
         name="about us"
         component={AboutUsScreen}

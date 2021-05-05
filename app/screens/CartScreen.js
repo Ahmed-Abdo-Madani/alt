@@ -103,10 +103,10 @@ const CartScreen = ({ style }) => {
           )}
           ListHeaderComponent={
             <View style={styles.header}>
-              <View>
+              <View style={styles.innerheader}>
                 <AppText style={styles.text}>العربة 🛒</AppText>
                 <AppText style={[styles.text, { fontSize: 17 }]}>
-                  هدايا مصنعة خصيصا لك.🎁
+                  هداياك مصنعة خصيصا لك.🎁
                 </AppText>
               </View>
             </View>
@@ -185,10 +185,13 @@ const styles = StyleSheet.create({
   },
   flatList: { zIndex: -1 },
   header: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
     padding: 10,
     width: "100%",
+  },
+  innerheader: {
+    alignItems: "flex-end",
   },
   footer: {
     backgroundColor: colors.creamy,
@@ -219,6 +222,7 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
     fontSize: 45,
     fontWeight: "bold",
+    marginBottom: 5,
   },
   image: {
     width: "100%",

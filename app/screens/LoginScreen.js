@@ -46,7 +46,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
     try {
       const phoneProvider = new firebase.auth.PhoneAuthProvider();
       await phoneProvider
-        .verifyPhoneNumber(phoneNumber, recaptchaVerifierRef.current)
+        .verifyPhoneNumber("+966" + phoneNumber, recaptchaVerifierRef.current)
         .then((sentVerificationId) => {
           setVerificationId(sentVerificationId);
           setregistered(true);
@@ -60,13 +60,17 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
 
   const saveUserToFireStore = async ({ uid }) => {
     try {
-      await firebase.firestore().collection("users").doc(phoneNumber).set({
-        userName,
-        phoneNumber,
-        uid,
-        pushToken: pushToken.data,
-        createdAt: new Date().toDateString(),
-      });
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc("+966" + phoneNumber)
+        .set({
+          userName,
+          phoneNumber: "+966" + phoneNumber,
+          uid,
+          pushToken: pushToken.data,
+          createdAt: new Date().toDateString(),
+        });
     } catch (error) {
       console.log("save user to Firestore error : " + error);
     }
@@ -84,7 +88,13 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
         .signInWithCredential(credential)
         .then((res) => {
           if (res.user) {
-            dispatch(login({ userName, isAdmin: false, phoneNumber }));
+            dispatch(
+              login({
+                userName,
+                isAdmin: false,
+                phoneNumber: "+966" + phoneNumber,
+              })
+            );
             saveUserToFireStore(res.user);
           }
         });
@@ -134,13 +144,22 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
             <AppText style={styles.errorOTP}>الرمز المدخل غير صحيح</AppText>
           )}
           <AppText numberOfLines={2} style={styles.verificationInfo}>
-            {`تم إرسال رمز سري للرقم  ${phoneNumber}`}
+            {`تم إرسال رمز سري للرقم  ${"0" + phoneNumber}`}
           </AppText>
+          <AppButton
+            style={styles.submitButton}
+            shadow={false}
+            loading={buttonPressed}
+            onPress={signInWithCredential}
+            bgColor={colors.green}
+            textColor={colors.white}
+            title="التأكيد"
+          />
+
           <View
             style={{
               flexDirection: "row",
               alignSelf: "center",
-              marginVertical: 15,
             }}
           >
             {waitForSend ? (
@@ -169,15 +188,6 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
               />
             )}
           </View>
-          <AppButton
-            style={styles.submitButton}
-            shadow={false}
-            loading={buttonPressed}
-            onPress={signInWithCredential}
-            bgColor={colors.green}
-            textColor={colors.white}
-            title="التأكيد"
-          />
         </>
       ) : (
         <>
@@ -228,7 +238,15 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
                 placeholder="رقم الهاتف ..."
                 keyboardType="phone-pad"
                 autoCorrect={false}
-                onChangeText={(text) => setPhoneNumber("+966" + text)}
+                value={phoneNumber}
+                onChangeText={(text) =>
+                  setPhoneNumber(
+                    text.replace(
+                      /[`~٠-٩!@#$ %^&*₹()_|+\-=?;:'",.<>\{\}\[\]\\\/]/g,
+                      ""
+                    )
+                  )
+                }
               />
             </View>
           </View>
@@ -272,7 +290,9 @@ const styles = StyleSheet.create({
   },
   InputField: {
     flex: 1,
+    textAlign: "right",
     marginVertical: 10,
+    marginRight: 10,
   },
   inputPhoneNo: {
     flex: 1,
@@ -297,7 +317,7 @@ const styles = StyleSheet.create({
     color: colors.red,
   },
   verificationInfo: {
-    marginTop: 25,
+    marginVertical: 15,
     color: colors.softGray,
     textAlign: "center",
     fontSize: 16,

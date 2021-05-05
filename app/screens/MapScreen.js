@@ -65,7 +65,7 @@ export default function App({ navigation }) {
             <AppButton
               onPress={handleSaveingAddress}
               style={styles.button}
-              title="Use This Address"
+              title="استخدم هذا العنوان"
             />
           </View>
 

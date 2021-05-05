@@ -23,12 +23,11 @@ const AddItemScreen = ({ closeModal }) => {
   const [title, settitle] = useState();
   const [uploading, setUploading] = useState(false);
   const [price, setprice] = useState();
-  const [category, setcategory] = useState("gifts");
+  const [category, setcategory] = useState("هدايا");
   const [description, setdescription] = useState();
   const [imageHeight, setImageHeight] = useState(200);
 
   const handleItemUpload = async (uri) => {
-    setUploading(true);
     await firebase
       .firestore()
       .collection("items")
@@ -37,6 +36,8 @@ const AddItemScreen = ({ closeModal }) => {
   };
 
   const handleUpload = async (uri) => {
+    setUploading(true);
+    setimage();
     const imagePath = `items_images/${Math.random().toString(36)}`;
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -153,6 +154,8 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "92%",
     padding: 15,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: colors.white,
   },
   buttonsContainer: {
