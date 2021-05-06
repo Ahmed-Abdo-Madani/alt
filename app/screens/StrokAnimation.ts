@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import Animated, { Easing, useAnimatedProps } from "react-native-reanimated";
 import { Path } from "react-native-svg";
 
-
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const colors = ["#FFC27A", "#7EDAB9", "#45A6E5", "#FE8777"];
 
