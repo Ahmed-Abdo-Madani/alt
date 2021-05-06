@@ -19,7 +19,7 @@ const CategoryScreen = ({ route }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Card
-            home
+            feed
             id={item.id}
             title={item.data.name}
             subtitle={item.data.price}

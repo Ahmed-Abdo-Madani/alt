@@ -21,9 +21,19 @@ const HomeScreen = () => {
           الحلول المبتكرة ,و في تتطلع مستمر للتجديد و الابتكار ساعين للتميز في
           تقديم الافضل
         </AppText>
-        <AppText numberOfLines={3} style={styles.text}>
-          Contact us @ 0544258464 - 0137451355
-        </AppText>
+        <View style={styles.contactContainer}>
+          <AppText numberOfLines={3} style={styles.text}>
+            تواصل معنا @
+          </AppText>
+          <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <AppText selectable numberOfLines={3} style={styles.phoneNumber}>
+              0500114480
+            </AppText>
+            <AppText selectable numberOfLines={3} style={styles.phoneNumber}>
+              0137451355
+            </AppText>
+          </View>
+        </View>
       </View>
     </Screen>
   );
@@ -38,6 +48,10 @@ const styles = StyleSheet.create({
   },
   tabsContainer: {
     paddingTop: 35,
+  },
+  contactContainer: {
+    marginTop: 30,
+    backgroundColor: colors.creamyDark,
   },
   header: {
     alignItems: "center",
@@ -63,7 +77,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
-    marginBottom: 20,
+    marginHorizontal: 10,
+    padding: 5,
+  },
+  phoneNumber: {
+    color: colors.blueDark,
+    fontSize: 25,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginHorizontal: 10,
+    padding: 5,
   },
   image: {
     width: 150,

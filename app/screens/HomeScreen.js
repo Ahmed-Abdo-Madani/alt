@@ -33,9 +33,8 @@ const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [searchText, setSearchText] = useState();
-  const [searchItems, setsearchItems] = useState();
   const [page_number, setPageNumber] = useState(1);
-  const [page_size, setPageSize] = useState(3);
+  const [page_size, setPageSize] = useState(5);
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
@@ -57,12 +56,6 @@ const HomeScreen = ({ navigation, route }) => {
     if (route.params?.addedToCart) setVisible(true);
   }, [route.params]);
 
-  const filterSet = () => {
-    const res = items?.filter((item) => {
-      return item.data.name.includes(searchText);
-    });
-    setsearchItems(res);
-  };
   return (
     <Screen>
       {loading ? (
@@ -87,9 +80,7 @@ const HomeScreen = ({ navigation, route }) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={
-            !searchItems ? items.slice(0, page_number * page_size) : searchItems
-          }
+          data={items.slice(0, page_number * page_size)}
           refreshing={refreshing}
           onRefresh={() => {
             dispatch(getHomeItems(true));
@@ -141,7 +132,10 @@ const HomeScreen = ({ navigation, route }) => {
                   onChangeText={(txt) => setSearchText(txt)}
                   value={searchText}
                 />
-                <AppIcon onPress={() => filterSet()} name="magnify" />
+                <AppIcon
+                  onPress={() => navigation.navigate("search", searchText)}
+                  name="magnify"
+                />
               </View>
               <CategoryList />
 

@@ -51,7 +51,7 @@ const Card = ({
           activeOpacity={0.75}
           style={styles.feedContainer}
         >
-          <ImageBackground style={styles.feedImage} source={image} />
+          <Image style={styles.feedImage} uri={image} />
           <View style={styles.feedTextContainer}>
             <AppText style={styles.feedText}>{title}</AppText>
             <AppText style={styles.feedText}>{`${subtitle} ﷼`}</AppText>
