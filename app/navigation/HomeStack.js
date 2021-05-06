@@ -5,6 +5,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import CartScreen from "../screens/CartScreen";
+import SearchScreen from "../screens/SearchScreen";
 
 const Stack = createStackNavigator();
 
@@ -23,7 +24,20 @@ const FeedNavigatior = () => (
     <Stack.Screen
       name="category"
       component={CategoryScreen}
-      options={({ route }) => ({ title: route.params, headerShown: true })}
+      options={({ route }) => ({
+        title: route.params,
+        headerShown: true,
+        headerBackTitle: "الرجوع",
+      })}
+    />
+    <Stack.Screen
+      name="search"
+      component={SearchScreen}
+      options={({ route }) => ({
+        title: route.params,
+        headerShown: true,
+        headerBackTitle: "الرجوع",
+      })}
     />
   </Stack.Navigator>
 );
