@@ -5,17 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
-    "splash": {
-      "image": "./app/assets/tayarlogo.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#028BFF"
-    },
+
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
