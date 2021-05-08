@@ -92,6 +92,12 @@ const ProfileScreen = ({ navigation }) => {
           title="العنوان"
           onPress={() => navigation.navigate("map")}
         />
+        <ListItem
+          profileItem
+          iconName="server"
+          title="animated"
+          onPress={() => navigation.navigate("animate")}
+        />
         {/*   <ListItem
           profileItem
           iconName="traffic-cone"

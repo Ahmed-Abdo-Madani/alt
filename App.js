@@ -19,15 +19,13 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
-// import AppNavigator from "./app/navigation/AppNavigator";
-import SvgAnimationScreen from "./app/screens/SvgAnimationScreen";
+import AppNavigator from "./app/navigation/AppNavigator";
 
 export default function App() {
   return (
     <Provider store={store}>
       <StatusBar style="auto" />
-      {/* <AppNavigator /> */}
-      <SvgAnimationScreen />
+      <AppNavigator />
     </Provider>
   );
 }
