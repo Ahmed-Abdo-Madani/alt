@@ -23,14 +23,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const StrokeAnimation = () => {
+const StrokeAnimation = ({ navigation }) => {
   const progress = useSharedValue(0);
 
   useEffect(() => {
     progress.value = withTiming(1, {
-      duration: 3000,
+      duration: 2500,
       easing: Easing.cubic,
     });
+    setInterval(function () {
+      navigation.navigate("homeTabs");
+    }, 3000);
   }, [progress]);
 
   return (
