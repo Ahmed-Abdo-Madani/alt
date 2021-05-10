@@ -28,11 +28,11 @@ const StrokeAnimation = ({ navigation }) => {
 
   useEffect(() => {
     progress.value = withTiming(1, {
-      duration: 2500,
-      easing: Easing.cubic,
+      duration: 2800,
+      easing: Easing.bezier(1, 0.05, 1, 0.1),
     });
-    setInterval(function () {
-      navigation.navigate("homeTabs");
+    setTimeout(function () {
+      navigation.replace("homeTabs");
     }, 3000);
   }, [progress]);
 
