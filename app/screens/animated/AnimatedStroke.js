@@ -4,20 +4,22 @@ import { Path } from "react-native-svg";
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const colors = ["#FFC27A", "#7EDAB9", "#45A6E5", "#FE8777"];
+const colors2 = ["#FF3346", "#8BFF33", "#3380FF", "#33DBFF"];
 
 const AnimatedStroke = ({ d, progress }) => {
   const stroke = colors[Math.round(Math.random() * (colors.length - 1))];
+  const stroke2 = colors[Math.round(Math.random() * (colors2.length - 1))];
   const [length, setLength] = useState(0);
   const ref = useRef(null);
   const animatedBGProps = useAnimatedProps(() => ({
     strokeDashoffset:
-      length - length * Easing.bezier(0.61, 1, 0.88, 1)(progress.value),
-    fillOpacity: progress.value,
+      length - length * Easing.bezier(0.42, 0.25, 0.28, 1)(progress.value),
   }));
 
   const animatedProps = useAnimatedProps(() => ({
     strokeDashoffset:
-      length - length * Easing.bezier(0.37, 0, 0.63, 1)(progress.value),
+      length - length * Easing.bezier(0.27, 0, 0.63, 1)(progress.value),
+    fillOpacity: progress.value,
   }));
 
   return (
@@ -26,7 +28,7 @@ const AnimatedStroke = ({ d, progress }) => {
         animatedProps={animatedBGProps}
         d={d}
         stroke={stroke}
-        strokeWidth={10}
+        strokeWidth={2}
         fill="white"
         strokeDasharray={length}
       />
@@ -35,8 +37,9 @@ const AnimatedStroke = ({ d, progress }) => {
         onLayout={() => setLength(ref.current.getTotalLength())}
         ref={ref}
         d={d}
-        stroke="black"
-        strokeWidth={10}
+        fill={stroke2}
+        stroke={stroke2}
+        strokeWidth={2}
         strokeDasharray={length}
       />
     </>
