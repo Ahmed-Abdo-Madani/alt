@@ -1,8 +1,11 @@
 /* eslint-disable max-len */
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import { Easing, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, {
+  Easing,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import Svg from "react-native-svg";
 import AnimatedStroke from "./AnimatedStroke";
 
@@ -27,8 +30,14 @@ const styles = StyleSheet.create({
 
 const StrokeAnimation = ({ navigation }) => {
   const progress = useSharedValue(0);
+  const opacity = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.linear(Easing.bezier(1, 0.02, 1, 0.01)),
+    }).start();
     progress.value = withTiming(1, {
       duration: 3000,
       easing: Easing.linear(Easing.bezier(1, 0.02, 1, 0.01)),
@@ -45,20 +54,22 @@ const StrokeAnimation = ({ navigation }) => {
         <AnimatedLogo progress={progress} />
       </View> */}
 
-      <Svg
-        width={width / 1.7}
-        height={height / 1.7}
-        viewBox={[
-          -MARGIN / 2,
-          -MARGIN / 2,
-          vWidth + MARGIN / 2,
-          vHeight + MARGIN / 2,
-        ].join(" ")}
-      >
-        {paths.map((d, key) => (
-          <AnimatedStroke progress={progress} d={d} key={key} />
-        ))}
-      </Svg>
+      <Animated.View style={{ opacity: opacity }}>
+        <Svg
+          width={width / 1.7}
+          height={height / 1.7}
+          viewBox={[
+            -MARGIN / 2,
+            -MARGIN / 2,
+            vWidth + MARGIN / 2,
+            vHeight + MARGIN / 2,
+          ].join(" ")}
+        >
+          {paths.map((d, key) => (
+            <AnimatedStroke progress={progress} d={d} key={key} />
+          ))}
+        </Svg>
+      </Animated.View>
     </View>
   );
 };
