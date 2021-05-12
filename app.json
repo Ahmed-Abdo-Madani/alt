@@ -5,7 +5,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/new_logo.png",
-
+    "splash": {
+      "backgroundColor": "#FFFFFF"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

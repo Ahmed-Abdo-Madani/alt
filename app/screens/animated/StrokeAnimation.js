@@ -31,7 +31,7 @@ const StrokeAnimation = ({ navigation }) => {
   useEffect(() => {
     progress.value = withTiming(1, {
       duration: 3000,
-      easing: Easing.linear,
+      easing: Easing.linear(Easing.bezier(1, 0.02, 1, 0.01)),
     });
 
     setTimeout(function () {

@@ -4,7 +4,7 @@ import { Path } from "react-native-svg";
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const colors = ["#FFC27A", "#7EDAB9", "#45A6E5", "#FE8777"];
-const colors2 = ["#FF3346", "#8BFF33", "#3380FF", "#33DBFF"];
+const colors2 = ["#FF3346", "#8BFF33", "#A380FF", "#33DBFF"];
 
 const AnimatedStroke = ({ d, progress }) => {
   const stroke = colors[Math.round(Math.random() * (colors.length - 1))];

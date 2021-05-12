@@ -1,9 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { LogBox } from "react-native";
 import * as firebase from "firebase";
 import { Provider } from "react-redux";
 
 import store from "./app/store";
+
+LogBox.ignoreAllLogs(true);
 
 const firebaseConfig = {
   apiKey: "AIzaSyBQjCScPiH1kMvuXWi0xVwtNj3iAo1UOHc",
