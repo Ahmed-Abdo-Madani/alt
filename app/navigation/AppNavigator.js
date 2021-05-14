@@ -20,6 +20,7 @@ import {
 import { saveUserPushToken } from "../actions/userActions";
 import { INIT_CART_ITEMS } from "../constants/cartConstants";
 import cache from "../utility/cache";
+import { getAdmins } from "../actions/notificationActions";
 
 export default function AppNavigator() {
   const dispatch = useDispatch();
@@ -82,6 +83,7 @@ export default function AppNavigator() {
       } else {
         dispatch({ type: USER_PUSH_TOKEN, payload: userPushToken_inCahe });
       }
+      dispatch(getAdmins());
     } catch (error) {
       console.log("Error getting Push Token :" + error);
     }
