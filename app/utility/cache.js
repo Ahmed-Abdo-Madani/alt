@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 
 const prefix = "cache";
-const timeLimit = 5;
+const timeLimit = 29;
 
 const store = async (key, value) => {
   const item = { value, timeStamp: Date.now() };
@@ -35,16 +35,16 @@ const get = async (key) => {
     console.log("Error in getting Async_Storage :" + error);
   }
 };
-const remove = async(key)=>{
+const remove = async (key) => {
   try {
     await AsyncStorage.removeItem(prefix + key);
   } catch (error) {
-    console.log("cache layer remove item :"+error)
+    console.log("cache layer remove item :" + error);
   }
-} 
+};
 
 export default {
   store,
   get,
-  remove
+  remove,
 };

@@ -9,7 +9,7 @@ import LoginScreen from "../screens/LoginScreen";
 // import PaymentScreen from "../screens/PaymentScreen";
 // import AppPaymentScreen from "../screens/AppPaymentScreen";
 import DeliveryScreen from "../screens/DeliveryScreen";
-import StrokeAnimation from "../screens/animated/StrokeAnimation";
+// import StrokeAnimation from "../screens/animated/StrokeAnimation";
 
 const Stack = createStackNavigator();
 
@@ -32,11 +32,11 @@ const ProfileStack = () => (
     <Stack.Screen name="cart" component={CartScreen} />
     <Stack.Screen name="login" component={LoginScreen} />
     <Stack.Screen name="track" component={DeliveryScreen} />
-    <Stack.Screen
+    {/*   <Stack.Screen
       name="animate"
       component={StrokeAnimation}
       options={{ headerShown: true }}
-    />
+    /> */}
     {/* <Stack.Screen name="pay" component={AppPaymentScreen} /> */}
 
     <Stack.Screen

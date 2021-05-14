@@ -12,7 +12,8 @@ import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
-import { send_Order_Notification } from "../actions/notificationActions";
+import { saveOrdersToFirestore } from "../actions/ordersActions";
+import { ORDER_SAVE_FIRESTORE_RESET } from "../constants/ordersConstants";
 
 const CartScreen = ({ style }) => {
   const navigation = useNavigation();
@@ -22,38 +23,30 @@ const CartScreen = ({ style }) => {
   const [totalPrice, settotalPrice] = useState(0);
   const [shippingPrice, setshippingPrice] = useState(0);
   const [taxes, settaxes] = useState(0);
-  const [loading, setloading] = useState(false);
+  // const [loading, setloading] = useState(false);
   const [orderSent, setorderSent] = useState(false);
-
-  const { cartItems } = useSelector((state) => state.cart);
 
   const { userInfo, shippingAddresss } = useSelector(
     (state) => state.userLogin
+  );
+  const { cartItems } = useSelector((state) => state.cart);
+  const { loading, error, savedToFireStore } = useSelector(
+    (state) => state.orders
   );
 
   useEffect(() => {
     if (shippingAddresss === null)
       navigation.navigate("profileStack", { screen: "map" });
+    return () => {
+      dispatch({ type: ORDER_SAVE_FIRESTORE_RESET });
+    };
   }, []);
 
   const handleOrderUpload = async () => {
-    setloading(true);
-    try {
-      await firebase
-        .firestore()
-        .collection("orders")
-        .add({ cartItems, shippingAddresss, userInfo })
-        .then(() => {
-          emptyCart();
-          dispatch(send_Order_Notification({ userInfo, cartItems }));
-        });
-    } catch (error) {
-      console.log(error);
-    }
-    if (orderSent) {
-      const targetExpoPushToken = "ExponentPushToken[5zMoeBGjA-SrzanQtYRTFW]";
-      const message = "new Order: " + userInfo.phoneNumber;
-    }
+    // setloading(true);
+    dispatch(saveOrdersToFirestore({}));
+    // emptyCart();
+    // setloading(false);
   };
 
   const emptyCart = () => {
@@ -65,7 +58,7 @@ const CartScreen = ({ style }) => {
   return (
     <View style={[styles.container, style]}>
       <View style={styles.closeButton} />
-      {orderSent ? (
+      {savedToFireStore ? (
         <View style={styles.noCartContainer}>
           <MaterialCommunityIcons
             style={[styles.noCartIcon]}

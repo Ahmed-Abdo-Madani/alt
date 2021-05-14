@@ -47,7 +47,7 @@ const Card = ({
     feed && (
       <>
         <TouchableOpacity
-          onPress={() => setVisible(true)}
+          onPress={onPress}
           activeOpacity={0.75}
           style={styles.feedContainer}
         >
