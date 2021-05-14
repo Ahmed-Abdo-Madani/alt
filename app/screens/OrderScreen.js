@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, FlatList, View, Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getUserOrders } from "../actions/ordersActions";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import cache from "../utility/cache";
+import ListItem from "../components/ListItem";
 
 const OrderScreen = () => {
-  const [orders, setorders] = useState();
+  const [orders, setorders] = useState(1);
+  const dispatch = useDispatch();
 
-  const getOrders = async () => {
-    const res = await cache.get("orders");
-    setorders(res);
-  };
   useEffect(() => {
-    getOrders();
+    dispatch(getUserOrders());
   }, []);
 
   if (!orders)
@@ -22,8 +23,37 @@ const OrderScreen = () => {
       </View>
     );
   return (
-    <View>
-      <Text>orders</Text>
+    <View style={styles.noOrder}>
+      <AppText style={styles.text}>orders 🚚 </AppText>
+      {/*  <FlatList
+        showsVerticalScrollIndicator={false}
+        style={styles.flatList}
+        data={orders}
+        keyExtractor={(item, i) => i.toString()}
+        ItemSeparatorComponent={() => (
+          <View
+            style={{
+              width: "100%",
+              height: 1,
+              backgroundColor: colors.creamy,
+            }}
+          />
+        )}
+        renderItem={({ item }) => (
+          <ListItem
+            onPress={() => {
+              navigation.navigate("itemDetails", {
+                data: item,
+                id: item.id,
+                request: item.requestDetails,
+              });
+            }}
+            id={item.id}
+            title={item.name}
+            subtitle={item.price + " ﷼"}
+          />
+        )}
+      /> */}
     </View>
   );
 };

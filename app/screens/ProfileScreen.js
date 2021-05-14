@@ -22,7 +22,7 @@ const ProfileScreen = ({ navigation }) => {
   const [logoutPressed, setlogoutPressed] = useState(false);
 
   const checkForAdmins = () => {
-    const admin = admins.filter((admin) => admin.id === userInfo?.phoneNumber);
+    const admin = admins?.filter((admin) => admin.id === userInfo?.phoneNumber); // TODO fix filter undefined in reboot
     if (admin.length !== 0) setisAdmin(true);
   };
   useEffect(() => {

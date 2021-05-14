@@ -14,11 +14,11 @@ export const getHomeScreenItemsReducer = (state = { items: [] }, action) => {
 
     case HOME_SCREEN_ITEMS_SUCCESS:
       return {
-        lading: false,
+        loading: false,
         items: action.payload,
       };
     case HOME_SCREEN_ITEMS_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
