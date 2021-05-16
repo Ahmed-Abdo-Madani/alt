@@ -10,7 +10,7 @@ import { MFWebView, MFSettings, MFTheme } from "myfatoorah-reactnative";
 import HomeNavigator from "./HomeNavigator";
 import navigation, { navigationRef } from "./RootNavigation";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
-// import SplashScreen from "../screens/animated/StrokeAnimation";
+import SplashScreen from "../screens/animated/StrokeAnimation";
 
 import {
   USER_LOGIN,
@@ -91,7 +91,7 @@ export default function AppNavigator() {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="splash" component={SplashScreen} /> */}
+        <Stack.Screen name="splash" component={SplashScreen} />
         <Stack.Screen name="homeTabs" component={HomeNavigator} />
         <Stack.Screen name="itemDetails" component={ItemDetailsScreen} />
         <Stack.Screen
