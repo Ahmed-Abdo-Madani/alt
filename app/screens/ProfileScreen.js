@@ -27,6 +27,7 @@ const ProfileScreen = ({ navigation }) => {
   };
   useEffect(() => {
     checkForAdmins();
+
     return () => {
       setvisible(false);
       setlogoutPressed(false);

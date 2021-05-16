@@ -17,10 +17,9 @@ import AppText from "../components/AppText";
 import AppIcon from "../components/AppIcon";
 import { HeroSlider } from "../components/HeroSlider";
 
+import { getHomeItems } from "../actions/itemsAction";
 import LoginScreen from "./LoginScreen";
 import CartScreen from "./CartScreen";
-
-import { getHomeItems } from "../actions/itemsAction";
 
 import AppActivityIndicator from "../components/AppActivityIndicator";
 import CategoryList from "../components/CategoryList";
@@ -49,6 +48,7 @@ const HomeScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHomeItems());
+
     if (route.params?.addedToCart) setVisible(true);
   }, [route.params]);
 

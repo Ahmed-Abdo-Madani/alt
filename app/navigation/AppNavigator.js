@@ -17,24 +17,24 @@ import {
   USER_PUSH_TOKEN,
   USER_SHIPPING_ADDRESS,
 } from "../constants/userConstants";
-import { saveUserPushToken } from "../actions/userActions";
+import { login, saveUserPushToken } from "../actions/userActions";
 import { INIT_CART_ITEMS } from "../constants/cartConstants";
 import cache from "../utility/cache";
 import { getAdmins } from "../actions/notificationActions";
 
 export default function AppNavigator() {
   const dispatch = useDispatch();
-
   const getCahce = async () => {
     const cartItemsFromStorage = await cache.get("cartItems");
     const userInfoFromStorage = await cache.get("user");
     const shippingAddressFromStorage = await cache.get("address");
-
+    /* 
     dispatch({
       type: USER_LOGIN,
       payload: userInfoFromStorage,
-    });
+    }); */
 
+    dispatch(login(userInfoFromStorage));
     dispatch({
       type: USER_SHIPPING_ADDRESS,
       payload: shippingAddressFromStorage,

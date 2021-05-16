@@ -125,7 +125,7 @@ export const ordersReducers = (state = { savedToFireStore: false }, action) => {
       return {
         ...state,
 
-        ordersIds: [],
+        ordersIds: null,
         error: action.payload,
       };
     default:

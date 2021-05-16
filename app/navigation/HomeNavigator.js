@@ -2,21 +2,15 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tabs = createBottomTabNavigator();
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
 
 import HomeStack from "./HomeStack";
 import ProfileStack from "./ProfileStack";
-
-import { getOrdersIds } from "../actions/ordersActions";
 
 import AboutUsScreen from "../screens/AboutUsScreen";
 
 import colors from "../config/colors";
 
 export default function HomeNavigator() {
-  const dispatch = useDispatch();
-  dispatch(getOrdersIds()); //FIXME Dispatched before User login Info
-
   return (
     <Tabs.Navigator
       tabBarOptions={{

@@ -3,6 +3,8 @@ import {
   USER_SHIPPING_ADDRESS,
   USER_PUSH_TOKEN,
 } from "../constants/userConstants";
+
+import { getOrdersIds } from "./ordersActions";
 import cache from "../utility/cache";
 
 export const login = (user) => async (dispatch) => {
@@ -11,6 +13,7 @@ export const login = (user) => async (dispatch) => {
     payload: user,
   });
   cache.store("user", user);
+  dispatch(getOrdersIds(user));
 };
 
 export const saveShippingAddress = (data) => async (dispatch) => {

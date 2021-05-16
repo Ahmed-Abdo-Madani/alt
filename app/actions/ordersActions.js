@@ -50,19 +50,19 @@ export const getUserOrders = () => async (dispatch, getState) => {
   dispatch({ type: ORDER_GET_USER_ORDERS_REQUEST });
   const orders = [];
   let ordersPromise = new Promise((resolve, reject) => {
-    ordersIds.forEach(async (id, index) => {
+    ordersIds.ids.forEach(async (id, index) => {
       try {
         await firebase
           .firestore()
           .collection("orders")
           .doc(userInfo.phoneNumber)
-          .collection(id.id)
+          .collection(id)
           .get()
           .then((snapshot) => {
             const order = [];
             snapshot.docs.forEach((doc) => {
               order.push({ id: doc.id, data: doc.data() });
-              if (ordersIds.length - 1 === index) resolve();
+              if (ordersIds.ids.length - 1 === index) resolve();
             });
             orders.push(order);
           });
@@ -159,15 +159,13 @@ export const saveOrderId =
       });
   };
 // ----------------------   get Orders ids from firestore   ----------------------------
-export const getOrdersIds = () => async (dispatch, getState) => {
+export const getOrdersIds = (user) => async (dispatch) => {
   dispatch({ type: ORDER_GET_ID_REQUEST });
-
-  const { userInfo } = getState().userLogin;
   try {
     await firebase
       .firestore()
       .collection("orders")
-      .doc(userInfo.phoneNumber)
+      .doc(user.phoneNumber)
       .get()
       .then((snapshot) => {
         const data = snapshot.data();
