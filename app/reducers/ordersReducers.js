@@ -113,18 +113,18 @@ export const ordersReducers = (state = { savedToFireStore: false }, action) => {
     case ORDER_GET_ID_REQUEST:
       return {
         ...state,
-        loading: false,
+        loading: true,
       };
     case ORDER_GET_ID_SUCCESS:
       return {
         ...state,
-        loading: false,
         ordersIds: action.payload,
       };
     case ORDER_GET_ID_FAIL:
       return {
         ...state,
 
+        loading: false,
         ordersIds: null,
         error: action.payload,
       };

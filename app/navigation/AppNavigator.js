@@ -10,7 +10,7 @@ import { MFWebView, MFSettings, MFTheme } from "myfatoorah-reactnative";
 import HomeNavigator from "./HomeNavigator";
 import navigation, { navigationRef } from "./RootNavigation";
 import ItemDetailsScreen from "../screens/ItemDetailsScreen";
-import SplashScreen from "../screens/animated/StrokeAnimation";
+// import SplashScreen from "../screens/animated/StrokeAnimation";
 
 import {
   USER_LOGIN,
@@ -28,13 +28,13 @@ export default function AppNavigator() {
     const cartItemsFromStorage = await cache.get("cartItems");
     const userInfoFromStorage = await cache.get("user");
     const shippingAddressFromStorage = await cache.get("address");
-    /* 
+
     dispatch({
       type: USER_LOGIN,
       payload: userInfoFromStorage,
-    }); */
-
-    dispatch(login(userInfoFromStorage));
+    });
+    /* 
+    dispatch(login(userInfoFromStorage)); */
     dispatch({
       type: USER_SHIPPING_ADDRESS,
       payload: shippingAddressFromStorage,
@@ -91,7 +91,7 @@ export default function AppNavigator() {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="splash" component={SplashScreen} />
+        {/* <Stack.Screen name="splash" component={SplashScreen} /> */}
         <Stack.Screen name="homeTabs" component={HomeNavigator} />
         <Stack.Screen name="itemDetails" component={ItemDetailsScreen} />
         <Stack.Screen
