@@ -22,8 +22,8 @@ const ProfileScreen = ({ navigation }) => {
   const [logoutPressed, setlogoutPressed] = useState(false);
 
   const checkForAdmins = () => {
-    const admin = admins?.filter((admin) => admin.id === userInfo?.phoneNumber); // TODO fix filter undefined in reboot
-    if (admin.length !== 0) setisAdmin(true);
+    const admin = admins?.filter((admin) => admin.id === userInfo?.phoneNumber); // FIXME fix filter undefined in reboot & add getAdmins() dispatch in appNavigator
+    if (admin?.length !== 0) setisAdmin(true);
   };
   useEffect(() => {
     checkForAdmins();

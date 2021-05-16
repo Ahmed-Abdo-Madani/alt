@@ -32,7 +32,7 @@ const ProfileStack = () => (
     <Stack.Screen name="cart" component={CartScreen} />
     <Stack.Screen name="login" component={LoginScreen} />
     <Stack.Screen name="track" component={DeliveryScreen} />
-    {/*   <Stack.Screen
+    {/*     <Stack.Screen
       name="animate"
       component={StrokeAnimation}
       options={{ headerShown: true }}

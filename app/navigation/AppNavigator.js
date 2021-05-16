@@ -44,7 +44,6 @@ export default function AppNavigator() {
       payload: cartItemsFromStorage ? cartItemsFromStorage : [],
     });
   };
-
   useEffect(() => {
     registerForPushNotifications();
     Notifications.addNotificationResponseReceivedListener(() =>

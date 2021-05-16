@@ -17,6 +17,7 @@ const ListItem = ({
   id,
   disabled = false,
   loading = false,
+  forOrder = false,
   style,
   title,
   subtitle,
@@ -52,21 +53,23 @@ const ListItem = ({
         </View>
       </TouchableOpacity>
 
-      {loading ? (
-        <ActivityIndicator
-          style={styles.deleteButton}
-          color={colors.blueLight}
-          size={25}
-        />
-      ) : (
-        <MaterialCommunityIcons
-          onPress={handleDeleteItem}
-          name={profileItem ? "chevron-right" : "trash-can"}
-          style={styles.deleteButton}
-          size={25}
-          color={profileItem ? colors.blueLight : colors.red}
-        />
-      )}
+      {!forOrder ? (
+        loading ? (
+          <ActivityIndicator
+            style={styles.deleteButton}
+            color={colors.blueLight}
+            size={25}
+          />
+        ) : (
+          <MaterialCommunityIcons
+            onPress={handleDeleteItem}
+            name={profileItem ? "chevron-right" : "trash-can"}
+            style={styles.deleteButton}
+            size={25}
+            color={profileItem ? colors.blueLight : colors.red}
+          />
+        )
+      ) : null}
     </View>
   );
 };

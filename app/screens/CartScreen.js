@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View, Modal, Text } from "react-native";
-import firebase from "firebase";
-import "firebase/firestore";
-import "firebase/firebase-storage";
+
 import { useDispatch, useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";

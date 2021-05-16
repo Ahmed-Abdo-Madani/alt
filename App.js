@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { Text } from "react-native";
+import { View } from "react-native";
 import { LogBox } from "react-native";
 import firebase from "firebase/app";
 import { Provider } from "react-redux";
@@ -18,6 +20,7 @@ const firebaseConfig = {
   measurementId: "G-JTGJX916N3",
 };
 // Initialize Firebase
+
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }

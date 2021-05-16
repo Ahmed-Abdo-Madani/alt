@@ -1,0 +1,5 @@
+                // TODO offline alert
+                // TODO error handling
+                // TODO android fitting
+                // TODO publish & upload to store
+                // TODO bulid Website

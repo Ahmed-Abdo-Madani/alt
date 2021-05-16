@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, View, Text } from "react-native";
+import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getUserOrders } from "../actions/ordersActions";
+import { getUserOrders, getOrdersIds } from "../actions/ordersActions";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
-import cache from "../utility/cache";
-import ListItem from "../components/ListItem";
+import OrderItem from "../components/OrderItem";
 
 const OrderScreen = () => {
-  const [orders, setorders] = useState(1);
   const dispatch = useDispatch();
+  const { userOrders, loading, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
     dispatch(getUserOrders());
   }, []);
 
-  if (!orders)
+  if (loading)
+    return (
+      <View style={styles.noOrder}>
+        <ActivityIndicator size="large" color={colors.blueLight} />
+      </View>
+    );
+  if (userOrders?.length === 0)
     return (
       <View style={styles.noOrder}>
         <AppText style={styles.text}>لا توجد طلبات 😢 </AppText>
@@ -24,36 +29,23 @@ const OrderScreen = () => {
     );
   return (
     <View style={styles.noOrder}>
-      <AppText style={styles.text}>orders 🚚 </AppText>
-      {/*  <FlatList
+      <FlatList
         showsVerticalScrollIndicator={false}
         style={styles.flatList}
-        data={orders}
+        data={userOrders}
         keyExtractor={(item, i) => i.toString()}
         ItemSeparatorComponent={() => (
           <View
             style={{
               width: "100%",
+              marginVertical: 10,
               height: 1,
               backgroundColor: colors.creamy,
             }}
           />
         )}
-        renderItem={({ item }) => (
-          <ListItem
-            onPress={() => {
-              navigation.navigate("itemDetails", {
-                data: item,
-                id: item.id,
-                request: item.requestDetails,
-              });
-            }}
-            id={item.id}
-            title={item.name}
-            subtitle={item.price + " ﷼"}
-          />
-        )}
-      /> */}
+        renderItem={({ item }) => <OrderItem data={item} />}
+      />
     </View>
   );
 };
@@ -64,10 +56,14 @@ const styles = StyleSheet.create({
   noOrder: {
     backgroundColor: colors.creamy,
     flex: 1,
+
     justifyContent: "center",
     alignItems: "center",
   },
   text: {
     color: colors.lightGray,
+  },
+  flatList: {
+    width: "100%",
   },
 });
