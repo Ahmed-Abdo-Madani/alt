@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Animated, {
-  Easing,
+  EasingNode,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import Svg from "react-native-svg";
+import { useSelector } from "react-redux";
 import AnimatedStroke from "./AnimatedStroke";
 
 const MARGIN = 10;
@@ -29,6 +30,9 @@ const styles = StyleSheet.create({
 });
 
 const StrokeAnimation = ({ navigation }) => {
+  const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
+  const { loading } = getHomeScreenItems;
+
   const progress = useSharedValue(0);
   const opacity = useState(new Animated.Value(0))[0];
 
@@ -36,16 +40,16 @@ const StrokeAnimation = ({ navigation }) => {
     Animated.timing(opacity, {
       toValue: 1,
       duration: 300,
-      easing: Easing.linear(Easing.bezier(1, 0.02, 1, 0.01)),
+      easing: EasingNode.linear(EasingNode.bezier(1, 0.02, 1, 0.01)),
     }).start();
     progress.value = withTiming(1, {
       duration: 3000,
-      easing: Easing.linear(Easing.bezier(1, 0.02, 1, 0.01)),
+      easing: EasingNode.linear(EasingNode.bezier(1, 0.02, 1, 0.01)),
     });
 
-    setTimeout(function () {
+    setTimeout(() => {
       navigation.replace("homeTabs");
-    }, 3500);
+    }, 3700);
   }, [progress]);
 
   return (
@@ -56,8 +60,8 @@ const StrokeAnimation = ({ navigation }) => {
 
       <Animated.View style={{ opacity: opacity }}>
         <Svg
-          width={width / 1.7}
-          height={height / 1.7}
+          width={width / 1.5}
+          height={height / 1.5}
           viewBox={[
             -MARGIN / 2,
             -MARGIN / 2,
