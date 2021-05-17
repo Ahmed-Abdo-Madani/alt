@@ -96,10 +96,10 @@ const HomeScreen = ({ navigation, route }) => {
           ListHeaderComponent={
             <>
               <View style={styles.header}>
-                <View>
+                <View style={styles.textContainer}>
                   <AppText style={styles.text}>مرحباً 👋</AppText>
                   <AppText style={[styles.text, { fontSize: 21 }]}>
-                    عالم من الهدايا.🎁
+                    اليك عالم من الهدايا.🎁
                   </AppText>
                 </View>
                 <View style={styles.headerIconCintainer}>
@@ -205,6 +205,9 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     margin: 5,
+  },
+  textContainer: {
+    alignItems: "flex-end",
   },
   text: {
     color: colors.darkGray,
