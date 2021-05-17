@@ -45,7 +45,6 @@ export const setOrderStatus = (state, date) => async (dispatch, getState) => {
 
 export const getUserOrders = () => async (dispatch, getState) => {
   const { userInfo } = getState().userLogin;
-  const { ordersIds } = getState().orders;
 
   dispatch({ type: ORDER_GET_USER_ORDERS_REQUEST });
 
