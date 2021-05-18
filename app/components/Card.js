@@ -1,10 +1,5 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ImageBackground,
-} from "react-native";
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 import colors from "../config/colors";
 import AppText from "./AppText";
@@ -17,8 +12,6 @@ const Card = ({
   feed = false,
   home = false,
 }) => {
-  const [visible, setVisible] = useState(false);
-
   return home ? (
     <>
       <TouchableOpacity

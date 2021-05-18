@@ -7,7 +7,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Svg from "react-native-svg";
-import { useSelector } from "react-redux";
 import AnimatedStroke from "./AnimatedStroke";
 
 const MARGIN = 10;
@@ -30,9 +29,6 @@ const styles = StyleSheet.create({
 });
 
 const StrokeAnimation = ({ navigation }) => {
-  const getHomeScreenItems = useSelector((state) => state.getHomeScreenItems);
-  const { loading } = getHomeScreenItems;
-
   const progress = useSharedValue(0);
   const opacity = useState(new Animated.Value(0))[0];
 
@@ -46,7 +42,6 @@ const StrokeAnimation = ({ navigation }) => {
       duration: 3000,
       easing: EasingNode.linear(EasingNode.bezier(1, 0.02, 1, 0.01)),
     });
-
     setTimeout(() => {
       navigation.replace("homeTabs");
     }, 3700);

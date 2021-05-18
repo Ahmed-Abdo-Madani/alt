@@ -75,12 +75,21 @@ const ProfileScreen = ({ navigation }) => {
           title="العربة"
           onPress={() => navigation.navigate("cart")}
         />
-        <ListItem
-          profileItem
-          iconName="clipboard-text-outline"
-          title="الطلبات"
-          onPress={() => navigation.navigate("orders")}
-        />
+        {isAdmin ? (
+          <ListItem
+            profileItem
+            iconName="clipboard-text-outline"
+            title="طلبات المتجر"
+            onPress={() => navigation.navigate("orders", isAdmin)}
+          />
+        ) : (
+          <ListItem
+            profileItem
+            iconName="clipboard-text-outline"
+            title="الطلبات"
+            onPress={() => navigation.navigate("orders")}
+          />
+        )}
         {/*   <ListItem
           profileItem
           iconName="cash"

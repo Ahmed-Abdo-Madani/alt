@@ -1,7 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Text } from "react-native";
-import { View } from "react-native";
 import { LogBox } from "react-native";
 import firebase from "firebase/app";
 import { Provider } from "react-redux";
