@@ -41,6 +41,65 @@ export const setOrderStatus = (state, date) => async (dispatch, getState) => {
     dispatch({ type: ORDER_STATUS_FAIL, payload: error });
   }
 };
+// ----------------------   Get Admin Orders From firestore   ----------------------------
+
+export const getAdminOrders = () => async (dispatch, getState) => {
+  dispatch({ type: ORDER_GET_USER_ORDERS_REQUEST });
+
+  let ordersPromise = new Promise(async (resolve, reject) => {
+    dispatch({ type: ORDER_GET_ID_REQUEST });
+    try {
+      await firebase
+        .firestore()
+        .collection("orders")
+        .doc()
+        .get()
+        .then((snapshot) => {
+          const data = snapshot.data();
+          dispatch({ type: ORDER_GET_ID_SUCCESS, payload: data });
+          if (data) {
+            resolve(data);
+          } else {
+            reject("user have no orders");
+          } //FIXME not resolving or rejecting if the user have no orders
+        });
+    } catch (error) {
+      dispatch({ type: ORDER_GET_ID_FAIL, payload: error });
+      if (error) reject(error);
+    }
+  });
+
+  ordersPromise
+    .then((ordersIds) => {
+      const orders = [];
+      ordersIds.ids.forEach(async (id, index) => {
+        try {
+          await firebase
+            .firestore()
+            .collection("orders")
+            .doc(userInfo.phoneNumber)
+            .collection(id)
+            .get()
+            .then((snapshot) => {
+              const order = [];
+              snapshot.docs.forEach((doc) => {
+                order.push({ id: doc.id, data: doc.data() });
+              });
+              orders.push(order); //FIXME Refactor Orders data itteratioin
+              if (ordersIds.ids.length - 1 === index) ordersIterated(orders);
+            });
+        } catch (error) {
+          dispatch({ type: ORDER_GET_USER_ORDERS_FAIL, payload: error });
+        }
+      });
+    })
+    .catch((error) => {
+      dispatch({ type: ORDER_GET_ID_FAIL, payload: error });
+    });
+  const ordersIterated = (orders) => {
+    dispatch({ type: ORDER_GET_USER_ORDERS_SUCCESS, payload: orders });
+  };
+};
 // ----------------------   Get user Orders From firestore   ----------------------------
 
 export const getUserOrders = () => async (dispatch, getState) => {
@@ -59,7 +118,11 @@ export const getUserOrders = () => async (dispatch, getState) => {
         .then((snapshot) => {
           const data = snapshot.data();
           dispatch({ type: ORDER_GET_ID_SUCCESS, payload: data });
-          if (data) resolve(data); //FIXME not resolving if the user have no orders
+          if (data) {
+            resolve(data);
+          } else {
+            reject("user have no orders");
+          } //FIXME not resolving or rejecting if the user have no orders
         });
     } catch (error) {
       dispatch({ type: ORDER_GET_ID_FAIL, payload: error });
