@@ -59,7 +59,7 @@ export const getUserOrders = () => async (dispatch, getState) => {
         .then((snapshot) => {
           const data = snapshot.data();
           dispatch({ type: ORDER_GET_ID_SUCCESS, payload: data });
-          if (data) resolve(data);
+          if (data) resolve(data); //FIXME not resolving if the user have no orders
         });
     } catch (error) {
       dispatch({ type: ORDER_GET_ID_FAIL, payload: error });

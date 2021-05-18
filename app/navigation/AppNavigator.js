@@ -17,7 +17,7 @@ import {
   USER_PUSH_TOKEN,
   USER_SHIPPING_ADDRESS,
 } from "../constants/userConstants";
-import { login, saveUserPushToken } from "../actions/userActions";
+import { saveUserPushToken } from "../actions/userActions";
 import { INIT_CART_ITEMS } from "../constants/cartConstants";
 import cache from "../utility/cache";
 import { getAdmins } from "../actions/notificationActions";

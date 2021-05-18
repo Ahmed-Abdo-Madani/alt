@@ -99,7 +99,7 @@ const HomeScreen = ({ navigation, route }) => {
                 <View style={styles.textContainer}>
                   <AppText style={styles.text}>مرحباً 👋</AppText>
                   <AppText style={[styles.text, { fontSize: 21 }]}>
-                    اليك عالم من الهدايا.🎁
+                    اليك عالماً من الهدايا.🎁
                   </AppText>
                 </View>
                 <View style={styles.headerIconCintainer}>
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.darkGray,
-    fontSize: 45,
+    fontSize: 55,
     fontWeight: "bold",
   },
   image: {

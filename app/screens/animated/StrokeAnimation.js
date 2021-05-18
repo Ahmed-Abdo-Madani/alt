@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Animated, {
-  EasingNode,
+  Easing,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
@@ -36,11 +36,11 @@ const StrokeAnimation = ({ navigation }) => {
     Animated.timing(opacity, {
       toValue: 1,
       duration: 300,
-      easing: EasingNode.linear(EasingNode.bezier(1, 0.02, 1, 0.01)),
+      easing: Easing.linear(Easing.bezier(1, 0.02, 1, 0.01)),
     }).start();
     progress.value = withTiming(1, {
       duration: 3000,
-      easing: EasingNode.linear(EasingNode.bezier(1, 0.02, 1, 0.01)),
+      easing: Easing.linear(Easing.bezier(1, 0.02, 1, 0.01)),
     });
     setTimeout(() => {
       navigation.replace("homeTabs");
