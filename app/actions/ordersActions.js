@@ -85,7 +85,7 @@ export const getAdminOrders = () => async (dispatch, getState) => {
               snapshot.docs.forEach((doc) => {
                 order.push({ id: doc.id, data: doc.data() });
               });
-              orders.push(order); //FIXME Refactor Orders data itteratioin
+              orders.push(order); //FIXME Refactor Orders data itteratioin ---
               if (ordersIds.ids.length - 1 === index) ordersIterated(orders);
             });
         } catch (error) {
