@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getUserOrders, getOrdersIds } from "../actions/ordersActions";
+import { getUserOrders, getAdminOrders } from "../actions/ordersActions";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import OrderItem from "../components/OrderItem";
@@ -11,9 +11,9 @@ const OrderScreen = () => {
   const dispatch = useDispatch();
 
   const { userOrders, loading, error } = useSelector((state) => state.orders);
-
   useEffect(() => {
     dispatch(getUserOrders());
+    dispatch(getAdminOrders());
   }, []);
 
   if (loading)

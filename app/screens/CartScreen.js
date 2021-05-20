@@ -42,7 +42,7 @@ const CartScreen = ({ style }) => {
 
   const handleOrderUpload = async () => {
     // setloading(true);
-    dispatch(saveOrdersToFirestore({}));
+    dispatch(saveOrdersToFirestore());
     // emptyCart();
     // setloading(false);
   };

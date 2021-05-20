@@ -11,9 +11,9 @@ import { useNavigation } from "@react-navigation/core";
 import colors from "../config/colors";
 import ListItem from "./ListItem";
 
-const OrderItem = (data) => {
-  const { paied, processing, delivered } = data.data[1]?.data;
-  const cartItems = data.data[0]?.data.cartItems;
+const OrderItem = ({ data }) => {
+  const { paied, processing, delivered } = data?.orderStatus;
+  const cartItems = data?.cartItems;
   const navigation = useNavigation();
   return (
     <TouchableOpacity style={styles.container}>
@@ -22,14 +22,14 @@ const OrderItem = (data) => {
           data={cartItems}
           keyExtractor={(item, i) => i.toString()}
           style={styles.FlatList}
-          renderItem={(item) => {
+          renderItem={({ item }) => {
             return (
               <ListItem
                 forOrder
-                id={item.item.id}
-                title={item.item.name}
-                subtitle={item.item.price + " ﷼"}
-                image={item.item.imageURL}
+                id={item.id}
+                title={item.name}
+                subtitle={item.price + " ﷼"}
+                image={item.imageURL}
                 // FIXME On press for order items details preview
                 /*  onPress={() => {
                   navigation.navigate("itemDetails", {
@@ -55,13 +55,13 @@ const OrderItem = (data) => {
       </View>
       <View style={styles.orderStatus}>
         {delivered ? (
-          <Text>{"🚕"}</Text>
+          <Text style={styles.statusText}>{"🚕"}</Text>
         ) : processing ? (
-          <Text>{"♻"}</Text>
+          <Text style={styles.statusText}>{"♻"}</Text>
         ) : paied ? (
-          <Text>{"💲"}</Text>
+          <Text style={styles.statusText}>{"💲"}</Text>
         ) : (
-          <Text>{"💰"}</Text>
+          <Text style={styles.statusText}>{"💰"}</Text>
         )}
       </View>
     </TouchableOpacity>
@@ -82,6 +82,9 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: "center",
     alignItems: "center",
+  },
+  statusText: {
+    fontSize: 55,
   },
   items: {
     flex: 7,
