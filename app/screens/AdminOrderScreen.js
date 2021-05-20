@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getUserOrders, getOrdersIds } from "../actions/ordersActions";
+import { getUserOrders, getAdminOrders } from "../actions/ordersActions";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import OrderItem from "../components/OrderItem";
@@ -10,10 +10,9 @@ import OrderItem from "../components/OrderItem";
 const OrderScreen = () => {
   const dispatch = useDispatch();
 
-  const { userOrders, loading, error } = useSelector((state) => state.orders);
-
+  const { adminOrders, loading, error } = useSelector((state) => state.orders);
   useEffect(() => {
-    dispatch(getUserOrders());
+    dispatch(getAdminOrders());
   }, []);
 
   if (loading)
@@ -22,7 +21,7 @@ const OrderScreen = () => {
         <ActivityIndicator size="large" color={colors.blueLight} />
       </View>
     );
-  if (userOrders?.length === 0)
+  if (adminOrders?.length === 0)
     return (
       <View style={styles.noOrder}>
         <AppText style={styles.text}>لا توجد طلبات 😢 </AppText>
@@ -33,7 +32,7 @@ const OrderScreen = () => {
       <FlatList
         showsVerticalScrollIndicator={false}
         style={styles.flatList}
-        data={userOrders}
+        data={adminOrders}
         keyExtractor={(item, i) => i.toString()}
         ItemSeparatorComponent={() => (
           <View

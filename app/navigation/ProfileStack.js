@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import ProfileScreen from "../screens/ProfileScreen";
 import OrderScreen from "../screens/OrderScreen";
+import AdminOrderScreen from "../screens/AdminOrderScreen";
 import MapScreen from "../screens/MapScreen";
 import CartScreen from "../screens/CartScreen";
 import LoginScreen from "../screens/LoginScreen";
@@ -39,6 +40,11 @@ const ProfileStack = () => (
     /> */}
     {/* <Stack.Screen name="pay" component={AppPaymentScreen} /> */}
 
+    <Stack.Screen
+      name="adminOrders"
+      component={AdminOrderScreen}
+      options={{ headerShown: true }}
+    />
     <Stack.Screen
       name="orders"
       component={OrderScreen}

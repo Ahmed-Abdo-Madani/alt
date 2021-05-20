@@ -12,12 +12,9 @@ import {
   ORDER_SAVE_FIRESTORE_FAIL,
   ORDER_SAVE_FIRESTORE_REQUEST,
   ORDER_SAVE_FIRESTORE_SUCCESS,
-  ORDER_SAVE_ID_FAIL,
-  ORDER_SAVE_ID_SUCCESS,
-  ORDER_SAVE_ID_REQUEST,
-  ORDER_GET_ID_FAIL,
-  ORDER_GET_ID_REQUEST,
-  ORDER_GET_ID_SUCCESS,
+  ORDER_GET_ADMIN_ORDERS_FAIL,
+  ORDER_GET_ADMIN_ORDERS_REQUEST,
+  ORDER_GET_ADMIN_ORDERS_SUCCESS,
 } from "../constants/ordersConstants";
 import { send_Order_Notification } from "../actions/notificationActions";
 
@@ -44,7 +41,7 @@ export const setOrderStatus = (state, date) => async (dispatch, getState) => {
 // ----------------------   Get Admin Orders From firestore   ----------------------------
 
 export const getAdminOrders = () => async (dispatch) => {
-  // dispatch({ type: ORDER_GET_USER_ORDERS_REQUEST });
+  dispatch({ type: ORDER_GET_ADMIN_ORDERS_REQUEST });
 
   try {
     await firebase
@@ -57,14 +54,13 @@ export const getAdminOrders = () => async (dispatch) => {
           data.push({ id: doc.id, data: doc.data() })
         );
         console.log(data);
-        /*   dispatch({
-          type: ORDER_GET_USER_ORDERS_SUCCESS,
+        dispatch({
+          type: ORDER_GET_ADMIN_ORDERS_REQUEST,
           payload: data?.orders,
-        }); */
+        });
       });
   } catch (error) {
-    // dispatch({ type: ORDER_GET_USER_ORDERS_FAIL, payload: error });
-    console.log(error);
+    dispatch({ type: ORDER_GET_ADMIN_ORDERS_REQUEST, payload: error });
   }
 };
 // ----------------------   Get user Orders From firestore   ----------------------------
@@ -74,7 +70,6 @@ export const getUserOrders = () => async (dispatch, getState) => {
 
   dispatch({ type: ORDER_GET_USER_ORDERS_REQUEST });
 
-  dispatch({ type: ORDER_GET_ID_REQUEST });
   try {
     await firebase
       .firestore()

@@ -80,7 +80,7 @@ const ProfileScreen = ({ navigation }) => {
             profileItem
             iconName="clipboard-text-outline"
             title="طلبات المتجر"
-            onPress={() => navigation.navigate("orders", isAdmin)}
+            onPress={() => navigation.navigate("adminOrders", isAdmin)}
           />
         ) : (
           <ListItem
