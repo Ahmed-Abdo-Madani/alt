@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserOrders, getAdminOrders } from "../actions/ordersActions";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
-import OrderItem from "../components/OrderItem";
+import AdminOrderItem from "../components/AdminOrderItem";
 
 const OrderScreen = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,9 @@ const OrderScreen = () => {
             }}
           />
         )}
-        renderItem={({ item }) => <OrderItem data={item} />}
+        renderItem={({ item }) => {
+          return <AdminOrderItem data={item} />;
+        }}
       />
     </View>
   );
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
   noOrder: {
     backgroundColor: colors.creamy,
     flex: 1,
-
+    paddingHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
     color: colors.lightGray,
   },
   flatList: {
+    paddingTop: 15,
     width: "100%",
   },
 });

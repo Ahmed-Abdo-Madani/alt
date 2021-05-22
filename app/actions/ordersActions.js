@@ -1,7 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-import cache from "../utility/cache";
 import {
   ORDER_GET_USER_ORDERS_REQUEST,
   ORDER_GET_USER_ORDERS_FAIL,
@@ -17,6 +16,7 @@ import {
   ORDER_GET_ADMIN_ORDERS_SUCCESS,
 } from "../constants/ordersConstants";
 import { send_Order_Notification } from "../actions/notificationActions";
+import { wipeCart } from "../actions/cartActions";
 
 // ----------------------   Set the Order status in firestore   ----------------------------
 
@@ -51,16 +51,15 @@ export const getAdminOrders = () => async (dispatch) => {
       .then((snapshot) => {
         const data = [];
         snapshot.docs.forEach((doc) =>
-          data.push({ id: doc.id, data: doc.data() })
+          data.push({ id: doc.id, ...doc.data() })
         );
-        console.log(data);
         dispatch({
-          type: ORDER_GET_ADMIN_ORDERS_REQUEST,
-          payload: data?.orders,
+          type: ORDER_GET_ADMIN_ORDERS_SUCCESS,
+          payload: data,
         });
       });
   } catch (error) {
-    dispatch({ type: ORDER_GET_ADMIN_ORDERS_REQUEST, payload: error });
+    dispatch({ type: ORDER_GET_ADMIN_ORDERS_FAIL, payload: error });
   }
 };
 // ----------------------   Get user Orders From firestore   ----------------------------
@@ -117,6 +116,7 @@ export const saveOrdersToFirestore = () => async (dispatch, getState) => {
       .then(() => {
         dispatch(send_Order_Notification({ userInfo, cartItems }));
         dispatch({ type: ORDER_SAVE_FIRESTORE_SUCCESS });
+        dispatch(wipeCart());
       });
   } catch (error) {
     dispatch({ type: ORDER_SAVE_FIRESTORE_FAIL, payload: error });

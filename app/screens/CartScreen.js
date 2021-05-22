@@ -17,20 +17,13 @@ const CartScreen = ({ style }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [noOfItems, setnoOfItems] = useState(0);
-  const [totalPrice, settotalPrice] = useState(0);
-  const [shippingPrice, setshippingPrice] = useState(0);
-  const [taxes, settaxes] = useState(0);
-  // const [loading, setloading] = useState(false);
-  const [orderSent, setorderSent] = useState(false);
-
-  const { userInfo, shippingAddresss } = useSelector(
-    (state) => state.userLogin
-  );
+  const { shippingAddresss } = useSelector((state) => state.userLogin);
   const { cartItems } = useSelector((state) => state.cart);
   const { loading, error, savedToFireStore } = useSelector(
     (state) => state.orders
   );
+
+  const totp = cartItems.reduce((acc, item) => acc + Number(item.price), 0);
 
   useEffect(() => {
     if (shippingAddresss === null)
@@ -41,16 +34,7 @@ const CartScreen = ({ style }) => {
   }, []);
 
   const handleOrderUpload = async () => {
-    // setloading(true);
     dispatch(saveOrdersToFirestore());
-    // emptyCart();
-    // setloading(false);
-  };
-
-  const emptyCart = () => {
-    dispatch(wipeCart());
-    setorderSent(true);
-    setloading(false);
   };
 
   return (
@@ -105,20 +89,38 @@ const CartScreen = ({ style }) => {
           ListFooterComponent={
             <View style={styles.footer}>
               <View>
-                <Text>Order Summary :</Text>
-                <Text style={styles.summaryText}>
-                  {"No of Items : " + noOfItems + " items"}
-                </Text>
-                <Text style={styles.summaryText}>
-                  {"Taxes fees :" + taxes + " ﷼"}
-                </Text>
-                <Text style={styles.summaryText}>
-                  {"Shipping Fees :" + shippingPrice + " ﷼"}
-                </Text>
-                <Text style={styles.summaryText}>
-                  {" "}
-                  {"Total Price :" + totalPrice + " ﷼"}
-                </Text>
+                <Text style={styles.summaryHeader}>ملخص الطلب :</Text>
+
+                <View style={styles.summaryTextContainer}>
+                  <Text style={styles.summaryText}>عدد القطع :</Text>
+                  <Text style={styles.summaryText}>
+                    {cartItems.length} {cartItems.length <= 2 ? "قطعه" : "قطع"}
+                  </Text>
+                </View>
+
+                <View style={styles.summaryTextContainer}>
+                  <Text style={styles.summaryText}>المجموع الجزئي :</Text>
+                  <Text style={styles.summaryText}> {totp + " ﷼"}</Text>
+                </View>
+
+                <View style={styles.summaryTextContainer}>
+                  <Text style={styles.summaryText}>الضريبه :</Text>
+                  <Text style={styles.summaryText}>
+                    {Number(totp * 0.15).toFixed(2) + " ﷼"}
+                  </Text>
+                </View>
+
+                <View style={styles.summaryTextContainer}>
+                  <Text style={styles.summaryText}>رسوم الشحن :</Text>
+                  <Text style={styles.summaryText}> {10 + " ﷼"}</Text>
+                </View>
+
+                <View style={styles.summaryTextContainer}>
+                  <Text style={styles.summaryText}>المجموع الاجمالي: </Text>
+                  <Text style={styles.summaryText}>
+                    {totp + totp * 0.15 + 10 + " ﷼"}
+                  </Text>
+                </View>
               </View>
               <AppButton
                 loading={loading}
@@ -130,21 +132,23 @@ const CartScreen = ({ style }) => {
           }
           ListFooterComponentStyle={{ bottom: 0 }}
           ListHeaderComponentStyle={styles.header}
-          renderItem={({ item }) => (
-            <ListItem
-              onPress={() => {
-                navigation.navigate("itemDetails", {
-                  data: item,
-                  id: item.id,
-                  request: item.requestDetails,
-                });
-              }}
-              id={item.id}
-              title={item.name}
-              subtitle={item.price + " ﷼"}
-              image={item.imageURL}
-            />
-          )}
+          renderItem={({ item }) => {
+            return (
+              <ListItem
+                onPress={() => {
+                  navigation.navigate("itemDetails", {
+                    data: item,
+                    id: item.id,
+                    request: item.requestDetails,
+                  });
+                }}
+                id={item.id}
+                title={item.name}
+                subtitle={item.price + " ﷼"}
+                image={item.imageURL}
+              />
+            );
+          }}
         />
       )}
     </View>
@@ -190,11 +194,23 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "100%",
   },
+  summaryHeader: {
+    fontSize: 22,
+    textAlign: "right",
+    padding: 10,
+  },
+  summaryTextContainer: {
+    paddingHorizontal: 10,
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+    backgroundColor: colors.white,
+  },
   summaryText: {
     fontSize: 18,
+    textAlign: "right",
     backgroundColor: colors.white,
     marginTop: 5,
-    paddingLeft: 10,
+    paddingHorizontal: 10,
   },
   closeButton: {
     alignSelf: "center",
