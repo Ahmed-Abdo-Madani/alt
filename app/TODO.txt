@@ -1,6 +1,4 @@
-                // TODO refactor firestore orders document hierachy
-                // TODO Admin orders handling
-                // TODO offline alert
+                // TODO order screen for admin to change status and recive notification
                 // TODO error handling
                 // TODO android fitting
                 // TODO publish & upload to store
