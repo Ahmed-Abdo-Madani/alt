@@ -6,7 +6,6 @@ import AppText from "./AppText";
 import OrderItem from "./OrderItem";
 
 export default function AdminOrderItem({ data }) {
-  console.log(data);
   return (
     <View style={styles.container}>
       <View style={styles.header}>

@@ -1,4 +1,4 @@
-                // TODO order screen for admin to change status and recive notification
+                // TODO order screen for admin to change status and recive notification / no screen just collapseable for details
                 // TODO order status look
                 // TODO error handling
                 // TODO android fitting

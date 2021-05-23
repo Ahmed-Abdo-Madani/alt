@@ -16,7 +16,10 @@ const OrderItem = ({ data }) => {
   const cartItems = data?.cartItems;
   const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => navigation.navigate("EditOrder")}
+    >
       <View style={styles.items}>
         <FlatList
           data={cartItems}

@@ -10,6 +10,7 @@ import LoginScreen from "../screens/LoginScreen";
 // import PaymentScreen from "../screens/PaymentScreen";
 // import AppPaymentScreen from "../screens/AppPaymentScreen";
 import DeliveryScreen from "../screens/DeliveryScreen";
+import AdminOrderStatusEdit from "../screens/AdminOrderStatusEdit";
 // import StrokeAnimation from "../screens/animated/StrokeAnimation";
 
 const Stack = createStackNavigator();
@@ -43,6 +44,11 @@ const ProfileStack = () => (
     <Stack.Screen
       name="adminOrders"
       component={AdminOrderScreen}
+      options={{ headerShown: true }}
+    />
+    <Stack.Screen
+      name="EditOrder"
+      component={AdminOrderStatusEdit}
       options={{ headerShown: true }}
     />
     <Stack.Screen
