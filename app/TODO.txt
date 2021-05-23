@@ -1,5 +1,6 @@
                 // TODO order screen for admin to change status and recive notification
+                // TODO order status look
                 // TODO error handling
                 // TODO android fitting
                 // TODO publish & upload to store
-                // TODO bulid Website
+                // TODO bulid Website with Threejs
