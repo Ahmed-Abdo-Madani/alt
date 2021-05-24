@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getUserOrders, getAdminOrders } from "../actions/ordersActions";
+import { getAdminOrders } from "../actions/ordersActions";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import AdminOrderItem from "../components/AdminOrderItem";
