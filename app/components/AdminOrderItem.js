@@ -20,9 +20,9 @@ export default function AdminOrderItem({ data }) {
           <View
             style={{
               width: "100%",
-              marginVertical: 10,
+              marginVertical: 5,
               height: 1,
-              backgroundColor: colors.creamy,
+              // backgroundColor: colors.creamy,
             }}
           />
         )}
@@ -35,10 +35,8 @@ export default function AdminOrderItem({ data }) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    borderRadius: 25,
-    // overflow: "hidden",
-    backgroundColor: colors.creamyDark,
 
+    backgroundColor: colors.softGray,
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
@@ -46,10 +44,8 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
     padding: 5,
-    backgroundColor: colors.lightGray,
+    backgroundColor: colors.softGray,
     alignItems: "center",
   },
   flatList: {

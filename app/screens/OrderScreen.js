@@ -55,9 +55,9 @@ export default OrderScreen;
 
 const styles = StyleSheet.create({
   noOrder: {
-    backgroundColor: colors.creamy,
+    backgroundColor: colors.white,
     flex: 1,
-
+    padding: 5,
     justifyContent: "center",
     alignItems: "center",
   },

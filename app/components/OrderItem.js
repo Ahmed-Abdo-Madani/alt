@@ -29,6 +29,7 @@ const OrderItem = ({ data }) => {
             return (
               <ListItem
                 forOrder
+                style={styles.orderBg}
                 id={item.id}
                 title={item.name}
                 subtitle={item.price + " ﷼"}
@@ -56,15 +57,26 @@ const OrderItem = ({ data }) => {
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <View style={styles.orderStatus}>
+      <View
+        style={[
+          styles.orderStatus,
+          delivered
+            ? { backgroundColor: colors.green }
+            : processing
+            ? { backgroundColor: colors.blueLight }
+            : paied
+            ? { backgroundColor: colors.black }
+            : { backgroundColor: colors.red },
+        ]}
+      >
         {delivered ? (
-          <Text style={styles.statusText}>{"🚕"}</Text>
+          <Text style={styles.statusText}>{"Order is being Delivered"}</Text>
         ) : processing ? (
-          <Text style={styles.statusText}>{"♻"}</Text>
+          <Text style={styles.statusText}>{"Order is under proccessing"}</Text>
         ) : paied ? (
-          <Text style={styles.statusText}>{"💲"}</Text>
+          <Text style={styles.statusText}>{"Order is paied"}</Text>
         ) : (
-          <Text style={styles.statusText}>{"💰"}</Text>
+          <Text style={styles.statusText}>{"Order is Not paied"}</Text>
         )}
       </View>
     </TouchableOpacity>
@@ -76,22 +88,27 @@ export default OrderItem;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    backgroundColor: colors.creamy,
-    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: colors.lightGray,
+    backgroundColor: colors.white,
+  },
+  orderBg: {
+    backgroundColor: colors.white,
   },
   orderStatus: {
     flex: 1,
-    backgroundColor: colors.red,
-    padding: 15,
+    padding: 7,
     justifyContent: "center",
     alignItems: "center",
   },
   statusText: {
-    fontSize: 55,
+    fontSize: 12,
+    fontWeight: "bold",
+    color: colors.white,
   },
   items: {
     flex: 7,
     padding: 5,
-    backgroundColor: colors.creamyDark,
+    backgroundColor: colors.white,
   },
 });
