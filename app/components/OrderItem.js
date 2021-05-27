@@ -70,13 +70,13 @@ const OrderItem = ({ data }) => {
         ]}
       >
         {delivered ? (
-          <Text style={styles.statusText}>{"Order is being Delivered"}</Text>
+          <Text style={styles.statusText}>{"يتم توصيل طلبك"}</Text>
         ) : processing ? (
-          <Text style={styles.statusText}>{"Order is under proccessing"}</Text>
+          <Text style={styles.statusText}>{"الطلب تحت التجهيز"}</Text>
         ) : paied ? (
-          <Text style={styles.statusText}>{"Order is paied"}</Text>
+          <Text style={styles.statusText}>{"تم دفع قيمة الطلب"}</Text>
         ) : (
-          <Text style={styles.statusText}>{"Order is Not paied"}</Text>
+          <Text style={styles.statusText}>{"لم يتم دفع قيمة الطلب"}</Text>
         )}
       </View>
     </TouchableOpacity>
