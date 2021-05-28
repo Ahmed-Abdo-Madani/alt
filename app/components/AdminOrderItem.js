@@ -26,7 +26,9 @@ export default function AdminOrderItem({ data }) {
             }}
           />
         )}
-        renderItem={({ item }) => <OrderItem data={item} />}
+        renderItem={({ item, index }) => (
+          <OrderItem data={item} admin={true} id={index} />
+        )}
       />
     </View>
   );

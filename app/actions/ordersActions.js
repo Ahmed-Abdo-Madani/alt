@@ -14,6 +14,9 @@ import {
   ORDER_GET_ADMIN_ORDERS_FAIL,
   ORDER_GET_ADMIN_ORDERS_REQUEST,
   ORDER_GET_ADMIN_ORDERS_SUCCESS,
+  ORDER_UPDATE_ORDERS_STATUS_REQUEST,
+  ORDER_UPDATE_ORDERS_STATUS_SUCCESS,
+  ORDER_UPDATE_ORDERS_STATUS_FAIL,
 } from "../constants/ordersConstants";
 import { send_Order_Notification } from "../actions/notificationActions";
 import { wipeCart } from "../actions/cartActions";
@@ -122,3 +125,56 @@ export const saveOrdersToFirestore = () => async (dispatch, getState) => {
     dispatch({ type: ORDER_SAVE_FIRESTORE_FAIL, payload: error });
   }
 };
+
+// ----------------------   Update  Order in firestore   ----------------------------
+
+export const updateOrderStatusInDB =
+  (phoneNumber, data, UpdatedOrder) => async (dispatch) => {
+    dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_REQUEST });
+    const userRef = firebase.firestore().collection("orders").doc(phoneNumber);
+    try {
+      await userRef
+        .update({
+          orders: firebase.firestore.FieldValue.arrayRemove(data),
+        })
+        .then(async () => {
+          try {
+            await userRef
+              .update({
+                orders: firebase.firestore.FieldValue.arrayUnion(UpdatedOrder),
+              })
+              .then(() => {
+                dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_SUCCESS });
+              });
+          } catch (error) {
+            console.error(error);
+            dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_FAIL, payload: error });
+          }
+          dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_SUCCESS });
+        });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_FAIL, payload: error });
+    }
+  };
+
+// ----------------------   Delete  Order in firestore   ----------------------------
+
+export const deleteOrderStatusInDB =
+  (phoneNumber, data) => async (dispatch) => {
+    dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_REQUEST });
+    const userRef = firebase.firestore().collection("orders").doc(phoneNumber);
+    try {
+      await userRef
+        .update({
+          orders: firebase.firestore.FieldValue.arrayRemove(data),
+        })
+        .then(() => {
+          dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_SUCCESS });
+          dispatch(getUserOrders());
+        });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_FAIL, payload: error });
+    }
+  };

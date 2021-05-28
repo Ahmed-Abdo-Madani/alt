@@ -18,6 +18,9 @@ import {
   ORDER_GET_ADMIN_ORDERS_SUCCESS,
   ORDER_GET_ADMIN_ORDERS_FAIL,
   ORDER_GET_ADMIN_ORDERS_REQUEST,
+  ORDER_UPDATE_ORDERS_STATUS_REQUEST,
+  ORDER_UPDATE_ORDERS_STATUS_SUCCESS,
+  ORDER_UPDATE_ORDERS_STATUS_FAIL,
 } from "../constants/ordersConstants";
 
 export const ordersReducers = (state = { savedToFireStore: false }, action) => {
@@ -83,6 +86,26 @@ export const ordersReducers = (state = { savedToFireStore: false }, action) => {
         ...state,
         loading: false,
         savedToFireStore: false,
+        error: action.payload,
+      };
+    //---------------------------------------------------------------
+    case ORDER_UPDATE_ORDERS_STATUS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case ORDER_UPDATE_ORDERS_STATUS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        updateOrderStatus: true,
+      };
+    case ORDER_UPDATE_ORDERS_STATUS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        updateOrderStatus: false,
         error: action.payload,
       };
 

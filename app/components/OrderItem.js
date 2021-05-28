@@ -5,21 +5,80 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import ListItem from "./ListItem";
+import { useDispatch } from "react-redux";
+import {
+  deleteOrderStatusInDB,
+  updateOrderStatusInDB,
+} from "../actions/ordersActions";
 
-const OrderItem = ({ data }) => {
+const OrderItem = ({ data, admin, id }) => {
   const { paied, processing, delivered } = data?.orderStatus;
+  const { phoneNumber } = data?.userInfo;
+
+  const dispatch = useDispatch();
+  const handeFireStoreOrderStatus = () => {
+    let UpdatedOrder = { ...data };
+    UpdatedOrder.orderStatus = delivered
+      ? { paied: true, processing: true, delivered: true }
+      : processing
+      ? { paied: true, processing: true, delivered: true }
+      : paied
+      ? { paied: true, processing: true, delivered: false }
+      : { paied: true, processing: false, delivered: false };
+    dispatch(updateOrderStatusInDB(phoneNumber, data, UpdatedOrder));
+    let fixData = data;
+    fixData.orderStatus = { ...UpdatedOrder.orderStatus };
+  };
+  const handleOrderStatus = () => {
+    Alert.alert("للتأكيد", "هل تريد تغير حالة الطلب ؟", [
+      {
+        text: "Cancel",
+        // onPress: () => console.log("canned"),
+        style: "cancel",
+      },
+      {
+        text: "Ok",
+        onPress: () => handeFireStoreOrderStatus(),
+      },
+    ]);
+  };
+
+  const handleOrderCancel = () => {
+    Alert.alert("للتأكيد", "هل تريد الغاء الطلب ؟", [
+      {
+        text: "Cancel",
+        // onPress: () => console.log("canned"),
+        style: "cancel",
+      },
+      {
+        text: "Ok",
+        onPress: () => dispatch(deleteOrderStatusInDB(phoneNumber, data)),
+      },
+    ]);
+  };
+
   const cartItems = data?.cartItems;
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate("EditOrder")}
+      disabled={!admin}
+      onPress={handleOrderStatus}
     >
+      <MaterialCommunityIcons
+        style={styles.icon}
+        name="trash-can"
+        size={30}
+        onPress={handleOrderCancel}
+        color={colors.red}
+      />
       <View style={styles.items}>
         <FlatList
           data={cartItems}
@@ -110,5 +169,11 @@ const styles = StyleSheet.create({
     flex: 7,
     padding: 5,
     backgroundColor: colors.white,
+  },
+  icon: {
+    zIndex: 1,
+    position: "absolute",
+    top: 15,
+    right: 15,
   },
 });

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, View, Modal, Text } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, FlatList, View, Text } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 
-import { wipeCart } from "../actions/cartActions";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
 import AppText from "../components/AppText";

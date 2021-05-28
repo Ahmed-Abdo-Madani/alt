@@ -17,12 +17,16 @@ export default function App({ navigation }) {
   const APIKey = "AIzaSyCFZiKHM81khjpSkA5I_bq1DqU8iCGRqVU";
 
   const getLocation = async () => {
-    const { granted } = await Location.requestPermissionsAsync();
-    if (!granted) return;
-    const {
-      coords: { latitude, longitude },
-    } = await Location.getLastKnownPositionAsync();
-    setLocation({ latitude, longitude });
+    try {
+      const { granted } = await Location.requestPermissionsAsync();
+      if (!granted) return;
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getLastKnownPositionAsync();
+      setLocation({ latitude, longitude });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSaveingAddress = () => {
