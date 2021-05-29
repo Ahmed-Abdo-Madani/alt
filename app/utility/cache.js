@@ -1,6 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 
+import logger from "../utility/logger";
+
 const prefix = "cache";
 const timeLimit = 29;
 
@@ -9,7 +11,7 @@ const store = async (key, value) => {
   try {
     await AsyncStorage.setItem(prefix + key, JSON.stringify(item));
   } catch (error) {
-    console.log("Error in storing Async_Storage :" + error);
+    logger.log("Error in storing Async_Storage :" + error);
   }
 };
 
@@ -32,14 +34,14 @@ const get = async (key) => {
     }
     return item.value;
   } catch (error) {
-    console.log("Error in getting Async_Storage :" + error);
+    logger.log("Error in getting Async_Storage :" + error);
   }
 };
 const remove = async (key) => {
   try {
     await AsyncStorage.removeItem(prefix + key);
   } catch (error) {
-    console.log("cache layer remove item :" + error);
+    logger.log("cache layer remove item :" + error);
   }
 };
 

@@ -6,6 +6,9 @@ import { Provider } from "react-redux";
 
 import store from "./app/store";
 
+import logger from "./app/utility/logger";
+logger.start();
+
 LogBox.ignoreAllLogs(true);
 
 const firebaseConfig = {
@@ -26,6 +29,7 @@ if (firebase.apps.length === 0) {
 import AppNavigator from "./app/navigation/AppNavigator";
 
 export default function App() {
+  logger.log(new Error("test error"));
   return (
     <Provider store={store}>
       <StatusBar style="auto" />

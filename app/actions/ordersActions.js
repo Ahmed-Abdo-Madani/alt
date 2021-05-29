@@ -21,6 +21,8 @@ import {
 import { send_Order_Notification } from "../actions/notificationActions";
 import { wipeCart } from "../actions/cartActions";
 
+import logger from "../utility/logger";
+
 // ----------------------   Set the Order status in firestore   ----------------------------
 
 export const setOrderStatus = (state, date) => async (dispatch, getState) => {
@@ -38,6 +40,8 @@ export const setOrderStatus = (state, date) => async (dispatch, getState) => {
         dispatch({ type: ORDER_STATUS_SUCCESS });
       });
   } catch (error) {
+    logger.log(error);
+
     dispatch({ type: ORDER_STATUS_FAIL, payload: error });
   }
 };
@@ -62,6 +66,7 @@ export const getAdminOrders = () => async (dispatch) => {
         });
       });
   } catch (error) {
+    logger.log(error);
     dispatch({ type: ORDER_GET_ADMIN_ORDERS_FAIL, payload: error });
   }
 };
@@ -87,7 +92,7 @@ export const getUserOrders = () => async (dispatch, getState) => {
       });
   } catch (error) {
     dispatch({ type: ORDER_GET_USER_ORDERS_FAIL, payload: error });
-    console.log(error);
+    logger.log(error);
   }
 };
 // ----------------------   Save the Order in firestore   ----------------------------
@@ -122,6 +127,7 @@ export const saveOrdersToFirestore = () => async (dispatch, getState) => {
         dispatch(wipeCart());
       });
   } catch (error) {
+    logger.log(error);
     dispatch({ type: ORDER_SAVE_FIRESTORE_FAIL, payload: error });
   }
 };
@@ -147,13 +153,13 @@ export const updateOrderStatusInDB =
                 dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_SUCCESS });
               });
           } catch (error) {
-            console.error(error);
+            logger.log(error);
             dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_FAIL, payload: error });
           }
           dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_SUCCESS });
         });
     } catch (error) {
-      console.error(error);
+      logger.log(error);
       dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_FAIL, payload: error });
     }
   };
@@ -174,7 +180,7 @@ export const deleteOrderStatusInDB =
           dispatch(getUserOrders());
         });
     } catch (error) {
-      console.error(error);
+      logger.log(error);
       dispatch({ type: ORDER_UPDATE_ORDERS_STATUS_FAIL, payload: error });
     }
   };

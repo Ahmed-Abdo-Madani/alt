@@ -10,6 +10,8 @@ import {
 } from "../constants/notificationsConstants";
 import cache from "../utility/cache";
 
+import logger from "../utility/logger";
+
 export const send_Order_Notification = (data) => async (dispatch, getState) => {
   dispatch({
     type: SEND_ORDER_NOTIFICATION_REQUEST,
@@ -44,6 +46,7 @@ export const send_Order_Notification = (data) => async (dispatch, getState) => {
       type: SEND_ORDER_NOTIFICATION_FAIL,
       payload: `Send Order Notifications Error : ${error}`,
     });
+    logger.log(error);
   }
 };
 
@@ -70,5 +73,6 @@ export const getAdmins = () => async (dispatch) => {
     }
   } catch (error) {
     dispatch({ type: GET_ADMIN_FAIL, payload: error });
+    logger.log(error);
   }
 };

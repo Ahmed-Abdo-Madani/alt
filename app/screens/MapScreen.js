@@ -8,6 +8,8 @@ import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 
+import logger from "../utility/logger";
+
 import { saveShippingAddress } from "../actions/userActions";
 export default function App({ navigation }) {
   const [location, setLocation] = useState();
@@ -22,10 +24,10 @@ export default function App({ navigation }) {
       if (!granted) return;
       const {
         coords: { latitude, longitude },
-      } = await Location.getLastKnownPositionAsync();
+      } = await Location.getLastKnownPositionAsync(); //FIXME returns unidentified in android
       setLocation({ latitude, longitude });
     } catch (error) {
-      console.error(error);
+      logger.log(error);
     }
   };
 
@@ -48,7 +50,7 @@ export default function App({ navigation }) {
           setaddress(responseJson.results[0].formatted_address);
         });
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
   };
 

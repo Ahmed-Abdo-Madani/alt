@@ -6,7 +6,6 @@ import Animated, { EasingNode } from "react-native-reanimated";
 const SvgAnimationScreen = () => {
   const value = useState(new Animated.Value(0))[0];
   function animate() {
-    console.log("clicked");
     Animated.timing(value, {
       toValue: 100,
       duration: 1000,

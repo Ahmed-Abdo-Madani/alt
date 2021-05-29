@@ -14,6 +14,8 @@ import {
 } from "../constants/ShippingConstants";
 import axios from "axios";
 
+import logger from "../utility/logger";
+
 const ClientInfo = {
   UserName: "reem@reem.com",
   Password: "123456789",
@@ -119,8 +121,8 @@ export const calc_Rate = (request_data) => async (dispatch, getState) => {
   try {
     dispatch({ type: CALC_RATE_REQUSET });
     /* const {
-        userLogin: { userInfo },
-      } = getState(); */
+      userLogin: { userInfo },
+    } = getState(); */
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -145,6 +147,7 @@ export const calc_Rate = (request_data) => async (dispatch, getState) => {
       type: CALC_RATE_FAIL,
       payload: `Aramex Calculate Rate Api Error : ${error}`,
     });
+    logger.log(error);
   }
 };
 
@@ -173,55 +176,54 @@ export const shipment_Creation_Request = () => async (dispatch, getState) => {
       type: CREATE_SHIPMENT_FAIL,
       payload: `Aramex Shipment Creation Request Api Error : ${error}`,
     });
+    logger.log(error);
   }
 };
 
-export const pickup_Creation_Request = (request_data) => async (
-  dispatch,
-  getState
-) => {
-  dispatch({ type: CREATE_PICKUP_REQUSET });
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const { data } = await axios.post(
-      `${base_url}/PickupCreationRequest`,
-      request_data,
-      config
-    );
-    dispatch({ type: CREATE_PICKUP_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: CREATE_PICKUP_FAIL,
-      payload: `Aramex CREATE PICKUP Request Api Error : ${error}`,
-    });
-  }
-};
+export const pickup_Creation_Request =
+  (request_data) => async (dispatch, getState) => {
+    dispatch({ type: CREATE_PICKUP_REQUSET });
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `${base_url}/PickupCreationRequest`,
+        request_data,
+        config
+      );
+      dispatch({ type: CREATE_PICKUP_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: CREATE_PICKUP_FAIL,
+        payload: `Aramex CREATE PICKUP Request Api Error : ${error}`,
+      });
+      logger.log(error);
+    }
+  };
 
-export const print_Label_Request = (request_data) => async (
-  dispatch,
-  getState
-) => {
-  dispatch({ type: PRINT_LABEL_REQUSET });
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const { data } = await axios.post(
-      `${base_url}/LabelPrintingRequest`,
-      request_data,
-      config
-    );
-    dispatch({ type: PRINT_LABEL_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: PRINT_LABEL_FAIL,
-      payload: `Aramex PRINT_LABEL Request Api Error : ${error}`,
-    });
-  }
-};
+export const print_Label_Request =
+  (request_data) => async (dispatch, getState) => {
+    dispatch({ type: PRINT_LABEL_REQUSET });
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `${base_url}/LabelPrintingRequest`,
+        request_data,
+        config
+      );
+      dispatch({ type: PRINT_LABEL_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: PRINT_LABEL_FAIL,
+        payload: `Aramex PRINT_LABEL Request Api Error : ${error}`,
+      });
+      logger.log(error);
+    }
+  };

@@ -18,6 +18,8 @@ import ImagePicker from "../components/AppImagePicker";
 import colors from "../config/colors";
 import AppIcon from "../components/AppIcon";
 
+import logger from "../utility/logger";
+
 const AddItemScreen = ({ closeModal }) => {
   const [image, setimage] = useState();
   const [title, settitle] = useState();
@@ -43,10 +45,10 @@ const AddItemScreen = ({ closeModal }) => {
     const blob = await response.blob();
     const task = firebase.storage().ref().child(imagePath).put(blob);
     const taskProgress = (snapshot) => {
-      console.log(`transferred : ${snapshot.bytesTransferred}`);
+      console.log(`transferred : ${snapshot.bytesTransferred}`); //FIXME Progress bar
     };
     const taskError = (snapshot) => {
-      console.log(`Error : ${snapshot}`);
+      logger.log(`Error : ${snapshot}`);
     };
     const taskCompleted = () => {
       task.snapshot.ref.getDownloadURL().then((snapshot) => {

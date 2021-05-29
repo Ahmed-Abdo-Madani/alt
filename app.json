@@ -11,7 +11,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -24,6 +26,19 @@
     "web": {
       "favicon": "./app/assets/new_logo.png"
     },
-    "description": "Test Ver:0.01"
+    "description": "Test Ver:0.01",
+    "extra": {
+      "bugsnag": {
+        "apiKey": "b10980818b509d0c6673bd635a22f075"
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "@bugsnag/expo/hooks/post-publish.js",
+          "config": {}
+        }
+      ]
+    }
   }
 }

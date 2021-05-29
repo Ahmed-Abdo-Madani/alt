@@ -6,6 +6,8 @@ import {
   shipment_Creation_Request,
 } from "../actions/shippingActions";
 
+import logger from "../utility/logger";
+
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
 
@@ -97,8 +99,7 @@ const DeliveryScreen = () => {
   );
   const deliveryHandler = async () => {
     dispatch(shipment_Creation_Request());
-    if (createShipmentResponse) console.log(createShipmentResponse);
-    if (error) console.log(error);
+    if (error) logger.log(error);
   };
   return (
     <View style={styles.container}>

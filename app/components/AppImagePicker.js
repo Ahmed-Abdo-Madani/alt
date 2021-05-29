@@ -6,6 +6,8 @@ import * as ImagePicker from "expo-image-picker";
 import colors from "../config/colors";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
+import logger from "../utility/logger";
+
 const requsetPermission = async () => {
   const { granted } = await ImagePicker.requestCameraPermissionsAsync();
   if (!granted) {
@@ -27,7 +29,7 @@ const AppImagePicker = ({ imageURI, onSelect, style }) => {
     try {
       if (!result.cancelled) onSelect(result.uri);
     } catch (error) {
-      console.log("ImagePicker => error :" + error);
+      logger.log("ImagePicker error :" + error);
     }
   };
   return (

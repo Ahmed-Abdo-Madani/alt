@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
 import AppText from "../components/AppText";
 
+import logger from "../utility/logger";
+
 const LoginScreen = ({ closeModal, style, inModal = true }) => {
   const dispatch = useDispatch();
   const { pushToken } = useSelector((state) => state.notifications);
@@ -52,9 +54,9 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
           setregistered(true);
           setbuttonPressed(false);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => logger.log(error));
     } catch (error) {
-      console.log(error);
+      logger.log(error);
     }
   };
 
@@ -72,7 +74,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
           createdAt: new Date().toDateString(),
         });
     } catch (error) {
-      console.log("save user to Firestore error : " + error);
+      logger.log("save user to Firestore error : " + error);
     }
   };
 
@@ -99,7 +101,7 @@ const LoginScreen = ({ closeModal, style, inModal = true }) => {
           }
         });
     } catch (error) {
-      console.log("signIn With Credential firebase error : " + error);
+      logger.log("signIn With Credential firebase error : " + error);
       setOTPError(true);
       setbuttonPressed(false);
     }

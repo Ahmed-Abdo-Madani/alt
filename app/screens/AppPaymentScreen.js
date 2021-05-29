@@ -26,7 +26,6 @@ const AppPaymentScreen = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(init_Payment(50));
-    console.log("dispatched in appPayment");
   }, []);
 
   const handlePayment = (cardInfo) => {

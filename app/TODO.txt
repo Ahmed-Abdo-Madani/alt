@@ -1,6 +1,6 @@
-                // TODO order screen for admin to change status and recive notification / no screen just collapseable for details
-                // TODO order status look
-                // TODO error handling
-                // TODO android fitting
+                // TODO refresh page for crashing and rebooting the app
+                // FIXME empty users orders
+                // TODO cool svg images for no internet connection and no search result found
                 // TODO publish & upload to store
+                // TODO android fitting
                 // TODO bulid Website with Threejs

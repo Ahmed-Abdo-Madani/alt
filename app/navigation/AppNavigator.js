@@ -12,6 +12,8 @@ import navigation, { navigationRef } from "./RootNavigation";
 import OfflineNotice from "../screens/OfflineNotice";
 import SplashScreen from "../screens/animated/StrokeAnimation";
 
+import logger from "../utility/logger";
+
 import {
   USER_LOGIN,
   USER_PUSH_TOKEN,
@@ -84,7 +86,7 @@ export default function AppNavigator() {
       }
       dispatch(getAdmins());
     } catch (error) {
-      console.log("Error getting Push Token :" + error);
+      logger.log("Error getting Push Token :" + error);
     }
   };
 
