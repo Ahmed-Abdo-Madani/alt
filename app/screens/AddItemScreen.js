@@ -45,7 +45,7 @@ const AddItemScreen = ({ closeModal }) => {
     const blob = await response.blob();
     const task = firebase.storage().ref().child(imagePath).put(blob);
     const taskProgress = (snapshot) => {
-      console.log(`transferred : ${snapshot.bytesTransferred}`); //FIXME Progress bar
+      // console.log(`transferred : ${snapshot.bytesTransferred}`); //FIXME Progress bar
     };
     const taskError = (snapshot) => {
       logger.log(`Error : ${snapshot}`);
