@@ -44,17 +44,29 @@ const ProfileStack = () => (
     <Stack.Screen
       name="adminOrders"
       component={AdminOrderScreen}
-      options={{ headerShown: true }}
+      options={() => ({
+        title: "الطلبات",
+        headerShown: true,
+        headerBackTitle: "الرجوع",
+      })}
     />
     <Stack.Screen
       name="EditOrder"
       component={AdminOrderStatusEdit}
-      options={{ headerShown: true }}
+      options={() => ({
+        title: "الطلبات",
+        headerShown: true,
+        headerBackTitle: "الرجوع",
+      })}
     />
     <Stack.Screen
       name="orders"
       component={OrderScreen}
-      options={{ headerShown: true }}
+      options={() => ({
+        title: "الطلبات",
+        headerShown: true,
+        headerBackTitle: "الرجوع",
+      })}
     />
     <Stack.Screen name="map" component={MapScreen} />
   </Stack.Navigator>
