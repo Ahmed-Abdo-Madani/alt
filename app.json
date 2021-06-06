@@ -11,12 +11,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.doni12des.altayar"
+      "bundleIdentifier": "com.doni12des.altayar",
+      "infoPlist": {
+        "NSCameraUsageDescription": "The application requires access to your camera to allow you to upload items pictures.",
+        "NSPhotoLibraryUsageDescription": "The application requires access to your photos to allow you to upload items pictures.",
+        "NSLocationWhenInUseUsageDescription": "We need to know your current location to be able to deliver your items.",
+        "NSLocationAlwaysUsageDescription": "We need to know your current location to be able to deliver your items."
+      }
     },
     "android": {
       "adaptiveIcon": {
